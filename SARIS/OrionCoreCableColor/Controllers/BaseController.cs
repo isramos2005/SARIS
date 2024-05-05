@@ -2,6 +2,7 @@
 using OrionCoreCableColor.App_Helper;
 using OrionCoreCableColor.App_Services.EmailService;
 using OrionCoreCableColor.App_Services.ReportesService;
+using OrionCoreCableColor.DbConnection;
 using OrionCoreCableColor.DbConnection.CMContext;
 using OrionCoreCableColor.Models.Base;
 using OrionCoreCableColor.Models.EmailTemplateService;
@@ -549,8 +550,15 @@ namespace OrionCoreCableColor.Controllers
             return View();
         }
 
-       
-       
+
+        public int GetIdUser()
+        {
+            using (var contexto = new SARISEntities1())
+            {
+                return contexto.sp_Usuarios_Maestros_ObtenerIdUsuario(User?.Identity?.Name ?? "").FirstOrDefault() ?? 281;
+            }
+
+        }
 
         //public T GetConfiguracion<T>(string llave)
         //{

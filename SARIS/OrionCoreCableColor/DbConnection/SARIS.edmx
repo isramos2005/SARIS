@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SARISModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SARISModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <Function Name="fn_Requerimiento_HorasTrabajadas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
           <Parameter Name="pdFechaInicial" Type="datetime" Mode="In" />
           <Parameter Name="pdFechaFinal" Type="datetime" Mode="In" />
@@ -116,13 +116,18 @@
         <Function Name="sp_Requerimientos_Bitacoras_Estados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="piIDRequerimiento" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_UsuarioMaestro_ObtenerIdAreaAsignada" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="piIDusuario" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_Usuarios_Maestros_ObtenerIdUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pcNombreCorto" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="Suma" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="numero1" Type="int" Mode="In" />
           <Parameter Name="numero2" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="SARISModelStoreContainer" />
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SARISModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -182,7 +187,7 @@
             <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_Requerimiento_Indicadores">
-            <Parameter Name="pdFechaOperativa" Mode="In" Type="DateTime" />
+          <Parameter Name="pdFechaOperativa" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="sp_Requerimiento_Lista" ReturnType="Collection(SARISModel.sp_Requerimiento_Lista_Result)">
             <Parameter Name="piIDSesion" Mode="In" Type="Int32" />
@@ -232,11 +237,17 @@
             <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_Requerimientos_Bitacoras_Estados">
-            <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
+          <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Suma" ReturnType="Collection(Int32)">
             <Parameter Name="numero1" Mode="In" Type="Int32" />
             <Parameter Name="numero2" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UsuarioMaestro_ObtenerIdAreaAsignada" ReturnType="Collection(Int32)">
+          <Parameter Name="piIDusuario" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Usuarios_Maestros_ObtenerIdUsuario" ReturnType="Collection(Int32)">
+            <Parameter Name="pcNombreCorto" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_Requerimiento_Areas_Result">
@@ -423,6 +434,8 @@
           <FunctionImportMapping FunctionImportName="sp_Requerimientos_Bandeja" FunctionName="SARISModel.Store.sp_Requerimientos_Bandeja" />
           <FunctionImportMapping FunctionImportName="sp_Requerimientos_Bitacoras_Estados" FunctionName="SARISModel.Store.sp_Requerimientos_Bitacoras_Estados" />
           <FunctionImportMapping FunctionImportName="Suma" FunctionName="SARISModel.Store.Suma" />
+          <FunctionImportMapping FunctionImportName="sp_UsuarioMaestro_ObtenerIdAreaAsignada" FunctionName="SARISModel.Store.sp_UsuarioMaestro_ObtenerIdAreaAsignada" />
+          <FunctionImportMapping FunctionImportName="sp_Usuarios_Maestros_ObtenerIdUsuario" FunctionName="SARISModel.Store.sp_Usuarios_Maestros_ObtenerIdUsuario" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

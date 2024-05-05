@@ -127,6 +127,6 @@ namespace OrionCoreCableColor.DbConnection.CMContext
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RolesPorUsuario> RolesPorUsuario { get; set; }
 
-        public virtual Areas Area { get; set; }
+        public virtual Requerimientos_Areas Area { get; set; }
     }
 }

@@ -125,6 +125,7 @@ namespace OrionCoreCableColor.Models.Usuario
 
         public string fcAreaAsignada { get; set; }
 
+        [Display(Name = "Area")]
         public int fiAreaAsignada { get; set; }
     }
 }

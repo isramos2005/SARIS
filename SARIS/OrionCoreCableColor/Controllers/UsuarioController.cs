@@ -12,7 +12,7 @@ using OrionCoreCableColor.DbConnection;
 
 namespace OrionCoreCableColor.Controllers
 {
-    public class UsuariosController : BaseController
+    public class UsuarioController : BaseController
     {
         private ApplicationUserManager _userManager;
         public ApplicationUserManager UserManager
@@ -48,7 +48,7 @@ namespace OrionCoreCableColor.Controllers
                         UserName = x.AspNetUsers.UserName,
                         NombreRol = x.RolesPorUsuario.Any() ? x.RolesPorUsuario.FirstOrDefault().Roles.Nombre ?? "" : "",
                         fiAreaAsignada = x.fiAreaAsignada,
-                        fcAreaAsignada = x.Area.fcNombreArea
+                        fcAreaAsignada = x.Area.fcDescripcion
        
     }).ToList(), JsonRequestBehavior.AllowGet);
                     jsonResult.MaxJsonLength = Int32.MaxValue;
@@ -75,14 +75,14 @@ namespace OrionCoreCableColor.Controllers
                 using (var context = new OrionSecurityEntities())
                 {
                     var usuarioLogueado = GetUser();
-                    var rol = GetRol(usuarioLogueado.IdRol);
-                    var permisos = GetPermisos(usuarioLogueado.IdRol);
-                    ViewBag.ListaEmpresas = contextSaris.sp_Empresas_Maestro_Listar().ToList().Select(x => new SelectListItem { Value = x.fiIDEmpresa.ToString(), Text = x.fcNombreComercial }).ToList();
+                    //var rol = 1; // GetRol(usuarioLogueado.IdRol);
+                    //var permisos = GetPermisos(usuarioLogueado.IdRol);
+                    ViewBag.ListaAreas = contextSaris.sp_Requerimiento_Areas(1,1,1).ToList().Select(x => new SelectListItem { Value = x.fiIDArea.ToString(), Text = x.fcDescripcion }).ToList();
                     ViewBag.ListaRoles = context.Roles.Where(x => x.Activo).Select(x => new SelectListItem { Value = x.Pk_IdRol.ToString(), Text = x.Nombre }).ToList();
-                    if (rol == "Orion_Contratista")
-                    {
-                        ViewBag.ListaRoles = context.Roles.Where(x => x.Activo && x.Pk_IdRol == 3).Select(x => new SelectListItem { Value = x.Pk_IdRol.ToString(), Text = x.Nombre }).ToList();
-                    }
+                    //if (rol == "Orion_Contratista")
+                    //{
+                    //    ViewBag.ListaRoles = context.Roles.Where(x => x.Activo && x.Pk_IdRol == 3).Select(x => new SelectListItem { Value = x.Pk_IdRol.ToString(), Text = x.Nombre }).ToList();
+                    //}
 
                     return View(new CrearUsuarioViewModel { fdFechaAlta = DateTime.Now });
                 }
@@ -148,8 +148,9 @@ namespace OrionCoreCableColor.Controllers
                             fcTelefonoMovil = model.fcTelefonoMovil,
                             fcToken = Guid.NewGuid().ToString(),
                             fcIdAspNetUser = usuario.Id,
-                            fiIDEmpresa = model.fiIDEmpresa
-
+                            fiIDEmpresa = model.fiIDEmpresa ?? 0,
+                            fiAreaAsignada = model.fiAreaAsignada
+                            
 
 
 
@@ -190,10 +191,10 @@ namespace OrionCoreCableColor.Controllers
         {
             try
             {
-                using (var contextOrion = new ORIONDBEntities())
+                using (var contextSaris = new SARISEntities1())
                 {
 
-                    model.fiIDEmpresa = contextOrion.sp_ObtenerEmpresa_ByIdUsuario(GetIdUser()).FirstOrDefault();
+                    model.fiAreaAsignada = contextSaris.sp_UsuarioMaestro_ObtenerIdAreaAsignada(GetIdUser()).FirstOrDefault() ?? 0;
                     using (var context = new OrionSecurityEntities())
                     {
                         var user = new ApplicationUser { UserName = model.UserName.Trim(), Email = model.fcBuzondeCorreo.Trim() };
@@ -251,10 +252,10 @@ namespace OrionCoreCableColor.Controllers
                             }
 
                             var resultado = context.SaveChanges() > 0;
-                            using (var contexto = new ORIONDBEntities())
-                            {
-                                contexto.sp_TecnicosPorContratista_Crear(model.fiIdUsuario, nuevoUsuario.fiIDUsuario, GetIdUser());
-                            }
+                            //using (var contexto = new SARISEntities1())
+                            //{
+                            //    contexto.sp_TecnicosPorContratista_Crear(model.fiIdUsuario, nuevoUsuario.fiIDUsuario, GetIdUser());
+                            //}
                             return EnviarResultado(resultado, "Crear Usuario");
                         }
                         else

@@ -343,8 +343,11 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PermisoController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
-    <Compile Include="Controllers\UsuariosController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="DbConnection\CMContext\Requerimientos_Areas.cs" />
     <Compile Include="DbConnection\CMContext\AspNetRoles.cs" />
     <Compile Include="DbConnection\CMContext\AspNetUserClaims.cs" />
     <Compile Include="DbConnection\CMContext\AspNetUserLogins.cs" />
@@ -456,6 +459,7 @@
     <Compile Include="Models\EmailTemplateService\EmailTemplateServiceModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Permiso\CrearPermisoViewModel.cs" />
     <Compile Include="Models\Roles\CrearRolViewModel.cs" />
     <Compile Include="Models\Roles\ListaPermisosPorRolViewModel.cs" />
     <Compile Include="Models\Ticket\TicketMiewModel.cs" />
@@ -1746,6 +1750,16 @@
     <Content Include="Content\css\camaraweb.css" />
     <Content Include="Views\Home\Cotizador.cshtml" />
     <Content Include="Views\Ticket\Index.cshtml" />
+    <Content Include="Views\Usuario\CambiarContrasenaUsuario.cshtml" />
+    <Content Include="Views\Usuario\CrearUsuario.cshtml" />
+    <Content Include="Views\Usuario\EditarCuentaUsuario.cshtml" />
+    <Content Include="Views\Usuario\EditarInfoUsuario.cshtml" />
+    <Content Include="Views\Usuario\Index.cshtml" />
+    <Content Include="Views\Role\AsignarPermisos.cshtml" />
+    <Content Include="Views\Role\Crear.cshtml" />
+    <Content Include="Views\Role\Index.cshtml" />
+    <Content Include="Views\Permiso\Index.cshtml" />
+    <Content Include="Views\Permiso\Crear.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1756,7 +1770,6 @@
     <Folder Include="styles\fonts\" />
     <Folder Include="Template\plugins\notificaciones\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\Usuarios\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
