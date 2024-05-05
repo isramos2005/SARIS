@@ -344,6 +344,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="DbConnection\CMContext\AspNetRoles.cs" />
     <Compile Include="DbConnection\CMContext\AspNetUserClaims.cs" />
     <Compile Include="DbConnection\CMContext\AspNetUserLogins.cs" />
@@ -1755,6 +1756,7 @@
     <Folder Include="styles\fonts\" />
     <Folder Include="Template\plugins\notificaciones\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Usuarios\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

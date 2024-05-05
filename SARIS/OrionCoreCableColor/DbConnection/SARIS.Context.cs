@@ -14,7 +14,8 @@ namespace OrionCoreCableColor.DbConnection
     using System.Data.Entity.Infrastructure;
     using System.Data.Entity.Core.Objects;
     using System.Linq;
-    
+    using System.Data.SqlClient;
+
     public partial class SARISEntities1 : DbContext
     {
         public SARISEntities1()
@@ -24,6 +25,7 @@ namespace OrionCoreCableColor.DbConnection
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+
             throw new UnintentionalCodeFirstException();
         }
     

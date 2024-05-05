@@ -21,6 +21,7 @@ namespace OrionCoreCableColor.DbConnection.CMContext
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<RolesPorUsuario> RolesPorUsuario { get; set; }
         public virtual DbSet<Usuarios_Maestro> Usuarios { get; set; }
+        public virtual DbSet<Areas> Areas { get; set; }
 
 
 
@@ -76,7 +77,14 @@ namespace OrionCoreCableColor.DbConnection.CMContext
                 .HasForeignKey(e => e.Fk_IdUsuario)
                 .WillCascadeOnDelete(false);
 
-           
+            modelBuilder.Entity<Areas>()
+                .HasMany(e => e.UsuariosPorArea)
+                .WithRequired(e => e.Area)
+                .HasForeignKey(e => e.fiAreaAsignada)
+                .WillCascadeOnDelete(false);
+
+
+
         }
 
 

@@ -8,6 +8,10 @@ namespace OrionCoreCableColor.Models.Usuario
     public class ListaDeUsuariosViewModel : CrearUsuarioViewModel
     {
         //public List<InfoUsuarioViewModel> InfoUsuario { get; set; }
+
+        public string fcAreaAsignada { get; set; }
+
+        public int fiAreaAsignada { get; set; }
     }
 
     public class InfoUsuarioViewModel

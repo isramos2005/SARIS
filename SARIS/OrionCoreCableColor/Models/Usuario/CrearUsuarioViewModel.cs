@@ -121,5 +121,10 @@ namespace OrionCoreCableColor.Models.Usuario
         [Required]
         [Display(Name = "Seleccione empresa")]
         public int? fiIDEmpresa { get; set; }
+
+
+        public string fcAreaAsignada { get; set; }
+
+        public int fiAreaAsignada { get; set; }
     }
 }

@@ -118,11 +118,15 @@ namespace OrionCoreCableColor.DbConnection.CMContext
 
         public string fcUrlImage { get; set; }
 
+        public int fiAreaAsignada { get; set; }
+
         //empresa
         public int? fiIDEmpresa { get; set; }
         public virtual AspNetUsers AspNetUsers { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RolesPorUsuario> RolesPorUsuario { get; set; }
+
+        public virtual Areas Area { get; set; }
     }
 }
