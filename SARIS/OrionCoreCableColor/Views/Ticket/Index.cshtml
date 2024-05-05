@@ -1,0 +1,153 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="panel">
+    <div class="panel-hdr">
+        <h2 class="panel-title"> <i class="fal fa-map fa-fw"></i>Tickets Pendientes</h2>
+
+    </div>
+    <div class="panel-container" style="padding-top:12px; padding-bottom:15px;">
+        <div class="col-lg-12">
+            <table class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" style="width:100%;" id="TablaPrincipalTicket">
+                <thead>
+                    <tr>
+                        <th>Acciones</th>
+                        <th>Titulo</th>
+                        <th style="width:80px">Area Solicitante</th>
+                        <th style="width:80px">Area Asignado</th>
+                        <th style="width:150px">Fecha Creacion Ticket</th>
+                        <th style="width:150px">Fecha Final</th>
+                        <th style="width:80px">Estado</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="panel">
+    <div class="panel-hdr">
+        <h2 class="panel-title"> <i class="fal fa-map fa-fw"></i>Reportes</h2>
+
+    </div>
+    <div class="panel-container" style="padding-top:12px; padding-bottom:15px;">
+        <div class="col-lg-12">
+            <table class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline" style="width:100%;" id="TablaPrincipalTicketCerrados">
+                <thead>
+                    <tr>
+                        <th>Acciones</th>
+                        <th>Titulo</th>
+                        <th style="width:80px">Area Solicitante</th>
+                        <th style="width:80px">Area Asignado</th>
+                        <th style="width:150px">Fecha Creacion Ticket</th>
+                        <th style="width:150px">Fecha Final</th>
+                        <th style="width:80px">Estado</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+
+
+    </div>
+</div>
+@section Scripts{
+    
+    <script>
+        var tablaPrincipal = $('#TablaPrincipalTicket').DataTable({
+
+            autoWidth: true,
+            responsive: true,
+            language: {
+                "emptyTable": "No se encontraron resultados.",
+                //"search": '<div class="icon-addon addon-md"><label for="search" class="ion-search"></label>',
+                "paginate": {
+                    first: "Primero",
+                    previous: "Anterior",
+                    next: "Siguiente",
+                    last: "Ultimo"
+                },
+                "lengthMenu": " _MENU_ ",
+                "info": "Mostrando registros del _START_ al _END_ de _TOTAL_ registros totales.",
+                "infoEmpty": "No hay registros para mostrar.",
+            },
+            dom: 'Bfrtip',
+            order: [[1, "desc"]],
+              ajax: {
+                url: '@Url.Action("ListarTicket", "Ticket")',
+                  method: "Get",
+                  dataSrc: function (data) {
+                      return data;
+                  }
+            },
+            columns: [
+
+                {
+                data: null,
+                render: function (data) {
+
+                    var opciones = '<div class="btn-group"> <button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Acciones</button>';
+                        opciones += '<div class="dropdown-menu">';
+                    //opciones += '<a href="javascript:void(0)" onclick="MostrarReferencias(' + data.fiIDEquifax + ',' + data.fiEstadoProductoServicio+')" class="dropdown-item"><i class="fal fa-plus fa-fw"></i>Detalles referencias</a>';
+
+                        opciones += '</div></div>';
+                     return opciones;
+                    }
+                },
+
+                {
+                    data: 'fiIDRequerimiento'
+                },
+                {
+                    data: 'fcTituloRequerimiento'
+                },
+                {
+                    data: 'fcNombreSolicitante'
+                },
+                {
+                    data: 'fcNombreAsignado'
+                },
+                {
+                    data: 'fiHorasTrabajadas'
+                },
+                //{
+                //    data: null,
+                //    render: function (data) {
+                //        return moment(data.fdFechaAsignacion).format("DD/MM/YYYY");
+                //    }
+
+                //},
+                {
+                    data: null,
+                    render: function (data) {
+                        if (data.fiIDEstadoRequerimiento == 0) {
+                            return '<div class="badge badge-secondary">Creado</div>';
+                        }
+                        else if (data.fiIDEstadoRequerimiento == 1)
+                        {
+                            return '<div class="badge badge-info">Asignado</div>';
+                        }
+                        else if (data.fiIDEstadoRequerimiento == 2)
+                        {
+                            return '<div class="badge badge-success">En Atencion</div>';
+                        }
+                        else if (data.fiIDEstadoRequerimiento == 3) {
+                            return '<div class="badge badge-success">Validacion</div>';
+                        }
+                        else if (data.fiIDEstadoRequerimiento == 4) {
+                            return '<div class="badge badge-success">Cerrado</div>';
+                        }
+                    }
+
+                },
+
+            ]
+
+        });
+    </script>
+    
+    }
