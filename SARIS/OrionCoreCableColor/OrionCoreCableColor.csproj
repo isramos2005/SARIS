@@ -466,6 +466,15 @@
     <Compile Include="DbConnection\sp_Usuarios_Maestro_Lista_Result.cs">
       <DependentUpon>SARIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="DbConnection\sp_Usuarios_Maestro_PorArea_Result.cs">
+      <DependentUpon>SARIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbConnection\sp_Usuarios_Maestro_PorIdUsuarioSupervisor_Result.cs">
+      <DependentUpon>SARIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbConnection\sp_Usuarios_Maestro_PorIdUsuario_Result.cs">
+      <DependentUpon>SARIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1801,6 +1810,8 @@
     <Content Include="Views\Estados\Crear.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\Ticket\ModalBitacora.cshtml" />
+    <Content Include="Views\Ticket\RegistrarTicket.cshtml" />
+    <Content Include="Views\Ticket\ActualizarTicket.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
