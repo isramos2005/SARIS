@@ -26,7 +26,7 @@ namespace OrionCoreCableColor
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 //LoginPath = new PathString("/Account/Login"),
-                LoginPath = new PathString("/Usuario/Index"),
+                LoginPath = new PathString("/Account/Login"),
                 Provider = new CookieAuthenticationProvider
                 {
                     // Permite a la aplicación validar la marca de seguridad cuando el usuario inicia sesión.

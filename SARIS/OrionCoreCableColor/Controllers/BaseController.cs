@@ -560,6 +560,15 @@ namespace OrionCoreCableColor.Controllers
 
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        public void EnviarTicket(TicketNotificacionViewModel model)
+        {
+            model.fdFechaHora = DateTime.Now;
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificacionesHub>();
+            hubContext.Clients.All.recibirTicket(model);
+        }
+
         //public T GetConfiguracion<T>(string llave)
         //{
         //    using (var contexto = new ORIONDBEntities())

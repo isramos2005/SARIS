@@ -565,7 +565,49 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
         }
 
 
+        chat.client.recibirTicket = function (notificacion) {
+            debugger;
+            var expand = $("#campanaNotificacion")[0].ariaExpanded;
+            var item = $(`<li class="${expand == "true" ? '' : 'unread'}">
+                                <a href="#" class="d-flex align-items-center">  
+                                    <span class="d-flex flex-column flex-1 ml-1">
+                                        <span class="name">${notificacion.fcUsuarioPropietario} <span class="badge badge-primary fw-n position-absolute pos-top pos-right mt-1">${notificacion.fcArea}</span></span>
+                                        <span class="msg-a fs-sm">${notificacion.fcTitulo}</span>
+                                        <span class="msg-b fs-xs">${notificacion.fcMensaje}</span>
+                                        <span class="fs-nano text-muted mt-1">${moment(notificacion.fdFechaHora).format("DD/MM/YYYY hh:mm A")}</span>
+                                    </span>
+                                </a>
+                            </li>`);
+            var lista = $("#listNotificaciones").prepend(item);
 
+            var ul = $("#listNotificaciones li").toArray();
+            var litaFiltrada = ul.filter(x => $(x).hasClass("unread"));
+            if (litaFiltrada.length > 0) {
+                $("#noLeidosBadge").css("display", "block");
+                $("#noLeidosBadge").html(litaFiltrada.length);
+            } else {
+                $("#noLeidosBadge").css("display", "none");
+            }
+            $("#noLeidos").html(litaFiltrada.length);
+            
+        }
+
+
+        $("#campanaNotificacion").click(function () {
+            var items = $("#listNotificaciones li").toArray();
+            for (item of items) {
+                $(item).removeClass("unread");
+            }
+            if (this.ariaExpanded) {
+                $("#noLeidosBadge").css("display", "none");
+                $("#noLeidosBadge").html(0);
+                $("#noLeidos").html(0);
+            }
+            /*$(window).scroll(function (event) {
+                var scroll = $(window).scrollTop();
+                // Do something
+            });*/
+        });
 
 
     </script>
