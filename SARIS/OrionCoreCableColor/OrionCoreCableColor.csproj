@@ -344,6 +344,7 @@
     <Compile Include="Controllers\AreaController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IndicadoresController.cs" />
     <Compile Include="Controllers\PermisoController.cs" />
@@ -480,6 +481,9 @@
     <Compile Include="Models\Base\ObjSignalRModalViewModel.cs" />
     <Compile Include="Models\Base\TicketNotificacionViewModel.cs" />
     <Compile Include="Models\DashBoard\BulletViewModel.cs" />
+    <Compile Include="Models\DashBoard\DashboardViewModel.cs" />
+    <Compile Include="Models\DashBoard\Indicadores_ViewModel.cs" />
+    <Compile Include="Models\DashBoard\Requerimiento_Detalle_Hora_ViewModel.cs" />
     <Compile Include="Models\EmailTemplateService\EmailTemplateServiceModel.cs" />
     <Compile Include="Models\Estados\EstadosCrearViewModel.cs" />
     <Compile Include="Models\Estados\ListaEstadosViewModel.cs" />
@@ -490,6 +494,7 @@
     <Compile Include="Models\Permiso\CrearPermisoViewModel.cs" />
     <Compile Include="Models\Roles\CrearRolViewModel.cs" />
     <Compile Include="Models\Roles\ListaPermisosPorRolViewModel.cs" />
+    <Compile Include="Models\Ticket\Estado_RequerimientoViewModal.cs" />
     <Compile Include="Models\Ticket\TicketMiewModel.cs" />
     <Compile Include="Models\Usuario\CambiarContraseñaUsuarioViewModel.cs" />
     <Compile Include="Models\Usuario\CrearUsuarioViewModel.cs" />
@@ -1794,6 +1799,8 @@
     <Content Include="Views\Indicadores\Crear.cshtml" />
     <Content Include="Views\Estados\Index.cshtml" />
     <Content Include="Views\Estados\Crear.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Ticket\ModalBitacora.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1804,6 +1811,7 @@
     <Folder Include="styles\fonts\" />
     <Folder Include="Template\plugins\notificaciones\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Dasboard\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
