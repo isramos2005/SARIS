@@ -56,11 +56,12 @@
                     </div>-->
 
                 <div class="col-lg-12">
-                    <!--esto debe de ser un select -->
                     <div class="form-group">
                         <label class="col-form-label">Tipo Incidencia</label>
-                        <input id="txtNombreTitulo" class="form-control" type="text" placeholder="Defina un Tipo Incidencia" />
+                        <select id="selectincidencia" class="form-select form-control">
+                        </select>
                     </div>
+
                 </div>
 
             </div>
@@ -119,6 +120,39 @@
 </div>
 
 <script>
+
+    
+
+    select();
+
+    function select() {
+          $.ajax({
+    url: "@Url.Action("CargarListaIndicadores", "Indicadores")",
+    type: "GET",
+    success: function (respuesta) {
+
+        var selectIncidencia = $("#selectincidencia");
+
+        selectIncidencia.empty();
+        selectIncidencia.append($('<option>', {
+            value: 0,
+            text: 'Defina un Tipo Incidencia'
+        }));
+        $("#selectincidencia").select2({ dropdownParent: $("#MyModalBig") }).val(null).trigger("change");
+        $.each(respuesta, function(index, item) {
+            selectIncidencia.append($('<option>', {
+                value: item.fiIDTipoRequerimiento,
+                text: item.fcTipoRequerimiento
+            }));
+        });
+    },
+    error: function (respuesta) {
+        console.log(respuesta);
+    }
+});
+
+    }
+
     function GuardarDocumentos(IdRequerimiento) {
         for (let selectedFile of selectedFiles) {
             const form = new FormData();
@@ -185,6 +219,11 @@
                 }
                 CerrarModal();
 
+                var tabla = $.fn.dataTable.Api("#TablaPrincipal");
+                tabla.ajax.reload();
+
+                var tablacerrados = $.fn.dataTable.Api("#TablaPrincipalTicket");
+                tablacerrados.ajax.reload();
                 //let resultado = data.d;
                 //console.log(resultado);
                 //if (resultado.ResultadoExitoso == true) {
@@ -199,7 +238,38 @@
             }
         });
 
+
     }
+
+    //myDropzone = $('#Imagen-dropzone').dropzone({
+    //    //url: '/file/post',
+    //    autoProcessQueue: true,
+    //    uploadMultiple: true,
+    //    acceptedFiles: "image/*,.pdf",
+    //    maxFiles: 1,
+    //    addRemoveLinks: true,
+    //    dictMaxFilesExceeded: "Maximum upload limit reached",
+    //    dictInvalidFileType: "upload only JPG/PNG",
+    //    //resizeWidth: 500,
+    //    //resizeHeight: 300,
+
+    //    init: function () {
+    //        myDropzoneCapture = this;
+    //        var myDropzone = this;
+    //        myDropzone.on('maxfilesexceeded', function (file) {
+    //            this.removeAllFiles();
+    //            this.addFile(file);
+    //        });
+    //    },
+
+    //    removedfile: function (file) {
+
+    //        archivoExterno = 0;
+    //        var _ref = file.previewElement;
+
+    //        return _ref != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+    //    }
+    //});
 
     $("#btnGuardarRequerimientoEnviar").click(function (e) {
         GuardarRequermiento(1);
