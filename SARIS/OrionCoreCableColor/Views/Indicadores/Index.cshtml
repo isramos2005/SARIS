@@ -1,13 +1,12 @@
-﻿
-@{
-    ViewBag.Title = "Lista de Areas";
+﻿@{
+    ViewBag.Title = "Lista de Indicadores";
 }
 
 <div class="panel">
     <div class="panel-hdr">
-        <h2 class="panel-title"> <i class="fal fa-user fa-fw"></i>Lista de Areas de Usuario</h2>
+        <h2 class="panel-title"> <i class="fal fa-user fa-fw"></i>Lista de Indicadores</h2>
         <div class="panel-toolbar " role="menu">
-            <a href="javascript:void(0)" onclick="MostrarCrear()" class="btn btn-success"><i class="fal fa-plus fa-fw"></i> Nuevo Rol de Usuario</a>
+            <a href="javascript:void(0)" onclick="MostrarCrear()" class="btn btn-success"><i class="fal fa-plus fa-fw"></i> Nuevo Indicador</a>
         </div>
     </div>
 
@@ -19,8 +18,8 @@
                     <tr>
                         <th></th>
                         <th>Id</th>
-                        <th>Descripcion</th>
-                        <th>Activo</th>
+                        <th>Descripción</th>
+                        <th>Token</th>
 
                     </tr>
                 </thead>
@@ -41,10 +40,10 @@
 
         function MostrarCrear() {
             $.ajax({
-                url: "@Url.Action("Crear","Role")",
+                url: "@Url.Action("Crear", "Indicadores")",
                 method: "get",
                 success: function (resp) {
-                    ShowModalBig(resp);
+                    ShowModalSmall(resp);
                 },
                 error: function (resp) {
                     alert("Error");
@@ -54,7 +53,7 @@
 
         function Desactivar(id) {
             $.ajax({
-                url: "@Url.Action("EliminarRol","Role")",
+                url: "@Url.Action("EliminarIndicador", "Indicadores")",
                 method: "post",
                 data: { id: id },
                 success: function (data) {
@@ -71,33 +70,17 @@
 
         function MostrarEditar(id) {
             $.ajax({
-                url: "@Url.Action("Editar","Role")",
+                url: "@Url.Action("Editar","Indicadores")",
                 method: "get",
                 data: { id: id },
                 success: function (data) {
-                    ShowModalBig(data);
+                    ShowModalSmall(data);
                 },
                 error: function (resp) {
                     AlertaError();
                 }
             });
         }
-
-        function MostrarVerPermisos(id, nombre) {
-            $.ajax({
-                url: "@Url.Action("AsignarPermisos","Role")",
-                method: "get",
-                data: { id: id, Nombre:nombre },
-                success: function (data) {
-                    ShowModalBig(data);
-                },
-                error: function (resp) {
-                    AlertaError();
-                }
-            });
-        }
-
-
 
         var tablaPrincipal = $('#TablaPrincipal').DataTable({
 
@@ -119,7 +102,7 @@
 
             order: [[1, "desc"]],
             ajax: {
-                url: '@Url.Action("Listar", "Role")',
+                url: '@Url.Action("CargarListaIndicadores", "Indicadores")',
                 method: "Get",
                 dataSrc: function (data) {
                     return data;
@@ -129,12 +112,11 @@
             columns: [
                         {
                 data: null,
-                render: function (data) {
-                    var opciones = '<div class="btn-group"> <button class="btn btn-primary btn-xs dropdown-toggle waves-effect waves-themed" data-toggle="dropdown" aria-expanded="false" ' + (!data.Activo ? 'disabled' : "") + '> Acciones </button>';
+                    render: function (data) {
+                        var opciones = '<div class="btn-group"> <button class="btn btn-primary btn-xs dropdown-toggle waves-effect waves-themed" data-toggle="dropdown" aria-expanded="false" ' + (!data.fcToken ? 'disabled' : "") + '> Acciones </button>';
                     opciones += '<div class="dropdown-menu">';
-                    opciones += '<a class="dropdown-item" href="javascript:void(0)" onclick="MostrarVerPermisos(' + data.Pk_IdRol + ",'" + data.Nombre + "'" + ')"> Asignar Permisos</a></li>';
-                    opciones += '<a class="dropdown-item" href="javascript:void(0)" onclick="MostrarEditar(' + data.Pk_IdRol + ')"> Editar</a>';
-                    opciones += '<a class="dropdown-item" href="javascript:void(0)" onclick="Desactivar(' + data.Pk_IdRol +')"> Eliminar </a>';
+                    opciones += '<a class="dropdown-item" href="javascript:void(0)" onclick="MostrarEditar(' + data.fiIDTipoRequerimiento + ')"> Editar</a>';
+                    opciones += '<a class="dropdown-item" href="javascript:void(0)" onclick="Desactivar(' + data.fiIDTipoRequerimiento +')"> Eliminar </a>';
 
                     opciones += '</div></div>';
                     return opciones;
@@ -142,17 +124,17 @@
                },
 
                 {
-                    data: 'Nombre'
+                    data: 'fiIDTipoRequerimiento'
                 },
                 {
-                    data: 'Observacion'
+                    data: 'fcTipoRequerimiento'
                 },
 
 
                 {
                     data: null,
                     render: function (data) {
-                        if (data.Activo) {
+                        if (data.fiActivo == 1) {
                             return `<span class="padding-5 label label-success">Si</span>`;
                         } else {
                             return `<span class="padding-5 label label-danger">No</span>`;
