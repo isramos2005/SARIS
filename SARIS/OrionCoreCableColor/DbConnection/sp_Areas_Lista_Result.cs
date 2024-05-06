@@ -11,11 +11,12 @@ namespace OrionCoreCableColor.DbConnection
 {
     using System;
     
-    public partial class sp_Requerimiento_Areas_Result
+    public partial class sp_Areas_Lista_Result
     {
         public short fiIDArea { get; set; }
         public string fcDescripcion { get; set; }
         public string fcCorreoElectronico { get; set; }
         public int fiIDUsuarioResponsable { get; set; }
+        public string fcNombreCorto { get; set; }
     }
 }

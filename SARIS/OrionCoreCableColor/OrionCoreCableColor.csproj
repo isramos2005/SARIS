@@ -389,6 +389,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SoporteOP.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DbConnection\sp_Areas_Find_Result.cs">
+      <DependentUpon>SARIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbConnection\sp_Areas_Lista_Result.cs">
+      <DependentUpon>SARIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="DbConnection\SP_CallCenter_Oferta_Result.cs">
       <DependentUpon>SoporteOP.tt</DependentUpon>
     </Compile>
@@ -404,8 +410,17 @@
     <Compile Include="DbConnection\sp_CatalogoManual_Listado_Result.cs">
       <DependentUpon>SoporteOP.tt</DependentUpon>
     </Compile>
+    <Compile Include="DbConnection\sp_Estados_Lista_Result.cs">
+      <DependentUpon>SARIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="DbConnection\sp_Estados_Requerimiento_Result.cs">
       <DependentUpon>SoporteOP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbConnection\sp_Indicadores_Find_Result.cs">
+      <DependentUpon>SARIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbConnection\sp_Indicadores_Lista_Result.cs">
+      <DependentUpon>SARIS.tt</DependentUpon>
     </Compile>
     <Compile Include="DbConnection\sp_Manuales_Paginas_ObtenerPorIdManual_Result.cs">
       <DependentUpon>SoporteOP.tt</DependentUpon>
@@ -439,6 +454,18 @@
     </Compile>
     <Compile Include="DbConnection\sp_tutorialesList_byIdArea_Result.cs">
       <DependentUpon>SoporteOP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbConnection\sp_Usuarios_Maestro_Lista_Result.cs">
+      <DependentUpon>SARIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbConnection\sp_Usuarios_Maestro_PorArea_Result.cs">
+      <DependentUpon>SARIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbConnection\sp_Usuarios_Maestro_PorIdUsuarioSupervisor_Result.cs">
+      <DependentUpon>SARIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbConnection\sp_Usuarios_Maestro_PorIdUsuario_Result.cs">
+      <DependentUpon>SARIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1745,6 +1772,8 @@
     <Content Include="Content\css\camaraweb.css" />
     <Content Include="Views\Home\Cotizador.cshtml" />
     <Content Include="Views\Ticket\Index.cshtml" />
+    <Content Include="Views\Ticket\RegistrarTicket.cshtml" />
+    <Content Include="Views\Ticket\ActualizarTicket.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
