@@ -100,7 +100,7 @@
                             '<button class="btn pt-0 pb-0 mt-0 mb-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Opciones"><i class="fa fa-bars"></i></button >' +
                             '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">' +
                             //'<button type="button" class="dropdown-item" id="btnAbrirCapturaRequerimiento" onclick="RedirigirAccion(' + "'RegistrarRequerimiento.aspx'" + ',' + "'Registrar Requerimiento'" + ')" aria-label="Detalles"><i class="far fa-file-alt"></i>Agregar Requerimiento</button>' +
-                            '<button type="button" class="dropdown-item" id="btnModuloActualizarRequerimiento" onclick="RedirigirAccion(' + "'RequerimientoActualizar.aspx'" + ',' + "'Actualizar Requerimiento'" + ')" aria-label="Detalles"><i class="far fa-file-alt"></i>Actualizar Requerimiento</button>' +
+                            
                             '<button type="button" class="dropdown-item" id="btnModuloActualizarRequerimiento"  onclick="ActualizarTicket(' + row["fiIDRequerimiento"] + ')" aria-label="Detalles"><i class="far fa-file-alt"></i>Actualizar Requerimiento</button>' +
                             //'<button type="button" class="dropdown-item" id="btnAbrirDetalles" onclick="AbrirReporte(' + row["fiIDRequerimiento"] + ')" aria-label="Detalles"><i class="far fa-file-alt"></i> Ver detalles</button>' +
                             //(row["UsuarioPermiso"] == true ? `<button type="button" class="dropdown-item" id="btnAbrirDetalleCancelado" onclick="AbrirDetalleCancelado(${row["IdExpediente"]} , ${row["IdSolicitud"]} , '${row["NombreCliente"]}','${row["NombreOficial"]}','${row["Estado"]}', ${row["IdAbogado"]}, ${row["IDEstado"]})" aria-label="Detalles"><i class="far fa-file-alt"></i> detalles cancelados</button>` : '') +
@@ -227,7 +227,7 @@
                             '<button class="btn pt-0 pb-0 mt-0 mb-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Opciones"><i class="fa fa-bars"></i></button >' +
                             '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">' +
                             //'<button type="button" class="dropdown-item" id="btnAbrirCapturaRequerimiento" onclick="RedirigirAccion(' + "'RegistrarRequerimiento.aspx'" + ',' + "'Registrar Requerimiento'" + ')" aria-label="Detalles"><i class="far fa-file-alt"></i>Agregar Requerimiento</button>' +
-                            '<button type="button" class="dropdown-item" id="btnModuloActualizarRequerimiento" onclick="RedirigirAccion(' + "'RequerimientoActualizar.aspx'" + ',' + "'Actualizar Requerimiento'" + ')" aria-label="Detalles"><i class="far fa-file-alt"></i>Actualizar Requerimiento</button>' +
+                            
                             '<button type="button" class="dropdown-item" id="btnModuloActualizarRequerimiento" onclick="ActualizarTicket(' + row["fiIDRequerimiento"] + ')" aria-label="Detalles"><i class="far fa-file-alt"></i>Actualizar Requerimiento</button>' +
                             //'<button type="button" class="dropdown-item" id="btnAbrirDetalles" onclick="AbrirReporte(' + row["fiIDRequerimiento"] + ')" aria-label="Detalles"><i class="far fa-file-alt"></i> Ver detalles</button>' +
                             //(row["UsuarioPermiso"] == true ? `<button type="button" class="dropdown-item" id="btnAbrirDetalleCancelado" onclick="AbrirDetalleCancelado(${row["IdExpediente"]} , ${row["IdSolicitud"]} , '${row["NombreCliente"]}','${row["NombreOficial"]}','${row["Estado"]}', ${row["IdAbogado"]}, ${row["IDEstado"]})" aria-label="Detalles"><i class="far fa-file-alt"></i> detalles cancelados</button>` : '') +
@@ -318,13 +318,12 @@
 
 
 
-        function ProcesosEstados(Ticket)
-        {
+        function ProcesosEstados(Ticket) {
             debugger;
             $.ajax({
                 url: "@Url.Action("ModalBitacora", "Ticket")",
                 method: "get",
-                data: { id: Ticket},
+                data: { id: Ticket },
                 success: function (resp) {
                     ShowModalBig(resp);
                 },
@@ -332,6 +331,7 @@
                     AlertaError();
                 }
             });
+        }
         function CrearTicket() {
 
             VerModalScrollConObjetoDeParametro({}, "@Url.Action("RegistrarTicket", "Ticket")");
