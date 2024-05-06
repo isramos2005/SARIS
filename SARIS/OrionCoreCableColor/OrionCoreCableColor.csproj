@@ -478,6 +478,7 @@
     <Compile Include="Models\Base\ExcelsmsMasivoViewModel.cs" />
     <Compile Include="Models\Base\MensajeRespuestaViewModel.cs" />
     <Compile Include="Models\Base\ObjSignalRModalViewModel.cs" />
+    <Compile Include="Models\Base\TicketNotificacionViewModel.cs" />
     <Compile Include="Models\DashBoard\BulletViewModel.cs" />
     <Compile Include="Models\EmailTemplateService\EmailTemplateServiceModel.cs" />
     <Compile Include="Models\Estados\EstadosCrearViewModel.cs" />

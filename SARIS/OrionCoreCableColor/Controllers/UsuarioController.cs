@@ -127,7 +127,7 @@ namespace OrionCoreCableColor.Controllers
                             //FechaNacimiento = model.FechaNacimiento,
                             fcNombreCorto = model.UserName,
                             fcCentrodeCosto = "0100",
-                            fiIDPuesto = 1,
+                            fiIDPuesto = (short)model.IdRol,
                             fiTipoUsuario = 1,
                             fiIDDepartamento = 1,
                             fiIDJefeInmediato = 1,
