@@ -212,14 +212,6 @@
             <Parameter Name="piIDApp" Mode="In" Type="Int16" />
             <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="sp_Requerimiento_Bitacoras_Agregar" ReturnType="Collection(String)">
-            <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
-            <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
-            <Parameter Name="piIDUsuarioSolicitante" Mode="In" Type="Int32" />
-            <Parameter Name="fcComentario" Mode="In" Type="String" />
-            <Parameter Name="piIDApp" Mode="In" Type="Int32" />
-            <Parameter Name="piIDEstado" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="sp_Requerimiento_Bitacoras_Detalle" ReturnType="Collection(SARISModel.sp_Requerimiento_Bitacoras_Detalle_Result)">
             <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
             <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
@@ -244,18 +236,6 @@
             <Parameter Name="piIDSesion" Mode="In" Type="Int32" />
             <Parameter Name="piIDApp" Mode="In" Type="Int16" />
             <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_Requerimiento_Maestro_Actualizar" ReturnType="Collection(String)">
-            <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
-            <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
-            <Parameter Name="pcTituloRequerimiento" Mode="In" Type="String" />
-            <Parameter Name="pcDescripcionRequerimiento" Mode="In" Type="String" />
-            <Parameter Name="piIDEstadoRequerimiento" Mode="In" Type="Byte" />
-            <Parameter Name="fdFechaAsignacion" Mode="In" Type="DateTime" />
-            <Parameter Name="pifiIDUsuarioAsignado" Mode="In" Type="Int32" />
-            <Parameter Name="piTiempodeDesarrollo" Mode="In" Type="Int32" />
-            <Parameter Name="pifiTipoRequerimiento" Mode="In" Type="Byte" />
-            <Parameter Name="piIDApp" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_Requerimiento_Maestro_Detalle" ReturnType="Collection(SARISModel.sp_Requerimiento_Maestro_Detalle_Result)">
             <Parameter Name="piIDSesion" Mode="In" Type="Int32" />
@@ -353,6 +333,26 @@
           <Parameter Name="pcNombreCorto" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_Areas_Lista" ReturnType="Collection(SARISModel.sp_Areas_Lista_Result)" />
+          <FunctionImport Name="sp_Requerimiento_Maestro_Actualizar">
+            <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
+            <Parameter Name="pcTituloRequerimiento" Mode="In" Type="String" />
+            <Parameter Name="pcDescripcionRequerimiento" Mode="In" Type="String" />
+            <Parameter Name="piIDEstadoRequerimiento" Mode="In" Type="Byte" />
+            <Parameter Name="fdFechaAsignacion" Mode="In" Type="DateTime" />
+            <Parameter Name="pifiIDUsuarioAsignado" Mode="In" Type="Int32" />
+            <Parameter Name="piTiempodeDesarrollo" Mode="In" Type="Int32" />
+            <Parameter Name="pifiTipoRequerimiento" Mode="In" Type="Byte" />
+            <Parameter Name="piIDApp" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Requerimiento_Bitacoras_Agregar">
+            <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
+            <Parameter Name="piIDUsuarioSolicitante" Mode="In" Type="Int32" />
+            <Parameter Name="fcComentario" Mode="In" Type="String" />
+            <Parameter Name="piIDApp" Mode="In" Type="Int32" />
+            <Parameter Name="piIDEstado" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_Requerimiento_Areas_Result">
           <Property Type="Int16" Name="fiIDArea" Nullable="false" />
@@ -604,7 +604,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_Requerimiento_Bitacoras_Agregar" FunctionName="SARISModel.Store.sp_Requerimiento_Bitacoras_Agregar" />
           <FunctionImportMapping FunctionImportName="sp_Requerimiento_Bitacoras_Detalle" FunctionName="SARISModel.Store.sp_Requerimiento_Bitacoras_Detalle">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SARISModel.sp_Requerimiento_Bitacoras_Detalle_Result">
@@ -668,7 +667,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_Requerimiento_Maestro_Actualizar" FunctionName="SARISModel.Store.sp_Requerimiento_Maestro_Actualizar" />
           <FunctionImportMapping FunctionImportName="sp_Requerimiento_Maestro_Detalle" FunctionName="SARISModel.Store.sp_Requerimiento_Maestro_Detalle">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SARISModel.sp_Requerimiento_Maestro_Detalle_Result">
@@ -906,6 +904,8 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Requerimiento_Maestro_Actualizar" FunctionName="SARISModel.Store.sp_Requerimiento_Maestro_Actualizar" />
+          <FunctionImportMapping FunctionImportName="sp_Requerimiento_Bitacoras_Agregar" FunctionName="SARISModel.Store.sp_Requerimiento_Bitacoras_Agregar" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

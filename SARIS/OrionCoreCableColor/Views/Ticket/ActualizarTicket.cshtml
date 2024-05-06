@@ -101,8 +101,6 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
-                <label id="lblEstadoConfirmar" class="col-form-label">Estado </label>
-                <asp:DropDownList runat="server" ID="dllEstadoConfimar" CssClass="form-control form-control-sm col-form-label" data-parsley-errors-container="#error-dllEstadoConfirmar"></asp:DropDownList>
                 <div class="form-group row">
                     <div class="col-12">
                         <label class="col-form-label">Observaciones</label>
@@ -339,7 +337,7 @@
 
 <script>
     var estadoRequerimiento = 0;
-    const ID_REQUERIMIENTO = @ViewBag.idticket;
+    var ID_REQUERIMIENTO = @ViewBag.idticket;
     const ID_USUARIO = "1"
 
     $(document).ready(function () {
@@ -378,18 +376,18 @@
                 Observaciones: $("#txtComentario").val(),
             }
             var requerimiento = {
-                idRequerimiento: ID_REQUERIMIENTO,
+                fiIDRequerimiento: ID_REQUERIMIENTO,
                 fcTituloRequerimiento: $("#fcTituloRequerimiento").val(),
-                fcDescipcionRequerimiento: "",//hola,
-                fiIDEstadoRequerimiento: estado,
-                EstadoRequerimiento: estadoDescripcion,
+                fcDescripcionRequerimiento: $("#fcDescripcionRequerimiento").val(),//hola,
+                fiIDEstadoRequerimiento: $("#fiIDEstadoRequerimiento option:selected").val(),
+                fcDescripcionEstado: $("#fiIDEstadoRequerimiento :selected").text(),
                 //fdFechaAsignacion: $("#txtFechaInicio").val(),
                 //fdFechadeCierre: $("#txtFechaFinal").val(),
                 fiIDUsuarioAsignado: $("#fiIDUsuarioAsignado option:selected").val() == "" ? 1 : parseInt($("#fiIDUsuarioAsignado option:selected").val()),
                 //fiTiempodeDesarrollo: $("#txtTiempoDesarrollo").val().replace(/,/g, '') == '' ? 0 : $("#txtTiempoDesarrollo").val().replace(/,/g, ''),
                 fiTipoRequerimiento: 1,//$("#txtComentario").val(),
                 fiIDAreaSolicitante: $("#fiIDAreaSolicitante option:selected").val() == null ? 0 : parseInt($("#fiIDAreaSolicitante option:selected").val()),//$("#txtComentario").val(),
-                fcArea: $("#fiIDAreaSolicitante :selected").text(),
+                fcNombreAreaSolicitante: $("#fiIDAreaSolicitante :selected").text(),
                 //fcCorreoSolicitante: CorreoSolicitante
 
             }

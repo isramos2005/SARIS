@@ -212,7 +212,8 @@ namespace OrionCoreCableColor.Controllers
             {
                 using (var contexto = new SARISEntities1())
                 {
-                    var actua = contexto.sp_Requerimiento_Maestro_Actualizar(1, 1, ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento, DateTime.Now, ticket.fiIDUsuarioAsignado, ticket.fiTiempodeDesarrollo, ticket.fiTipoRequerimiento, 1);
+                    var result = contexto.sp_Requerimiento_Bitacoras_Agregar(1, ticket.fiIDRequerimiento, 1, "Prueba", 1, ticket.fiIDEstadoRequerimiento);
+                    var actua = contexto.sp_Requerimiento_Maestro_Actualizar(1, ticket.fiIDRequerimiento, ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento, DateTime.Now, ticket.fiIDUsuarioAsignado, 0, ticket.fiTipoRequerimiento, 1);
                     return EnviarResultado(true, "", "Ticket Actualizado exitosamente");
                 }
             }
