@@ -11,7 +11,6 @@ namespace OrionCoreCableColor.Models.Ticket
         public DateTime fdFechaCreacion { get; set; }
         public int fiIDUsuarioSolicitante { get; set; }
         public string fcNombreSolicitante { get; set; }
-        public string fiIDIPUsuarioSolicitante { get; set; }
         public string fcTituloRequerimiento { get; set; }
         public string fcDescripcionRequerimiento { get; set; }
         public byte fiIDEstadoRequerimiento { get; set; }
@@ -29,7 +28,6 @@ namespace OrionCoreCableColor.Models.Ticket
         public decimal fnValoracionRequerimiento { get; set; }
         public DateTime fdFechaUltimaModificacion { get; set; }
         public int fiIDUsuarioUltimaModificacion { get; set; }
-        public string fcIPUltimaModificacion { get; set; }
         public int fiHorasTrabajadas { get; set; }
     }
 }

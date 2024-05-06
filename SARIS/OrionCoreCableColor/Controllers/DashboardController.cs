@@ -5,13 +5,13 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity.Infrastructure;
 using OrionCoreCableColor.DbConnection;
-using OrionCoreCableColor.Models.Ticket;
+using OrionCoreCableColor.Models.DashBoard;
 
 namespace OrionCoreCableColor.Controllers
 {
-    public class TicketController : BaseController
+    public class DashboardController : BaseController
     {
-        // GET: Ticket
+        // GET: Dashboard
         public ActionResult Index()
         {
             return View();
@@ -19,43 +19,9 @@ namespace OrionCoreCableColor.Controllers
 
 
         [HttpGet]
-        public JsonResult ListarTicket()
-        {            
-            var listaEquifaxGarantia = new List<TicketMiewModel>();
-
-            try
-            {
-                using (var connection = (new SARISEntities1()).Database.Connection)
-                {
-
-                    connection.Open();
-                    var command = connection.CreateCommand();
-                    command.CommandText = $"EXEC sp_Requerimientos_Bandeja {1},{1},{1}";
-                    using (var reader = command.ExecuteReader())
-                    {
-                        var db = ((IObjectContextAdapter)new SARISEntities1());
-                        
-                        listaEquifaxGarantia = db.ObjectContext.Translate<TicketMiewModel>(reader).ToList();
-                    }
-
-                    connection.Close();
-
-                    return EnviarListaJson(listaEquifaxGarantia);
-                }
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
-
-
-        }
-
-        [HttpGet]
-        public JsonResult ListarTicketCerrados()
+        public JsonResult ListaPersonal(DateTime Fecha)
         {
-            var listaEquifaxGarantia = new List<TicketMiewModel>();
+            var listaEquifaxGarantia = new List<DashboardViewModel>();
 
             try
             {
@@ -64,12 +30,13 @@ namespace OrionCoreCableColor.Controllers
 
                     connection.Open();
                     var command = connection.CreateCommand();
-                    command.CommandText = $"EXEC sp_Requerimientos_Bandeja {1},{1},{1}";
+                    command.CommandText = $"EXEC sp_Requerimiento_Indicadores {1},'{Fecha.ToString("yyyy-MM-dd")}'";
                     using (var reader = command.ExecuteReader())
                     {
                         var db = ((IObjectContextAdapter)new SARISEntities1());
                         reader.NextResult();
-                        listaEquifaxGarantia = db.ObjectContext.Translate<TicketMiewModel>(reader).ToList();
+                        reader.NextResult();
+                        listaEquifaxGarantia = db.ObjectContext.Translate<DashboardViewModel>(reader).ToList();
                     }
 
                     connection.Close();
@@ -86,17 +53,11 @@ namespace OrionCoreCableColor.Controllers
 
         }
 
-        [HttpGet]
-        public ActionResult ModalBitacora(int id)
-        {
-            return PartialView(id);
-
-        }
 
         [HttpGet]
-        public JsonResult BitacoraEstado(int Ticket)
+        public JsonResult ProcesosIndicador(DateTime Fecha)
         {
-            var listaEquifaxGarantia = new List<Estado_RequerimientoViewModal>();
+            var listaEquifaxGarantia = new List<Requerimiento_Detalle_Hora_ViewModel>();
 
             try
             {
@@ -105,11 +66,11 @@ namespace OrionCoreCableColor.Controllers
 
                     connection.Open();
                     var command = connection.CreateCommand();
-                    command.CommandText = $"EXEC sp_Requerimientos_Bitacoras_Estados {Ticket}";
+                    command.CommandText = $"EXEC sp_Requerimiento_Indicadores {1},'{Fecha.ToString("yyyy-MM-dd")}'";
                     using (var reader = command.ExecuteReader())
                     {
-                        var db = ((IObjectContextAdapter)new SoporteOPEntities());
-                        listaEquifaxGarantia = db.ObjectContext.Translate<Estado_RequerimientoViewModal>(reader).ToList();
+                        var db = ((IObjectContextAdapter)new SARISEntities1());
+                        listaEquifaxGarantia = db.ObjectContext.Translate<Requerimiento_Detalle_Hora_ViewModel>(reader).ToList();
                     }
 
                     connection.Close();
@@ -125,6 +86,42 @@ namespace OrionCoreCableColor.Controllers
 
 
         }
+
+
+        [HttpGet]
+        public JsonResult ProcesosIndicadorGrafica(DateTime Fecha)
+        {
+            var listaEquifaxGarantia = new List<Indicadores_ViewModel>();
+
+            try
+            {
+                using (var connection = (new SARISEntities1()).Database.Connection)
+                {
+
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = $"EXEC sp_Requerimiento_Indicadores {1},'{Fecha.ToString("yyyy-MM-dd")}'";
+                    using (var reader = command.ExecuteReader())
+                    {
+                        var db = ((IObjectContextAdapter)new SARISEntities1());
+                        reader.NextResult();
+                        listaEquifaxGarantia = db.ObjectContext.Translate<Indicadores_ViewModel>(reader).ToList();
+                    }
+
+                    connection.Close();
+
+                    return EnviarListaJson(listaEquifaxGarantia);
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
+
+        }
+
 
     }
 }

@@ -342,6 +342,7 @@
     <Compile Include="App_Start\URIHandler.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="DbConnection\CMContext\AspNetRoles.cs" />
@@ -452,11 +453,15 @@
     <Compile Include="Models\Base\MensajeRespuestaViewModel.cs" />
     <Compile Include="Models\Base\ObjSignalRModalViewModel.cs" />
     <Compile Include="Models\DashBoard\BulletViewModel.cs" />
+    <Compile Include="Models\DashBoard\DashboardViewModel.cs" />
+    <Compile Include="Models\DashBoard\Indicadores_ViewModel.cs" />
+    <Compile Include="Models\DashBoard\Requerimiento_Detalle_Hora_ViewModel.cs" />
     <Compile Include="Models\EmailTemplateService\EmailTemplateServiceModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Roles\CrearRolViewModel.cs" />
     <Compile Include="Models\Roles\ListaPermisosPorRolViewModel.cs" />
+    <Compile Include="Models\Ticket\Estado_RequerimientoViewModal.cs" />
     <Compile Include="Models\Ticket\TicketMiewModel.cs" />
     <Compile Include="Models\Usuario\CambiarContraseñaUsuarioViewModel.cs" />
     <Compile Include="Models\Usuario\CrearUsuarioViewModel.cs" />
@@ -1745,6 +1750,8 @@
     <Content Include="Content\css\camaraweb.css" />
     <Content Include="Views\Home\Cotizador.cshtml" />
     <Content Include="Views\Ticket\Index.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Ticket\ModalBitacora.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1755,6 +1762,7 @@
     <Folder Include="styles\fonts\" />
     <Folder Include="Template\plugins\notificaciones\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Dasboard\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
