@@ -57,9 +57,11 @@ namespace OrionCoreCableColor.Controllers
         {
             using (var context = new SARISEntities1())
             {
-                var newModel = context.sp_Indicadores_Insertar(model.fcTipoRequerimiento);
+                var newModel = context.sp_Indicadores_Insertar(model.fcTipoRequerimiento.Trim());
 
-                return EnviarResultado(true, "Editar Indicador", "Se Creó Satisfactoriamente");
+                Console.WriteLine(newModel);
+
+                return EnviarResultado(true, "Crear Indicador", "Se Creó Satisfactoriamente");
 
             }
 
