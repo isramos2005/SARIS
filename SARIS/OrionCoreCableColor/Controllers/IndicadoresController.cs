@@ -76,7 +76,8 @@ namespace OrionCoreCableColor.Controllers
                 var indicador = context.sp_Indicadores_Lista().FirstOrDefault(x => x.fiIDTipoRequerimiento == id);
                 if (indicador != null)
                 {
-                    return PartialView("Crear", new IndicadoresCrearViewModel { fiIDTipoRequerimiento = indicador.fiIDTipoRequerimiento, fcTipoRequerimiento = indicador.fcTipoRequerimiento });
+                    return PartialView("Crear", new IndicadoresCrearViewModel { fiIDTipoRequerimiento = indicador.fiIDTipoRequerimiento, fcTipoRequerimiento = indicador.fcTipoRequerimiento.Trim() , EsEditar = true});
+
                 }
                 else
                 {
@@ -92,17 +93,7 @@ namespace OrionCoreCableColor.Controllers
             {
                 var indicador = context.sp_Indicadores_Lista().FirstOrDefault(x => x.fcTipoRequerimiento == model.fcTipoRequerimiento && x.fiIDTipoRequerimiento != model.fiIDTipoRequerimiento);
 
-                if (indicador != null)
-                {
-
-                }
-                else
-                {
-
-                }
-
-
-                var newModel = context.sp_Indicadores_Editar(model.fiIDTipoRequerimiento, model.fcTipoRequerimiento);
+                var newModel = context.sp_Indicadores_Editar(model.fiIDTipoRequerimiento, model.fcTipoRequerimiento.Trim());
                 var result = context.SaveChanges() > 0;
 
                 return EnviarResultado(true, "Editar Indicador", "Se edito Satisfactoriamente");
