@@ -127,7 +127,7 @@ namespace OrionCoreCableColor.Controllers
                         Text = "info"
                     },
                     new SelectListItem
-                    {
+                    {   
                         Value = "secundary",
                         Text = "secundary"
                     },

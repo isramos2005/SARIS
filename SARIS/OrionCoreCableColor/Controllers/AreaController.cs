@@ -69,7 +69,7 @@ namespace OrionCoreCableColor.Controllers
         {
             using (var context = new SARISEntities1())
             {
-                var newModel = context.sp_Areas_Insertar( model.fcDescripcion, model.fcCorreoElectronico, model.fiIDUsuarioResponsable);
+                var newModel = context.sp_Areas_Insertar( model.fcDescripcion.Trim(), model.fcCorreoElectronico.Trim(), model.fiIDUsuarioResponsable);
 
                 return EnviarResultado(true, "Editar Rol", "Se Creó Satisfactoriamente");
 
@@ -88,7 +88,7 @@ namespace OrionCoreCableColor.Controllers
                 {
                     ViewBag.ListaUsuarios = context.sp_Usuarios_Maestro_Lista().ToList().Select(x => new SelectListItem { Value = x.fiIDUsuario.ToString(), Text = $"{x.fcNombreCorto}  {x.fcPuesto}" }).ToList();
 
-                    return PartialView("Crear", new AreasCrearViewModel { fiIDArea = area.fiIDArea, fcDescripcion = area.fcDescripcion, fcCorreoElectronico = area.fcCorreoElectronico, fcNombreCorto = area.fcNombreCorto, fiIDUsuarioResponsable = area.fiIDUsuarioResponsable , EsEditar = true});
+                    return PartialView("Crear", new AreasCrearViewModel { fiIDArea = area.fiIDArea, fcDescripcion = area.fcDescripcion.Trim(), fcCorreoElectronico = area.fcCorreoElectronico.Trim(), fcNombreCorto = area.fcNombreCorto.Trim(), fiIDUsuarioResponsable = area.fiIDUsuarioResponsable , EsEditar = true});
                 }
                 else
                 {
@@ -102,7 +102,7 @@ namespace OrionCoreCableColor.Controllers
         {
             using (var context = new SARISEntities1())
             {
-                var newModel = context.sp_Areas_Editar(model.fiIDArea, model.fcDescripcion, model.fcCorreoElectronico, model.fiIDUsuarioResponsable);
+                var newModel = context.sp_Areas_Editar(model.fiIDArea, model.fcDescripcion.Trim(), model.fcCorreoElectronico.Trim(), model.fiIDUsuarioResponsable);
                 var result = context.SaveChanges() > 0;
 
                 return EnviarResultado(true, "Editar Rol", "Se edito Satisfactoriamente" );

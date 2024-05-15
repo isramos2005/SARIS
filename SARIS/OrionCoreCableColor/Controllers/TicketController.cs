@@ -30,7 +30,7 @@ namespace OrionCoreCableColor.Controllers
 
                     connection.Open();
                     var command = connection.CreateCommand();
-                    command.CommandText = $"EXEC sp_Requerimientos_Bandeja {1},{1},{GetIdUser()}";
+                    command.CommandText = $"EXEC sp_Requerimientos_Bandeja {1},{1},{1}";
                     using (var reader = command.ExecuteReader())
                     {
                         var db = ((IObjectContextAdapter)new SARISEntities1());
@@ -65,7 +65,7 @@ namespace OrionCoreCableColor.Controllers
 
                     connection.Open();
                     var command = connection.CreateCommand();
-                    command.CommandText = $"EXEC sp_Requerimientos_Bandeja {1},{1},{GetIdUser()}";
+                    command.CommandText = $"EXEC sp_Requerimientos_Bandeja {1},{1},{1}";
                     using (var reader = command.ExecuteReader())
                     {
                         var db = ((IObjectContextAdapter)new SARISEntities1());
@@ -134,7 +134,7 @@ namespace OrionCoreCableColor.Controllers
                 try
                 {
 
-                    var cont = contexto.sp_Requerimiento_Maestro_Detalle(1, 1, GetIdUser(), idticket).FirstOrDefault();
+                    var cont = contexto.sp_Requerimiento_Maestro_Detalle(1, 1, 1, idticket).FirstOrDefault();
                     var tick = new TicketMiewModel();
                     tick.fcDescripcionRequerimiento = cont.fcDescripcionRequerimiento;
                     tick.fiIDRequerimiento = cont.fiIDRequerimiento;
@@ -171,7 +171,7 @@ namespace OrionCoreCableColor.Controllers
                     try 
                     {
                         //cambiar despues Los datos que se envian en duro para que sea mas dinamico las cosas 
-                        var save = contexto.sp_Requerimiento_Alta(1, 1, GetIdUser(), ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento,1);
+                        var save = contexto.sp_Requerimiento_Alta(1, 1, 1, ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento,1);
 
 
                         return EnviarResultado(true, "", "Ticket guardado exitosamente");
@@ -203,7 +203,7 @@ namespace OrionCoreCableColor.Controllers
             return PartialView();
         }
 
-        public JsonResult ActualizarDatos(TicketMiewModel ticket,string comentario)
+        public JsonResult ActualizarDatos(TicketMiewModel ticket)
         {
             //var resultado = new Resultado_ViewModel() { ResultadoExitoso = false };
             //var mensajeError = string.Empty;
@@ -212,8 +212,8 @@ namespace OrionCoreCableColor.Controllers
             {
                 using (var contexto = new SARISEntities1())
                 {
-                    var result = contexto.sp_Requerimiento_Bitacoras_Agregar(GetIdUser(), ticket.fiIDRequerimiento, GetIdUser(), ticket.fcDescripcionRequerimiento, 1, ticket.fiIDEstadoRequerimiento);
-                    var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), ticket.fiIDRequerimiento, ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento, DateTime.Now, ticket.fiIDUsuarioAsignado, 0, ticket.fiTipoRequerimiento, 1);
+                    var result = contexto.sp_Requerimiento_Bitacoras_Agregar(1, ticket.fiIDRequerimiento, 1, "Prueba", 1, ticket.fiIDEstadoRequerimiento);
+                    var actua = contexto.sp_Requerimiento_Maestro_Actualizar(1, ticket.fiIDRequerimiento, ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento, DateTime.Now, ticket.fiIDUsuarioAsignado, 0, ticket.fiTipoRequerimiento, 1);
                     return EnviarResultado(true, "", "Ticket Actualizado exitosamente");
                 }
             }

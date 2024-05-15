@@ -4,7 +4,7 @@
 
 <div class="panel">
     <div class="panel-hdr">
-        <h2 class="panel-title"> <i class="fal fa-user fa-fw"></i>Lista de Areas</h2>
+        <h2 class="panel-title"> <i class="fal fa-user fa-fw"></i>Lista de Estados</h2>
         <div class="panel-toolbar " role="menu">
             <a href="javascript:void(0)" onclick="MostrarCrear()" class="btn btn-success"><i class="fal fa-plus fa-fw"></i> Nuevo Estado</a>
         </div>
@@ -17,10 +17,9 @@
 
                     <tr>
                         <th></th>
-                        <th>Id</th>
                         <th>Descripción</th>
                         <th>Clase</th>
-                        
+
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -123,16 +122,22 @@
                },
 
                 {
-                    data: 'fiIDEstado'
-                },
-                {
                     data: 'fcDescripcionEstado'
                 },
                 {
                     data: null,
-                    render: function (data) {
-                        return `<label class="text-${data.fcClaseColor}">${data.fcClaseColor}</label>`
-                    }
+                  render: function(data) {
+    let backgroundColorClass = "bg-default";
+    let textColorClass = "text-black";
+    if (data && data.fcClaseColor) {
+        backgroundColorClass = `bg-${data.fcClaseColor}`;
+
+        textColorClass = getContrastColor(data.fcClaseColor);
+    }
+
+    return `<label class="label ${backgroundColorClass} ${textColorClass} border rounded px-2 py-1">${data.fcClaseColor}</label>`;
+}
+
                 },
 
 
@@ -141,7 +146,9 @@
             ]
 
         });
-
+        function getContrastColor(backgroundColor) {
+            return backgroundColor === "white" ? "text-black" : "text-white";
+        }
 
     </script>
 }
