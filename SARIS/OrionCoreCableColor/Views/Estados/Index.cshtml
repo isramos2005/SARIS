@@ -19,7 +19,7 @@
                         <th></th>
                         <th>Descripción</th>
                         <th>Clase</th>
-                        
+
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -126,9 +126,18 @@
                 },
                 {
                     data: null,
-                    render: function (data) {
-                        return `<label class="text-${data.fcClaseColor}">${data.fcClaseColor}</label>`
-                    }
+                  render: function(data) {
+    let backgroundColorClass = "bg-default";
+    let textColorClass = "text-black";
+    if (data && data.fcClaseColor) {
+        backgroundColorClass = `bg-${data.fcClaseColor}`;
+
+        textColorClass = getContrastColor(data.fcClaseColor);
+    }
+
+    return `<label class="label ${backgroundColorClass} ${textColorClass} border rounded px-2 py-1">${data.fcClaseColor}</label>`;
+}
+
                 },
 
 
@@ -137,7 +146,9 @@
             ]
 
         });
-
+        function getContrastColor(backgroundColor) {
+            return backgroundColor === "white" ? "text-black" : "text-white";
+        }
 
     </script>
 }
