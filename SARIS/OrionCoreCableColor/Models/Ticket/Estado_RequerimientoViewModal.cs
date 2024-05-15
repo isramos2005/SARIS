@@ -17,6 +17,5 @@ namespace OrionCoreCableColor.Models.Ticket
         public string fcDescripcionEstado { get; set; }
         public string fcNombreCorto { get; set; }
         public int fiHorasTrabajadas { get; set; }
-        public int fiMinutios { get; set; }
     }
 }

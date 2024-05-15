@@ -396,17 +396,16 @@
                 url: "@Url.Action("ActualizarDatos", "Ticket")",
                 data: { ticket: requerimiento, comentario: $("#txtComentario").val()},
                 error: function (xhr, ajaxOptions, thrownError) {
-                    //MensajeError("Error, contacte al administrador.");
+                    MensajeError("Error, contacte al administrador.");
                     var dataerror = { Titulo: "Error", Mensaje: "Error Al Actualizar el Ticket", Estado: false }
                     AlertaAjax(dataerror)
                 },
                 success: function (data) {
                     console.log(data);
-                    
+                    var dataerror = { Titulo: "Exito", Mensaje: "Se Actualizo el Ticket Correctamente", Estado: true }
+                    AlertaAjax(dataerror)
                     let resultado = data.d;
                     if (data.Estado == true) {
-                        var dataerror = { Titulo: "Exito", Mensaje: "Se Actualizo el Ticket Correctamente", Estado: true }
-                        AlertaAjax(dataerror)
                         $("#txtComentario").val(""),
                           //  MensajeExitoModal('los datos se Actualizaron correctamente.');
                         $("#modalConfirmarDatos").modal('hide');
@@ -416,9 +415,7 @@
                         //location.reload();
                     }
                     else {
-                        var dataerror = { Titulo: "Error", Mensaje: "Error Al Actualizar el Ticket", Estado: false }
-                        AlertaAjax(dataerror)
-                        //MensajeErrorModal("No se pudo realizar la actualizacion de Datos, contacte al administrador.");
+                        MensajeErrorModal("No se pudo realizar la actualizacion de Datos, contacte al administrador.");
                     }
 
 
