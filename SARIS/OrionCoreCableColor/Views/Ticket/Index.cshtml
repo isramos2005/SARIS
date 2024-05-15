@@ -18,7 +18,7 @@
                         <th>Acciones</th>
                         <th>Titulo</th>
                         <th style="width:80px">Solicitante</th>
-                        <th style="width:80px">Desarrollador Asignado</th>
+                        <th style="width:80px">Usuario Asignado</th>
                         <th style="width:80px">Area</th>
                         <th style="width:150px">Fecha Creacion Solicitud</th>
                         <th style="width:150px">Fecha Inicio</th>
@@ -45,7 +45,7 @@
                         <th>Acciones</th>
                         <th>Titulo</th>
                         <th style="width:80px">Solicitante</th>
-                        <th style="width:80px">Desarrollador Asignado</th>
+                        <th style="width:80px">Usuario Asignado</th>
                         <th style="width:80px">Area</th>
                         <th style="width:150px">Fecha Creacion Solicitud</th>
                         <th style="width:150px">Fecha Inicio</th>
@@ -96,23 +96,19 @@
                     "data": "fiIDRequerimiento", "className": "text-center",
                     "render": function (data, type, row) {
 
-                        return '<div class="dropdown mo-mb-2">' +
-                            '<button class="btn pt-0 pb-0 mt-0 mb-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Opciones"><i class="fa fa-bars"></i></button >' +
-                            '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">' +
-                            //'<button type="button" class="dropdown-item" id="btnAbrirCapturaRequerimiento" onclick="RedirigirAccion(' + "'RegistrarRequerimiento.aspx'" + ',' + "'Registrar Requerimiento'" + ')" aria-label="Detalles"><i class="far fa-file-alt"></i>Agregar Requerimiento</button>' +
-                            
-                            '<button type="button" class="dropdown-item" id="btnModuloActualizarRequerimiento"  onclick="ActualizarTicket(' + row["fiIDRequerimiento"] + ')" aria-label="Detalles"><i class="far fa-file-alt"></i>Actualizar Requerimiento</button>' +
-                            //'<button type="button" class="dropdown-item" id="btnAbrirDetalles" onclick="AbrirReporte(' + row["fiIDRequerimiento"] + ')" aria-label="Detalles"><i class="far fa-file-alt"></i> Ver detalles</button>' +
-                            //(row["UsuarioPermiso"] == true ? `<button type="button" class="dropdown-item" id="btnAbrirDetalleCancelado" onclick="AbrirDetalleCancelado(${row["IdExpediente"]} , ${row["IdSolicitud"]} , '${row["NombreCliente"]}','${row["NombreOficial"]}','${row["Estado"]}', ${row["IdAbogado"]}, ${row["IDEstado"]})" aria-label="Detalles"><i class="far fa-file-alt"></i> detalles cancelados</button>` : '') +
-                            '</div>' +
-                            '</div >';
+                        return `<div class='dropdown d-inline-block dropleft'>
+                                    <a href='#'' class='btn btn-sm btn-icon btn-outline-primary rounded-circle shadow-0' data-toggle='dropdown' aria-expanded='true' title='More options'>\n\t\t\t\t\t\t\t\t<i class=\"fal fa-ellipsis-v\"></i>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t
+                                    <div class='dropdown-menu'>
+                                        <a class='dropdown-item' href='javascript:void(0);' onclick="ActualizarTicket(${row["fiIDRequerimiento"]})">Actualizar Ticket</a>
+                                    </div>
+                                </div>`;
                     }
                 },
                 {
                     "data": "fiIDRequerimiento", "className": "td-responsive",
                     "render": function (data, type, row) {
                         var des = "";
-                        return row["fiIDRequerimiento"] + '<span class="text-muted">' + ' | <a href="javascript:void(0)" onclick="abrirModalDetalle(' + row["fiIDRequerimiento"] + ')"" >' + row["fcTituloRequerimiento"] + '</a> </span>'
+                        return row["fiIDRequerimiento"] + '<span class="text-muted">' + ' | <b href="javascript:void(0)" onclick="abrirModalDetalle(' + row["fiIDRequerimiento"] + ')"" >' + row["fcTituloRequerimiento"] + '</b> </span>'
 
                     }
                 },
@@ -150,7 +146,11 @@
                             return ""
 
                         } else {
-                            return moment(row["fdFechaAsignacion"]).locale('es').format('YYYY/MM/DD hh:mm a');
+                            if (row["fiIDEstadoRequerimiento"] == 1) {
+                                return `<span class="btn-sm btn-block badge badge-secondary">Pendiente</span> `
+                            } else {
+                                return moment(row["fdFechaAsignacion"]).locale('es').format('YYYY/MM/DD hh:mm a');
+                            }
                         }
 
                     }
@@ -161,8 +161,12 @@
                         if (row["fdFechadeCierre"] == " / Date(1581400800000) /") {
                             return ""
                         } else {
-
-                            return moment(row["fdFechadeCierre"]).locale('es').format('YYYY/MM/DD hh:mm a');
+                            if (row["fiIDEstadoRequerimiento"] == 1) {
+                                return `<span class="btn-sm btn-block badge badge-secondary">Pendiente</span> `
+                            } else {
+                                return moment(row["fdFechadeCierre"]).locale('es').format('YYYY/MM/DD hh:mm a');
+                            }
+                            
                         }
                     }
                 },
@@ -180,6 +184,8 @@
                     "data": "fcDescripcionRequerimiento", "className": "td-responsive", "visible": false, "title": 'Descripcion',
                     "render": function (data, type, row) {
                         var des = "";
+                        console.log(data);
+                        console.log(row);
                         return row["fcDescripcionRequerimiento"]
 
                     }
@@ -215,6 +221,7 @@
                   method: "Get",
                   dataSrc: function (data) {
                       return data;
+                      console.log(data);
                   }
             },
             "columns": [
@@ -223,23 +230,19 @@
                     "data": "fiIDRequerimiento", "className": "text-center",
                     "render": function (data, type, row) {
 
-                        return '<div class="dropdown mo-mb-2">' +
-                            '<button class="btn pt-0 pb-0 mt-0 mb-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Opciones"><i class="fa fa-bars"></i></button >' +
-                            '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">' +
-                            //'<button type="button" class="dropdown-item" id="btnAbrirCapturaRequerimiento" onclick="RedirigirAccion(' + "'RegistrarRequerimiento.aspx'" + ',' + "'Registrar Requerimiento'" + ')" aria-label="Detalles"><i class="far fa-file-alt"></i>Agregar Requerimiento</button>' +
-                            
-                            '<button type="button" class="dropdown-item" id="btnModuloActualizarRequerimiento" onclick="ActualizarTicket(' + row["fiIDRequerimiento"] + ')" aria-label="Detalles"><i class="far fa-file-alt"></i>Actualizar Requerimiento</button>' +
-                            //'<button type="button" class="dropdown-item" id="btnAbrirDetalles" onclick="AbrirReporte(' + row["fiIDRequerimiento"] + ')" aria-label="Detalles"><i class="far fa-file-alt"></i> Ver detalles</button>' +
-                            //(row["UsuarioPermiso"] == true ? `<button type="button" class="dropdown-item" id="btnAbrirDetalleCancelado" onclick="AbrirDetalleCancelado(${row["IdExpediente"]} , ${row["IdSolicitud"]} , '${row["NombreCliente"]}','${row["NombreOficial"]}','${row["Estado"]}', ${row["IdAbogado"]}, ${row["IDEstado"]})" aria-label="Detalles"><i class="far fa-file-alt"></i> detalles cancelados</button>` : '') +
-                            '</div>' +
-                            '</div >';
+                        return `<div class='dropdown d-inline-block dropleft'>
+                                    <a href='#'' class='btn btn-sm btn-icon btn-outline-primary rounded-circle shadow-0' data-toggle='dropdown' aria-expanded='true' title='More options'>\n\t\t\t\t\t\t\t\t<i class=\"fal fa-ellipsis-v\"></i>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t
+                                    <div class='dropdown-menu'>
+                                        <a class='dropdown-item' href='javascript:void(0);' onclick="ActualizarTicket(${row["fiIDRequerimiento"]})">Actualizar Ticket</a>
+                                    </div>
+                                </div>`;
                     }
                 },
                 {
                     "data": "fiIDRequerimiento", "className": "td-responsive",
                     "render": function (data, type, row) {
                         var des = "";
-                        return row["fiIDRequerimiento"] + '<span class="text-muted">' + ' | <a href="javascript:void(0)" onclick="abrirModalDetalle(' + row["fiIDRequerimiento"] + ')"" >' + row["fcTituloRequerimiento"] + '</a> </span>'
+                        return row["fiIDRequerimiento"] + '<span class="text-muted">' + ' | <b href="javascript:void(0)" onclick="abrirModalDetalle(' + row["fiIDRequerimiento"] + ')"" >' + row["fcTituloRequerimiento"] + '</b> </span>'
 
                     }
                 },
@@ -277,7 +280,9 @@
                             return ""
 
                         } else {
+
                             return moment(row["fdFechaAsignacion"]).locale('es').format('YYYY/MM/DD hh:mm a');
+
                         }
 
                     }
