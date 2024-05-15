@@ -338,7 +338,7 @@
 <script>
     var estadoRequerimiento = 0;
     var ID_REQUERIMIENTO = @ViewBag.idticket;
-    const ID_USUARIO = "1"
+    var ID_USUARIO = "1"
 
     $(document).ready(function () {
         estadoRequerimiento = $("#dllEstadoRequerimiento option:selected").val();
@@ -350,7 +350,7 @@
         if (estadoRequerimiento == 1 && ID_USUARIO != "297" && ID_USUARIO != "298" && ID_USUARIO != "299" && ID_USUARIO != "300") {
             document.getElementById("txtComentario").disabled = true;
             document.getElementById("dllEstadoConfimar").disabled = true;
-            $("#txtComentario").val("Se cambio el estado del requerimiento a abierto");
+            //$("#txtComentario").val("Se cambio el estado del requerimiento a abierto");
             $("#dllEstadoConfimar").val(2);
         }
 
@@ -394,22 +394,31 @@
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("ActualizarDatos", "Ticket")",
-                data: { ticket: requerimiento },
+                data: { ticket: requerimiento, comentario: $("#txtComentario").val()},
                 error: function (xhr, ajaxOptions, thrownError) {
-                    MensajeError("Error, contacte al administrador.");
+                    //MensajeError("Error, contacte al administrador.");
+                    var dataerror = { Titulo: "Error", Mensaje: "Error Al Actualizar el Ticket", Estado: false }
+                    AlertaAjax(dataerror)
                 },
                 success: function (data) {
+                    console.log(data);
+                    
                     let resultado = data.d;
-                    if (resultado.ResultadoExitoso == true) {
+                    if (data.Estado == true) {
+                        var dataerror = { Titulo: "Exito", Mensaje: "Se Actualizo el Ticket Correctamente", Estado: true }
+                        AlertaAjax(dataerror)
                         $("#txtComentario").val(""),
-                            MensajeExitoModal('los datos se Actualizaron correctamente.');
+                          //  MensajeExitoModal('los datos se Actualizaron correctamente.');
                         $("#modalConfirmarDatos").modal('hide');
                         //window.location = "BandejaRequerimientoDesarrollo.aspx?" + window.location.href.split('?')[1];
+                        window.location.href ="@Url.Action("Index", "Ticket")"
                         //CargarDetalleBitacora();
                         //location.reload();
                     }
                     else {
-                        MensajeErrorModal("No se pudo realizar la actualizacion de Datos, contacte al administrador.");
+                        var dataerror = { Titulo: "Error", Mensaje: "Error Al Actualizar el Ticket", Estado: false }
+                        AlertaAjax(dataerror)
+                        //MensajeErrorModal("No se pudo realizar la actualizacion de Datos, contacte al administrador.");
                     }
 
 

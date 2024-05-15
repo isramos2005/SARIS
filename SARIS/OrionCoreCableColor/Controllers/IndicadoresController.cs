@@ -57,11 +57,9 @@ namespace OrionCoreCableColor.Controllers
         {
             using (var context = new SARISEntities1())
             {
-                var newModel = context.sp_Indicadores_Insertar(model.fcTipoRequerimiento.Trim());
+                var newModel = context.sp_Indicadores_Insertar(model.fcTipoRequerimiento);
 
-                Console.WriteLine(newModel);
-
-                return EnviarResultado(true, "Crear Indicador", "Se Creó Satisfactoriamente");
+                return EnviarResultado(true, "Editar Indicador", "Se Creó Satisfactoriamente");
 
             }
 
@@ -76,8 +74,7 @@ namespace OrionCoreCableColor.Controllers
                 var indicador = context.sp_Indicadores_Lista().FirstOrDefault(x => x.fiIDTipoRequerimiento == id);
                 if (indicador != null)
                 {
-                    return PartialView("Crear", new IndicadoresCrearViewModel { fiIDTipoRequerimiento = indicador.fiIDTipoRequerimiento, fcTipoRequerimiento = indicador.fcTipoRequerimiento.Trim() , EsEditar = true});
-
+                    return PartialView("Crear", new IndicadoresCrearViewModel { fiIDTipoRequerimiento = indicador.fiIDTipoRequerimiento, fcTipoRequerimiento = indicador.fcTipoRequerimiento });
                 }
                 else
                 {
@@ -93,7 +90,17 @@ namespace OrionCoreCableColor.Controllers
             {
                 var indicador = context.sp_Indicadores_Lista().FirstOrDefault(x => x.fcTipoRequerimiento == model.fcTipoRequerimiento && x.fiIDTipoRequerimiento != model.fiIDTipoRequerimiento);
 
-                var newModel = context.sp_Indicadores_Editar(model.fiIDTipoRequerimiento, model.fcTipoRequerimiento.Trim());
+                if (indicador != null)
+                {
+
+                }
+                else
+                {
+
+                }
+
+
+                var newModel = context.sp_Indicadores_Editar(model.fiIDTipoRequerimiento, model.fcTipoRequerimiento);
                 var result = context.SaveChanges() > 0;
 
                 return EnviarResultado(true, "Editar Indicador", "Se edito Satisfactoriamente");
