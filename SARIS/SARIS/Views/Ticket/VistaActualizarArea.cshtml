@@ -96,9 +96,10 @@
             },
             success: function (data) {
                 console.log(data);
+                window.location.href ="@Url.Action("Index", "Ticket")"//cambiarlo de estado despues
                 if (data.fiMensaje == "1") {
                     CerrarModal();
-                    window.location.href ="@Url.Action("Index", "Ticket")"
+
                     //GuardarDocumentos(data.IdIngresado);
                 }
             }

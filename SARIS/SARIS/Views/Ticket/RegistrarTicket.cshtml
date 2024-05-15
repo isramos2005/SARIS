@@ -190,17 +190,17 @@
     function GuardarDocumentos(IdRequerimiento) {
         debugger
         //const form = new FormData();
-        
+
         //form.append("idDocumento", 1);
         var mod = [];
-        
+
         var cont = 0;
         if (fotosredimencionadas.length < 1) {
             var datasus = { Titulo: "Exito", Mensaje: "Ticket Guardado correctamente", Estado: true }
             AlertaAjax(datasus)
             return 0;
         }
-        
+
         for (const item of fotosredimencionadas) {
             mod.push({ piIDRequerimiento: IdRequerimiento, pcTipoArchivo: 1, pcNombreArchivo: item.nombreArchivo, pcRutaArchivo: item.base, idSesion: 1, idApp: 1, pcURL: "-" });
 
@@ -215,7 +215,7 @@
             //cont++
         }
 
-        
+
         $.ajax({
             url: "@Url.Action("Guardardocumentos", "Ticket")",
             type: "POST",
@@ -243,7 +243,7 @@
 
 
     function GuardarRequermiento(id) {
-        
+
         var EstadoRequerimiento = id;
 
         var ticket = {
@@ -265,6 +265,7 @@
             },
             success: function (data) {
                 console.log(data);
+                window.location.href ="@Url.Action("Index", "Ticket")"
                 if (data.fiMensaje == "1") {
                     CerrarModal();
                     GuardarDocumentos(data.IdIngresado);
@@ -317,7 +318,7 @@
     $("#btnGuardarRequerimientoEnviar").click(function (e) {
 
         GuardarRequermiento(1);
-        
+
     });
 
     function RedimencionarImagen(idcanva, eimagencaptada, idimg,NombreArchivo) {
