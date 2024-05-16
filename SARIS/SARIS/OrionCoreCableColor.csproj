@@ -500,8 +500,12 @@
     <Compile Include="Models\Base\MensajeRespuestaViewModel.cs" />
     <Compile Include="Models\Base\ObjSignalRModalViewModel.cs" />
     <Compile Include="Models\Base\TicketNotificacionViewModel.cs" />
+    <Compile Include="Models\DashBoard\AreasIncidentesViewModel.cs" />
+    <Compile Include="Models\DashBoard\AreaTiempoViewModel.cs" />
     <Compile Include="Models\DashBoard\BulletViewModel.cs" />
+    <Compile Include="Models\DashBoard\ConteoIncidenteViewModel.cs" />
     <Compile Include="Models\DashBoard\DashboardViewModel.cs" />
+    <Compile Include="Models\DashBoard\IndicadoresViewModel.cs" />
     <Compile Include="Models\DashBoard\Indicadores_ViewModel.cs" />
     <Compile Include="Models\DashBoard\Requerimiento_Detalle_Hora_ViewModel.cs" />
     <Compile Include="Models\EmailTemplateService\EmailTemplateServiceModel.cs" />

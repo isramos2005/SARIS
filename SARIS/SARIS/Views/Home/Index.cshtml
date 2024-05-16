@@ -1,171 +1,319 @@
-﻿@if (User.IsInRole("Orion_Acceso_Dashboard"))
-{
-
-
+﻿
+@{
+    ViewBag.Title = "Index";
 }
+
+<div class="row">
+    <div class="col-sm-6 col-xl-3">
+        <div class="p-3 bg-danger-200 rounded overflow-hidden position-relative text-white mb-g">
+            <div class="">
+                <h3 class="text-white display-4 d-block l-h-n m-0 fw-500">
+                    <label id="lblTicketActivos"></label>
+                    <small class="m-0 l-h-n">Ticket Activos</small>
+                </h3>
+            </div>
+            <i class="fal fa-ticket position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n1" style="font-size:6rem"></i>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="p-3 bg-success-700 rounded overflow-hidden position-relative text-white mb-g">
+            <div class="">
+                <h3 class="text-white display-4 d-block l-h-n m-0 fw-500">
+                    <label id="lblTicket4H"></label>
+                    <small class="m-0 l-h-n">Ticket con mas de 4 Horas</small>
+                </h3>
+            </div>
+            <i class="fal fa-ticket position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n1" style="font-size:6rem"></i>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="p-3 bg-warning-700 rounded overflow-hidden position-relative text-white mb-g">
+            <div class="">
+                <h3 class="text-white display-4 d-block l-h-n m-0 fw-500">
+                    <label id="lblTicket8H"></label>
+                    <small class="m-0 l-h-n">Ticket con mas de 8 Horas</small>
+                </h3>
+            </div>
+            <i class="fal fa-ticket position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n4" style="font-size: 6rem;"></i>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="p-3 bg-danger-200 rounded overflow-hidden position-relative text-white mb-g">
+            <div class="">
+                <h3 class="text-white display-4 d-block l-h-n m-0 fw-500">
+                    <label id="lblTicket24H"></label>
+                    <small class="m-0 l-h-n">Ticket con mas de 24 Horas</small>
+                </h3>
+            </div>
+            <i class="fal fa-ticket position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n1" style="font-size:6rem"></i>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="row">
+
+            <div class="col-xl-6" style="display:block">
+                <div id="panel-1" class="panel">
+                    <div class="panel-hdr">
+                        <h2>
+                            Comparativo <span class="fw-300"><i>Tickets por Area</i></span>
+                        </h2>
+                        <div class="panel-toolbar">
+                            <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+                            <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
+                            <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
+                        </div>
+                    </div>
+                    <div class="panel-container show">
+                        <div class="panel-content">
+                            <div class="panel-tag">
+                                Grafica para saber la cantidad de Ticket por area
+                            </div>
+                            <div id="chartTicketArea" style="width: 100%; height: 1px;">
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6" style="display:block">
+                <div id="panel-1" class="panel">
+                    <div class="panel-hdr">
+                        <h2>
+                            Comparativo <span class="fw-300"><i>Horas por Area</i></span>
+                        </h2>
+                        <div class="panel-toolbar">
+                            <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+                            <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
+                            <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
+                        </div>
+                    </div>
+                    <div class="panel-container show">
+                        <div class="panel-content">
+                            <div class="panel-tag">
+                                Grafica para saber la Horas por area
+                            </div>
+                            <div id="chartHoras" style="width: 100%; height: 1px;">
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6" style="display:block">
+                <div id="panel-1" class="panel">
+                    <div class="panel-hdr">
+                        <h2>
+                            Comparativo <span class="fw-300"><i>Conteo por Incidentes</i></span>
+                        </h2>
+                        <div class="panel-toolbar">
+                            <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+                            <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
+                            <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
+                        </div>
+                    </div>
+                    <div class="panel-container show">
+                        <div class="panel-content">
+                            <div class="panel-tag">
+                                Grafica para saber la cantidad de Incidentes
+                            </div>
+                            <div id="chartConteo" style="width: 100%; height: 1px;">
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <script src="~/Content/js/statistics/ApexchartEchoaMano.js"></script>
-<script src="~/Content/js/miscellaneous/fullcalendar/fullcalendar.bundle.js"></script>
-<script src="~/Content/js/dependency/moment/moment.js"></script>
 
 @section Scripts{
 
     <script>
 
+        $(document).ready(function () {
+            datos()
+        });
 
-    </script>
-
-    <script>
-        function newEvent(titulo, fecha, clase, objetocompleto) {
-            var milliseconds = parseInt(fecha.replace(/\/Date\((-?\d+)\)\//, '$1'));
-            var date = new Date(milliseconds);
-            var momentDate = moment(date);
-            var fechaformat = momentDate.format('YYYY-MM-DD');
-            var todayDate = moment().startOf('day');
-
-
-            var YM = todayDate.format('YYYY-MM');
-
-            if (clase.trim() == "info") {
-                var json = {
-                    title: titulo,
-                    description: objetocompleto,
-                    start: fechaformat,
-                    end: YM,
-                    className: `bg-${clase} border-${clase} text-white`
-                };
-            }
-            else {
-                var json = {
-                    title: titulo,
-                    description: objetocompleto,
-                    start: fechaformat,
-                    className: `bg-${clase} border-${clase} text-white`
-                };
-            }
-
-
-            return json;
-        }
-
-
-
-        function modalInfo(info) {
-            var milliseconds = parseInt(info.fdFechaInstalacion.replace(/\/Date\((-?\d+)\)\//, '$1'));
-            var date = new Date(milliseconds);
-            var momentDate = moment(date);
-            var fechaformat = momentDate.format('YYYY-MM-DD');
-
-
-            $('#nombreCliente').text("Cliente: "+info.fcNombreCliente);
-            $('#fechaInstalacion').val(fechaformat);
-            $('#fcTelefonoCliente').val(info.fcTelefonoCliente);
-            $('#fcNombreTecnico').val(info.fcNombreTecnico);
-            $('#fcDescripcion').text(info.fcDescripcion);
-            $('#fcDescripcion').removeClass();
-            $('#fcDescripcion').addClass(`bg-${info.fcClase} text-white fs-2 opacity-50 col-12 pt-3 pb-3 rounded`);
-
-
-            $('#ModalInfoCalender').modal('show');
-        }
-
-
-        function modalClose() {
-            $('#ModalInfoCalender').modal('hide');
-        }
-
-        function inicializarCalendario() {
-            var jsonEvent = [];
-
+        function datos()
+        {
             $.ajax({
-                url: "@Url.Action("ListaSolicitudes", "Contratista")",
-                type: "GET",
-                success: function (respuesta) {
-
-                    for (var i in respuesta) {
-
-                        if (["Pendiente", "Asignado", "Proceso", "Validacion", "Validado soporte"].includes(respuesta[i]["fcDescripcion"])) {
-
-                            jsonEvent.push(newEvent(respuesta[i]["fcNombreCliente"], respuesta[i]["fdFechaInstalacion"], respuesta[i]["fcClase"], respuesta[i]));
-                        }
-                    }
-
-
-                    var calendarEl = document.getElementById('calendar');
-
-                    var calendar = new FullCalendar.Calendar(calendarEl, {
-
-                        eventClick: function (info) {
-                            modalInfo(info.event.extendedProps.description);
-                        },
-
-                        plugins: ['dayGrid', 'list', 'timeGrid', 'interaction', 'bootstrap'],
-                        themeSystem: 'bootstrap',
-                        timeZone: 'UTC',
-                        buttonText: {
-                            today: 'Hoy',
-                            month: 'Mes',
-                            week: 'Semana',
-                            day: 'Día',
-                            list: 'Listado'
-                        },
-                        eventTimeFormat: {
-                            hour: 'numeric',
-                            minute: '2-digit',
-                            meridiem: 'short'
-                        },
-                        navLinks: true,
-                        header: {
-                            left: 'prev,next today addEventButton',
-                            center: 'title',
-                            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-                        },
-                        footer: {
-                            left: '',
-                            center: '',
-                            right: ''
-                        },
-                        height: 700,
-                        editable: false,
-                        eventLimit: false,
-                        views: {
-                            sevenDays: {
-                                type: 'agenda',
-                                buttonText: '7 Días',
-                                visibleRange: function (currentDate) {
-                                    return {
-                                        start: currentDate.clone().subtract(2, 'days'),
-                                        end: currentDate.clone().add(5, 'days'),
-                                    };
-                                },
-                                duration: {
-                                    days: 7
-                                },
-                                dateIncrement: {
-                                    days: 1
-                                },
-                            },
-                        },
-
-                        events: jsonEvent,
-                        locale: 'es',
-                        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
-                        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
-                    });
-
-                    calendar.render();
+                url: "@Url.Action("Indicadores", "Dashboard")",
+                method: "get",
+                data: {},
+                 success: function (resp) {
+                     debugger;
+                     console.log(resp)
+                     BulletIndicadores(resp.BulletViewModel);
+                     graficaTicketArea(resp.AreasIncidentes);
+                     graficaHoras(resp.AreasTiempo);
+                     graficaConteo(resp.ConteoIncidentes);
                 },
-                error: function (respuesta) {
-                    console.log(respuesta);
+                error: function (resp) {
+
                 }
             });
         }
 
+        function BulletIndicadores(datos)
+        {
+            $("#lblTicketActivos").text(datos[0].fiIncidentesActivos);
+            $("#lblTicket4H").text(datos[0].fiIncidentes4Horas);
+            $("#lblTicket8H").text(datos[0].fiIncidentes8Horas);
+            $("#lblTicket24H").text(datos[0].fiIncidentes24Horas);
+        }
 
-    inicializarCalendario();
+        function graficaTicketArea(datos)
+        {
+            debugger;
+            //Grafica para Incidentes por area Conteo
+            var labels = [];
+            for (var i = 0; i < datos.length; i++)
+            {
+                labels.push(datos[i].fcAreaAsignada)
+            }
+
+            var valores = [];
+            for (var i = 0; i < datos.length; i++) {
+                valores.push(datos[i].fiIDIncidentes)
+            }
+
+            debugger;
+            var optionsTicketArea = {
+                labels: labels,
+                series: valores,
+                chart: {
+                    type: 'polarArea',
+                },
+                stroke: {
+                    colors: ['#fff']
+                },
+                fill: {
+                    opacity: 0.8
+                },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+            };
+
+            var chartTicketArea = new ApexCharts(document.querySelector("#chartTicketArea"), optionsTicketArea);
+            chartTicketArea.render();
+            //fin
+        }
+
+        function graficaHoras(datos)
+        {
+            //Grafica Conteo Horas por Area
+
+            debugger;
+            //Grafica para Incidentes por area Conteo
+            var labels = [];
+            for (var i = 0; i < datos.length; i++) {
+                labels.push(datos[i].fcAreaAsignada)
+            }
+
+            var valores = [];
+            for (var i = 0; i < datos.length; i++) {
+                valores.push(datos[i].fiTiempoAcumulado)
+            }
+
+            var optionsHoras = {
+                labels: labels,
+                series: valores,
+                chart: {
+                    type: 'polarArea',
+                },
+                stroke: {
+                    colors: ['#fff']
+                },
+                fill: {
+                    opacity: 0.8
+                },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+            };
+
+            var chartHoras = new ApexCharts(document.querySelector("#chartHoras"), optionsHoras);
+            chartHoras.render();
+            //fin
+        }
+
+        function graficaConteo(datos)
+        {
+            //Grafica para Conteo por incidentes
+            debugger;
+            //Grafica para Incidentes por area Conteo
+            var labels = [];
+            for (var i = 0; i < datos.length; i++) {
+                labels.push(datos[i].fcIncidente)
+            }
+
+            var valores = [];
+            for (var i = 0; i < datos.length; i++) {
+                valores.push(datos[i].fiIDIncidentes)
+            }
+
+            var optionsConteo = {
+                labels: labels,
+                series: valores,
+                chart: {
+                    type: 'polarArea',
+                },
+                stroke: {
+                    colors: ['#fff']
+                },
+                fill: {
+                    opacity: 0.8
+                },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+            };
+
+            var chartConteo = new ApexCharts(document.querySelector("#chartConteo"), optionsConteo);
+            chartConteo.render();
+            //fin
+        }
+
     </script>
-
-
-
 
 }
