@@ -1,0 +1,40 @@
+/** {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    color: #fff;
+    background: linear-gradient(45deg, black, #80009e, black, #80009e);
+    background-size: 400% 400%;
+    position: relative;
+    animation: cambiar 40s ease-in-out infinite alternate;
+}
+
+@keyframes cambiar {
+    0% {
+        background-position: 0 50%;
+    }
+
+    100% {
+        background-position: 100% 50%;
+    }
+}
+*/
+
+.gradient-border {
+    border: 2px solid;
+    animation: gradientAnimation 5s infinite alternate;
+}
+
+@keyframes gradientAnimation {
+    0% {
+        border-image: linear-gradient(to right, blue, purple) 1;
+    }
+
+    100% {
+        border-image: linear-gradient(to right, purple, blue) 1;
+    }
+}
