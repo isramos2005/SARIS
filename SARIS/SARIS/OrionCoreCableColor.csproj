@@ -370,19 +370,19 @@
       <DependentUpon>SoporteOP.tt</DependentUpon>
     </Compile>
     <Compile Include="DbConnection\SARIS.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>SARIS.Context.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="DbConnection\SARIS.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>SARIS.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="DbConnection\SARIS.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>SARIS.edmx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="DbConnection\SoporteOP.Context.cs">
       <AutoGen>True</AutoGen>
@@ -1031,13 +1031,16 @@
     <Content Include="Content\media\video\36150715-heavenly-clouds-v2-license.txt" />
     <Content Include="Content\media\video\cc.webm" />
     <Content Include="DbConnection\SARIS.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SARIS.edmx</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SARIS.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="DbConnection\SARIS.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
+    <Content Include="DbConnection\SARIS.edmx.diagram">
       <DependentUpon>SARIS.edmx</DependentUpon>
+    </Content>
+    <Content Include="DbConnection\SARIS.tt">
+      <DependentUpon>SARIS.edmx</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SARIS.cs</LastGenOutput>
     </Content>
     <Content Include="DbConnection\SoporteOP.Context.tt">
@@ -1691,19 +1694,16 @@
     <Content Include="webfonts\fa-regular-400.svg" />
     <Content Include="webfonts\fa-solid-900.svg" />
     <Content Include="webfonts\nextgen-icons.svg" />
+    <EntityDeploy Include="DbConnection\SARIS.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SARIS.Designer.cs</LastGenOutput>
+    </EntityDeploy>
     <EntityDeploy Include="DbConnection\SoporteOP.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>SoporteOP.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <Content Include="DbConnection\SoporteOP.edmx.diagram">
       <DependentUpon>SoporteOP.edmx</DependentUpon>
-    </Content>
-    <EntityDeploy Include="DbConnection\SARIS.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>SARIS.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="DbConnection\SARIS.edmx.diagram">
-      <DependentUpon>SARIS.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
