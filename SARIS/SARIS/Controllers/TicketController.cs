@@ -172,7 +172,9 @@ namespace OrionCoreCableColor.Controllers
                     {
                         var idarea = (ticket.fiAreaAsignada == 0) ? 6 : ticket.fiAreaAsignada; // aqui decimo que si el idarea no es asignada que lo ponga en pendiente y en dado casi si es asignada entonces que lo deje tal cual
                         //cambiar despues Los datos que se envian en duro para que sea mas dinamico las cosas 
-                        var save = contexto.sp_Requerimiento_Alta(1, 1, GetIdUser(), ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento,1, idarea).FirstOrDefault();
+                        var usuarioLogueado = contexto.sp_Usuarios_Maestro_PorIdUsuario(GetIdUser()).FirstOrDefault();
+
+                        var save = contexto.sp_Requerimiento_Alta(1, 1, GetIdUser(), ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento, 1, idarea, $"El usuario {usuarioLogueado.fcPrimerNombre} ${usuarioLogueado.fcPrimerApellido}").FirstOrDefault();
 
                         agregarCreacionTicket((int)save.IdIngresado);
                         return EnviarListaJson(save);

@@ -80,6 +80,7 @@
           <Parameter Name="piEstadoRequerimiento" Type="tinyint" Mode="In" />
           <Parameter Name="piTipoRequerimiento" Type="tinyint" Mode="In" />
           <Parameter Name="piIdArea" Type="int" Mode="In" />
+          <Parameter Name="pcComentario" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="sp_Requerimiento_Areas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="piIDSesion" Type="int" Mode="In" />
@@ -374,6 +375,7 @@
             <Parameter Name="piEstadoRequerimiento" Mode="In" Type="Byte" />
             <Parameter Name="piTipoRequerimiento" Mode="In" Type="Byte" />
             <Parameter Name="piIdArea" Mode="In" Type="Int32" />
+            <Parameter Name="pcComentario" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_Requerimiento_Areas_Result">

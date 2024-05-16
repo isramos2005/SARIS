@@ -608,7 +608,7 @@ namespace OrionCoreCableColor.DbConnection
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Requerimientos_Bandeja_ByID_Result>("sp_Requerimientos_Bandeja_ByID", piIDSesionParameter, piIDAppParameter, piIDUsuarioParameter, piIDRequerimientosParameter);
         }
     
-        public virtual ObjectResult<sp_Requerimiento_Alta_Result> sp_Requerimiento_Alta(Nullable<int> piIDSesion, Nullable<short> piIDApp, Nullable<int> piIDUsuario, string pcTituloRequerimiento, string pcDetalleRequerimiento, Nullable<byte> piEstadoRequerimiento, Nullable<byte> piTipoRequerimiento, Nullable<int> piIdArea)
+        public virtual ObjectResult<sp_Requerimiento_Alta_Result> sp_Requerimiento_Alta(Nullable<int> piIDSesion, Nullable<short> piIDApp, Nullable<int> piIDUsuario, string pcTituloRequerimiento, string pcDetalleRequerimiento, Nullable<byte> piEstadoRequerimiento, Nullable<byte> piTipoRequerimiento, Nullable<int> piIdArea, string pcComentario)
         {
             var piIDSesionParameter = piIDSesion.HasValue ?
                 new ObjectParameter("piIDSesion", piIDSesion) :
@@ -642,7 +642,11 @@ namespace OrionCoreCableColor.DbConnection
                 new ObjectParameter("piIdArea", piIdArea) :
                 new ObjectParameter("piIdArea", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Requerimiento_Alta_Result>("sp_Requerimiento_Alta", piIDSesionParameter, piIDAppParameter, piIDUsuarioParameter, pcTituloRequerimientoParameter, pcDetalleRequerimientoParameter, piEstadoRequerimientoParameter, piTipoRequerimientoParameter, piIdAreaParameter);
+            var pcComentarioParameter = pcComentario != null ?
+                new ObjectParameter("pcComentario", pcComentario) :
+                new ObjectParameter("pcComentario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Requerimiento_Alta_Result>("sp_Requerimiento_Alta", piIDSesionParameter, piIDAppParameter, piIDUsuarioParameter, pcTituloRequerimientoParameter, pcDetalleRequerimientoParameter, piEstadoRequerimientoParameter, piTipoRequerimientoParameter, piIdAreaParameter, pcComentarioParameter);
         }
     }
 }

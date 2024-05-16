@@ -182,6 +182,7 @@
       <Parameter Name="piEstadoRequerimiento" Mode="In" Type="Byte" />
       <Parameter Name="piTipoRequerimiento" Mode="In" Type="Byte" />
       <Parameter Name="piIdArea" Mode="In" Type="Int32" />
+      <Parameter Name="pcComentario" Mode="In" Type="String" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_Requerimiento_Areas_Result">
