@@ -17,11 +17,10 @@ namespace OrionCoreCableColor.Controllers
             return View();
         }
 
-
         [HttpGet]
-        public JsonResult ListaPersonal(DateTime Fecha)
+        public JsonResult Indicadores()
         {
-            var listaEquifaxGarantia = new List<DashboardViewModel>();
+            var Indicadores = new DashboardViewModel();
 
             try
             {
@@ -30,18 +29,22 @@ namespace OrionCoreCableColor.Controllers
 
                     connection.Open();
                     var command = connection.CreateCommand();
-                    command.CommandText = $"EXEC sp_Requerimiento_Indicadores {1},'{Fecha.ToString("yyyy-MM-dd")}'";
+                    command.CommandText = $"EXEC sp_DashboardGlobal";
                     using (var reader = command.ExecuteReader())
                     {
                         var db = ((IObjectContextAdapter)new SARISEntities1());
+                        Indicadores.BulletViewModel = db.ObjectContext.Translate<IndicadoresViewModel>(reader).ToList();
                         reader.NextResult();
+                        Indicadores.AreasIncidentes = db.ObjectContext.Translate<AreasIncidentesViewModel>(reader).ToList();
                         reader.NextResult();
-                        listaEquifaxGarantia = db.ObjectContext.Translate<DashboardViewModel>(reader).ToList();
+                        Indicadores.AreasTiempo = db.ObjectContext.Translate<AreaTiempoViewModel>(reader).ToList();
+                        reader.NextResult();
+                        Indicadores.ConteoIncidentes = db.ObjectContext.Translate<ConteoIncidenteViewModel>(reader).ToList();
                     }
 
                     connection.Close();
 
-                    return EnviarListaJson(listaEquifaxGarantia);
+                    return EnviarListaJson(Indicadores);
                 }
             }
             catch (Exception e)
@@ -54,73 +57,7 @@ namespace OrionCoreCableColor.Controllers
         }
 
 
-        [HttpGet]
-        public JsonResult ProcesosIndicador(DateTime Fecha)
-        {
-            var listaEquifaxGarantia = new List<Requerimiento_Detalle_Hora_ViewModel>();
-
-            try
-            {
-                using (var connection = (new SARISEntities1()).Database.Connection)
-                {
-
-                    connection.Open();
-                    var command = connection.CreateCommand();
-                    command.CommandText = $"EXEC sp_Requerimiento_Indicadores {1},'{Fecha.ToString("yyyy-MM-dd")}'";
-                    using (var reader = command.ExecuteReader())
-                    {
-                        var db = ((IObjectContextAdapter)new SARISEntities1());
-                        listaEquifaxGarantia = db.ObjectContext.Translate<Requerimiento_Detalle_Hora_ViewModel>(reader).ToList();
-                    }
-
-                    connection.Close();
-
-                    return EnviarListaJson(listaEquifaxGarantia);
-                }
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
-
-
-        }
-
-
-        [HttpGet]
-        public JsonResult ProcesosIndicadorGrafica(DateTime Fecha)
-        {
-            var listaEquifaxGarantia = new List<Indicadores_ViewModel>();
-
-            try
-            {
-                using (var connection = (new SARISEntities1()).Database.Connection)
-                {
-
-                    connection.Open();
-                    var command = connection.CreateCommand();
-                    command.CommandText = $"EXEC sp_Requerimiento_Indicadores {1},'{Fecha.ToString("yyyy-MM-dd")}'";
-                    using (var reader = command.ExecuteReader())
-                    {
-                        var db = ((IObjectContextAdapter)new SARISEntities1());
-                        reader.NextResult();
-                        listaEquifaxGarantia = db.ObjectContext.Translate<Indicadores_ViewModel>(reader).ToList();
-                    }
-
-                    connection.Close();
-
-                    return EnviarListaJson(listaEquifaxGarantia);
-                }
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
-
-
-        }
+        
 
 
     }
