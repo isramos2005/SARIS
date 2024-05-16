@@ -171,7 +171,7 @@ namespace OrionCoreCableColor.Controllers
                     try 
                     {
                         //cambiar despues Los datos que se envian en duro para que sea mas dinamico las cosas 
-                        var save = contexto.sp_Requerimiento_Alta(1, 1, GetIdUser(), ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento,1);
+                        //var save = contexto.sp_Requerimiento_Alta(1, 1, GetIdUser(), ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento,1,);
 
 
                         return EnviarResultado(true, "", "Ticket guardado exitosamente");
@@ -213,7 +213,7 @@ namespace OrionCoreCableColor.Controllers
                 using (var contexto = new SARISEntities1())
                 {
                     var result = contexto.sp_Requerimiento_Bitacoras_Agregar(GetIdUser(), ticket.fiIDRequerimiento, GetIdUser(), ticket.fcDescripcionRequerimiento, 1, ticket.fiIDEstadoRequerimiento);
-                    var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), ticket.fiIDRequerimiento, ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento, DateTime.Now, ticket.fiIDUsuarioAsignado, 0, ticket.fiTipoRequerimiento, 1);
+                    //var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), ticket.fiIDRequerimiento, ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento, DateTime.Now, ticket.fiIDUsuarioAsignado, 0, ticket.fiTipoRequerimiento, 1);
                     return EnviarResultado(true, "", "Ticket Actualizado exitosamente");
                 }
             }
