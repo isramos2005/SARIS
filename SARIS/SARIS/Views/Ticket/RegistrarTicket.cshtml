@@ -50,10 +50,10 @@
                 <!--<div class="col-sm-12">-->
                 <!--esto debe de ser un select -->
                 <!--<div class="form-group">
-    <label class="col-form-label">Area</label>
-    <input id="txtNombreTitulo" class="form-control" type="text" placeholder="Defina un Area" />
-        </div>
-    </div>-->
+            <label class="col-form-label">Area</label>
+            <input id="txtNombreTitulo" class="form-control" type="text" placeholder="Defina un Area" />
+                </div>
+            </div>-->
 
                 <div class="col-lg-12">
                     <div class="form-group">
@@ -95,13 +95,28 @@
                                 </div>
                             </div>
                         </form>
-
-
                     </div>
-
                 </div>
+
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-form-label">Comentario</label>
+                        <input id="txtcomentario" class="form-control" type="text" placeholder="Escriba un comentario para este Ticket" />
+                    </div>
+                </div>
+
             </div>
         </div>
+
+        <!--Comentario del ticket-->
+
+        <div class="col-lg-6">
+            <div class="row">
+                
+            </div>
+        </div>
+
+
 
     </div>
 
@@ -127,7 +142,7 @@
         </div>
     </div>
 </div>
-
+<script src="~/Content/js/loading/loading.js"></script>
 <script>
 
     var fotosredimencionadas = [];
@@ -243,7 +258,7 @@
 
 
     function GuardarRequermiento(id) {
-
+        H5_loading.show();
         var EstadoRequerimiento = id;
 
         var ticket = {
@@ -254,12 +269,18 @@
             //fiIDAreaSolicitante: $("#dllDepartamentoArea :selected").val() == '' ? 0 : $("#dllDepartamentoArea :selected").val(),
             //fcDescripcionAreaSolicitante: $("#dllDepartamentoArea").text(),
         }
+        var comentario = $("#txtcomentario").val();
+        if (comentario == "" || comentario == null) {
+            H5_loading.hide();
+            return ToastrError("Error", "Escriba un comentario");
+        }
 
         $.ajax({
             type: "POST",
             url: "@Url.Action("GuardarTicket", "Ticket")",
-            data: { ticket: ticket },
+            data: { ticket: ticket, comentarioticket: comentario },
             error: function (xhr, ajaxOptions, thrownError) {
+                H5_loading.hide();
                 var dataerror = { Titulo: "Error", Mensaje: "No se guardo el ticket, Contacte con el Administrador", Estado: false }
                 AlertaAjax(dataerror)
             },
@@ -267,6 +288,7 @@
                 console.log(data);
                 window.location.href ="@Url.Action("Index", "Ticket")"
                 if (data.fiMensaje == "1") {
+                    H5_loading.hide();
                     CerrarModal();
                     GuardarDocumentos(data.IdIngresado);
                 }

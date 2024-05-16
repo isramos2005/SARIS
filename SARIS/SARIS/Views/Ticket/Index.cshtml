@@ -23,7 +23,7 @@
                         <th style="width:80px">Area Asignada</th>
                         <th style="width:150px">Fecha Creacion Solicitud</th>
                         <th style="width:150px">Fecha Inicio</th>
-                        <th style="width:150px">Fecha Final</th>
+                        <th style="width:150px">Tiempo Transcurrido</th>
                         <th style="width:80px">Estado</th>
                     </tr>
                 </thead>
@@ -101,8 +101,9 @@
                     className: "text-center",
                     render: function (data) {
                         //console.log(data);
-                        var opt = `<div class='dropdown d-inline-block dropleft'>
-                                        <a href='#'' class='btn btn-sm btn-icon btn-outline-primary rounded-circle shadow-0' data-toggle='dropdown' aria-expanded='true' title='More options'>\n\t\t\t\t\t\t\t\t<i class=\"fal fa-ellipsis-v\"></i>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t
+                        var opt = `<a href='javascript:void(0);' onclick="EliminarTicket(${data.fiIDRequerimiento})" class='btn btn-sm btn-icon btn-outline-danger rounded-circle mr-1' title='Eliminar Ticket'><i class=\"fal fa-times\"></i></a>
+                                    <div class='dropdown d-inline-block dropleft'>
+                                        <a href='#'' class='btn btn-sm btn-icon btn-outline-primary rounded-circle shadow-0' data-toggle='dropdown' aria-expanded='true' title='Mas Opciones'><i class=\"fal fa-ellipsis-v\"></i></a>
                                         <div class='dropdown-menu'>
                                             <a class='dropdown-item' href='javascript:void(0);' onclick="ActualizarTicket(${data.fiIDRequerimiento})">Actualizar Ticket</a>
                                     `;
@@ -120,7 +121,8 @@
                                 opt += `  <a class='dropdown-item' href='javascript:void(0);' onclick="AsignarUsuario(${data.fiIDRequerimiento},${data.fiIDEstadoRequerimiento},${data.fiAreaAsignada})">Asignar Usuario</a>`;
                             }
                         }
-                        
+
+                        //`"<a href='javascript:void(0);' class='btn btn-sm btn-icon btn-outline-danger rounded-circle mr-1' title='Delete Record'><i class=\"fal fa-times\"></i></a><div class='dropdown d-inline-block dropleft'><a href='#'' class='btn btn-sm btn-icon btn-outline-primary rounded-circle shadow-0' data-toggle='dropdown' aria-expanded='true' title='More options'><i class=\"fal fa-ellipsis-v\"></i></a><div class='dropdown-menu'><a class='dropdown-item' href='javascript:void(0);'>Change Status</a><a class='dropdown-item' href='javascript:void(0);'>Generate Report</a></div></div>"`
 
                         opt += `</div>
                                 </div>`;
@@ -196,16 +198,19 @@
                     data: null,
                     className: "td-responsive",
                     render: function (data, type, row) {
-                        if (data.fdFechadeCierre == " / Date(1581400800000) /") {
-                            return ""
-                        } else {
-                            if (data.fiIDEstadoRequerimiento == 1) {
-                                return `<span class="btn-sm btn-block badge badge-secondary">Pendiente</span> `
-                            } else {
-                                return moment(data.fdFechadeCierre).locale('es').format('YYYY/MM/DD hh:mm a');
-                            }
 
-                        }
+                        var ahora = new Date();
+                        var fechaInicio = new Date(moment(data.fdFechaCreacion).locale('es').format('YYYY/MM/DD hh:mm a'));
+                        var diferencia = ahora.getTime() - fechaInicio.getTime();
+
+                        // Calcula los segundos, minutos, horas y días transcurridos
+                        var segundos = Math.floor(diferencia / 1000);
+                        var minutos = Math.floor(segundos / 60);
+                        var horas = Math.floor(minutos / 60);
+                        var dias = Math.floor(horas / 24);
+
+                        return `${dias} <b>Di.</b>, ${horas % 24} <b>Ho.</b>, ${minutos % 60} <b>Mi.</b>, ${segundos % 60} <b>Seg.</b>`;
+                        //return "Han transcurrido " + dias + " días, " + horas % 24 + " horas, " + minutos % 60 + " minutos, " + segundos % 60 + " segundos.";
                     }
                 },
 
@@ -284,7 +289,7 @@
                     className: "td-responsive",
                     render: function (data) {
                         var des = "";
-                        return `${data.fiIDRequerimiento} <span class="text-muted"> | | <b href="javascript:void(0)" onclick="abrirModalDetalle(${data.fiIDRequerimiento})> ${data.fcTituloRequerimiento}</b></span>`;
+                        return `${data.fiIDRequerimiento} <span class="text-muted"> | <b href="javascript:void(0)" onclick="abrirModalDetalle(${data.fiIDRequerimiento})"> ${data.fcTituloRequerimiento}</b></span>`;
 
                     }
                 },
@@ -359,7 +364,7 @@
                     className: "text-center",
                     render: function (data, type, row) {
 
-                        return `<a href="javascript:void(0)" onclick="ProcesosEstados(${data.fiIDRequerimiento})> <span class="btn-sm btn-block btn-${data.fcClaseColor}text-center"> ${data.fcDescripcionEstado}</span> </a>`;
+                        return `<a href="javascript:void(0)" onclick="ProcesosEstados(${data.fiIDRequerimiento})"> <span class="btn-sm btn-block btn-${data.fcClaseColor} text-center" > ${data.fcDescripcionEstado}</span> </a>`;
 
                     }
                 },
@@ -375,6 +380,66 @@
 
         });
 
+        function EliminarTicket(idticket) {
+
+            bootbox.confirm({
+                title: `<i class="" fa-times-circle text-danger mr-2'></i> Esta Seguro que desea Eliminar Este ticket <span class='fw-500'></span>`,
+                message: "<span><strong>Advertencia!:</strong> Esta Accion no se puede Reversar</span>",
+                centerVertical: true,
+                swapButtonOrder: true,
+                buttons: {
+                    confirm: {
+                        label: 'Si',
+                        className: 'btn-danger shadow-0'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-default'
+                    }
+                },
+                className: "modal-alert",
+                closeButton: false,
+                callback: function (result) {
+                    //console.log(result)
+                    if (result == true) {
+
+                    $.ajax({
+                        url: "@Url.Action("EliminarTicket", "Ticket")",
+                        type: "POST",
+                        data: { ticket: idticket },
+                        success: function (datas) {
+                            console.log(datas);
+                            var resultado = datas[0];
+                            
+                            $.ajax({
+                                url: "@Url.Action("GuardarBitacorahistorial", "Ticket")",
+                                type: "POST",
+                                data: { IdSolicitud: idsol, IdCliente: idclien, Observaciones: "Se Elimino el Ticket" },
+                                success: function (respuesta) {
+                                    var dataerror = { Titulo: "Exito", Mensaje: "Ticket Eliminado con Exito", Estado: true }
+                                    AlertaAjax(dataerror)
+                                    CerrarSuitAlert();
+                                },
+                                error: function (respuesta) {
+                                    var dataerror = { Titulo: "Error", Mensaje: "Error Al querer Eliminar el Ticket", Estado: false }
+                                    AlertaAjax(dataerror)
+                                }
+                            })
+                             
+                        },
+                        error: function (datae) {
+                            var dataerror = { Titulo: "Error", Mensaje: "Error Al querer Eliminar el Ticket", Estado: false }
+                            AlertaAjax(dataerror)
+                        }
+                    })
+                    }
+                    if (result == false) {
+
+                    }
+                }
+            });
+
+        }
 
 
         function ProcesosEstados(Ticket) {

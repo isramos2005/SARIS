@@ -20,6 +20,7 @@ namespace OrionCoreCableColor.DbConnection
         public byte fiIDAreaSolicitante { get; set; }
         public byte fiIDEstadoRequerimiento { get; set; }
         public int fiIDUsuarioAsignado { get; set; }
+        public int fiIDUsuarioSolicitante { get; set; }
         public System.DateTime fdFechaAsignacion { get; set; }
         public System.DateTime fdFechadeCierre { get; set; }
         public string fcBuzondeCorreo { get; set; }

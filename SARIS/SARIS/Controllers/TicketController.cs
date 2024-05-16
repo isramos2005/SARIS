@@ -135,6 +135,8 @@ namespace OrionCoreCableColor.Controllers
                 {
 
                     var cont = contexto.sp_Requerimiento_Maestro_Detalle(1, 1, GetIdUser(), idticket).FirstOrDefault();
+
+
                     var tick = new TicketMiewModel();
                     tick.fcDescripcionRequerimiento = cont.fcDescripcionRequerimiento;
                     tick.fiIDRequerimiento = cont.fiIDRequerimiento;
@@ -147,7 +149,14 @@ namespace OrionCoreCableColor.Controllers
                     tick.fdFechadeCierre = cont.fdFechadeCierre;
                     
                     ViewBag.ListarArea = contexto.sp_Areas_Lista().Select(x => new SelectListItem { Value = x.fiIDArea.ToString(), Text = x.fcDescripcion}).ToList();
-                    ViewBag.Estados = contexto.sp_Estados_Lista().Select(x => new SelectListItem { Value = x.fiIDEstado.ToString(), Text = x.fcDescripcionEstado }).ToList();
+                    if (GetIdUser() == cont.fiIDUsuarioSolicitante)
+                    {
+                        ViewBag.Estados = contexto.sp_Estados_Lista().Select(x => new SelectListItem { Value = x.fiIDEstado.ToString(), Text = x.fcDescripcionEstado }).ToList();
+                    }
+                    else
+                    {
+                        ViewBag.Estados = contexto.sp_Estados_Lista().Where(a => a.fiIDEstado != 5).Select(x => new SelectListItem { Value = x.fiIDEstado.ToString(), Text = x.fcDescripcionEstado }).ToList();
+                    }
                     ViewBag.Usuario = contexto.sp_Usuarios_Maestro_PorIdUsuarioSupervisor(1).Select(x => new SelectListItem { Value = x.fiIDUsuario.ToString(), Text = x.fcPrimerNombre + " " + x.fcPrimerApellido }).ToList();
                     ViewBag.idticket = idticket;
                     return PartialView(tick);
@@ -161,7 +170,7 @@ namespace OrionCoreCableColor.Controllers
         }
 
         [HttpPost]
-        public JsonResult GuardarTicket(TicketMiewModel ticket)
+        public JsonResult GuardarTicket(TicketMiewModel ticket,string comentarioticket)
         {
 
             try

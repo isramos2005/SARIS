@@ -171,9 +171,9 @@
                     data: null,
                     render: function (data) {
                         if (data.fiEstado) {
-                            return '<div class="badge badge-success">SI</div>';
+                            return '<span class="btn-sm btn-block badge badge-success">SI</span>';
                         } else {
-                            return '<div class="badge badge-danger">NO</div>';
+                            return '<span class="btn-sm btn-block badge badge-danger">NO</span>';
                         }
 
                     }
@@ -182,7 +182,7 @@
                     data: null,
                     render: function (data) {
 
-                        return `<span class="badge badge-info">${data.NombreRol}</span>`;
+                        return `<span class="btn-sm btn-block badge badge-info">${data.NombreRol}</span>`;
 
 
                     }
