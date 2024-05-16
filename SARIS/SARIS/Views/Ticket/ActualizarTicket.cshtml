@@ -53,6 +53,13 @@
                     </div>
                 </div>
 
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-form-label">Comentario</label>
+                        <input id="txtComentario" class="form-control" type="text" placeholder="Escriba un comentario para este Ticket" />
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -92,39 +99,14 @@
         </div>
     </div>
 
-</div>
-
-
-<div id="modalConfirmarDatos" class="modal fade" role="dialog" aria-labelledby="modalConfirmarDatosLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title mt-0" id="modalReiniciarInspeccionTallerSolicitudLabel">Confirmar Datos</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group row">
-                    <div class="col-12">
-                        <label class="col-form-label">Observaciones</label>
-                        <textarea id="txtComentario" runat="server" class="form-control form-control-sm" required="required" data-parsley-maxlength="150" data-parsley-minlength="15" rows="2"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="btnActualizarDatos_Confirmar" type="button" class="btn btn-danger">
-                    Confirmar
-                </button>
-                <button type="reset" data-dismiss="modal" class="btn btn-secondary">
-                    Cancelar
-                </button>
-            </div>
+    <div class="row">
+        <div class="col-lg-6">
+        
         </div>
     </div>
+
+
 </div>
-
-
-
-
 
 
 <script>
@@ -142,15 +124,7 @@
     });
 
     $("#btnActualizarDatosRequerimiento").click(function () {
-        $("#modalConfirmarDatos").modal();
-
-        if (estadoRequerimiento == 1 && ID_USUARIO != "297" && ID_USUARIO != "298" && ID_USUARIO != "299" && ID_USUARIO != "300") {
-            document.getElementById("txtComentario").disabled = true;
-            document.getElementById("dllEstadoConfimar").disabled = true;
-            //$("#txtComentario").val("Se cambio el estado del requerimiento a abierto");
-            $("#dllEstadoConfimar").val(2);
-        }
-
+        ActualizarDatos();
     });
 
     function ActualizarDatos() {
@@ -159,9 +133,10 @@
 
         if ($("#txtComentario").val() != "" || $("#txtComentario").val() != null) {
             var bitacora = {
-                idRequerimiento: ID_REQUERIMIENTO,
+                //idRequerimiento: ID_REQUERIMIENTO,
                 Observaciones: $("#txtComentario").val(),
             }
+            
             var requerimiento = {
                 fiIDRequerimiento: ID_REQUERIMIENTO,
                 fcTituloRequerimiento: $("#fcTituloRequerimiento").val(),
@@ -174,7 +149,7 @@
                 fiTipoRequerimiento: 1,//$("#txtComentario").val(),
                 fiIDAreaSolicitante: $("#fiIDAreaSolicitante option:selected").val() == null ? 0 : parseInt($("#fiIDAreaSolicitante option:selected").val()),//$("#txtComentario").val(),
                 fcNombreAreaSolicitante: $("#fiIDAreaSolicitante :selected").text(),
-
+                fiAreaAsignada: $(`#fiAreaAsignada`).val() == null ? 0 : parseInt($("#fiAreaAsignada option:selected").val()),
             }
             $.ajax({
                 type: "POST",

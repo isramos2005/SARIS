@@ -22,7 +22,6 @@
                         <th style="width:80px">Usuario Asignado</th>
                         <th style="width:80px">Area Asignada</th>
                         <th style="width:150px">Fecha Creacion Solicitud</th>
-                        <th style="width:150px">Fecha Inicio</th>
                         <th style="width:150px">Tiempo Transcurrido</th>
                         <th style="width:80px">Estado</th>
                     </tr>
@@ -51,7 +50,7 @@
                         <th style="width:80px">Area Asignada</th>
                         <th style="width:150px">Fecha Creacion Solicitud</th>
                         <th style="width:150px">Fecha Inicio</th>
-                        <th style="width:150px">Fecha Final</th>
+                        <th style="width:150px">Tiempo Transcurrido</th>
                         <th style="width:80px">Estado</th>
                     </tr>
                 </thead>
@@ -68,7 +67,9 @@
 @section Scripts{
     
     <script>
-        var tablaPrincipal = $('#TablaPrincipalTicket').DataTable({
+        var idusuariologueado = @ViewBag.idUsuario;
+
+        var tablaPrincipalticket = $('#TablaPrincipalTicket').DataTable({
 
             autoWidth: true,
             responsive: true,
@@ -101,7 +102,13 @@
                     className: "text-center",
                     render: function (data) {
                         //console.log(data);
-                        var opt = `<a href='javascript:void(0);' onclick="EliminarTicket(${data.fiIDRequerimiento})" class='btn btn-sm btn-icon btn-outline-danger rounded-circle mr-1' title='Eliminar Ticket'><i class=\"fal fa-times\"></i></a>
+                        var opt = ``;
+                        //console.log(data)
+                       
+                        if (idusuariologueado == data.fiIDUsuarioSolicitante) {
+                            opt += `<a href='javascript:void(0);' onclick="EliminarTicket(${data.fiIDRequerimiento})" class='btn btn-sm btn-icon btn-outline-danger rounded-circle mr-1' title='Eliminar Ticket'><i class=\"fal fa-times\"></i></a>`;
+                        }
+                        opt += `
                                     <div class='dropdown d-inline-block dropleft'>
                                         <a href='#'' class='btn btn-sm btn-icon btn-outline-primary rounded-circle shadow-0' data-toggle='dropdown' aria-expanded='true' title='Mas Opciones'><i class=\"fal fa-ellipsis-v\"></i></a>
                                         <div class='dropdown-menu'>
@@ -116,7 +123,7 @@
                         }
 
                         if (@Json.Encode(User.IsInRole("SARIS_AsignarTicket_Usuarios"))) {
-                            if (data.fiIDUsuarioAsignado == 0 && data.fiAreaAsignada != 6)//es 0 por que es pendiente de asignar, se deberia de hacer mejor desde la base de datos
+                            if ((data.fiAreaAsignada != 6) & 1 == 1 )//es 0 por que es pendiente de asignar, se deberia de hacer mejor desde la base de datos
                             {
                                 opt += `  <a class='dropdown-item' href='javascript:void(0);' onclick="AsignarUsuario(${data.fiIDRequerimiento},${data.fiIDEstadoRequerimiento},${data.fiAreaAsignada})">Asignar Usuario</a>`;
                             }
@@ -177,23 +184,7 @@
                         return moment(data.fdFechaCreacion).locale('es').format('YYYY/MM/DD hh:mm a')
                     }
                 },
-                {
-                    data: null,
-                    className: "td-responsive",
-                    render: function (data) {
-                        if (data.fdFechaAsignacion == " / Date(1581400800000) /") {
-                            return ""
 
-                        } else {
-                            if (data.fiIDEstadoRequerimiento == 1) {
-                                return `<span class="btn-sm btn-block badge badge-secondary">Pendiente</span> `
-                            } else {
-                                return moment(data.fdFechaAsignacion).locale('es').format('YYYY/MM/DD hh:mm a');
-                            }
-                        }
-
-                    }
-                },
                 {
                     data: null,
                     className: "td-responsive",
@@ -240,7 +231,7 @@
             tabla.row.add(modelo).draw(false);
         }
 
-        var tablaPrincipal = $('#TablaPrincipalTicketCerrados').DataTable({
+        var tablaPrincipalcerrados = $('#TablaPrincipalTicketCerrados').DataTable({
 
             autoWidth: true,
             responsive: true,
@@ -406,26 +397,32 @@
                     $.ajax({
                         url: "@Url.Action("EliminarTicket", "Ticket")",
                         type: "POST",
-                        data: { ticket: idticket },
+                        data: { idticket: idticket },
                         success: function (datas) {
                             console.log(datas);
                             var resultado = datas[0];
-                            
-                            $.ajax({
-                                url: "@Url.Action("GuardarBitacorahistorial", "Ticket")",
-                                type: "POST",
-                                data: { IdSolicitud: idsol, IdCliente: idclien, Observaciones: "Se Elimino el Ticket" },
-                                success: function (respuesta) {
-                                    var dataerror = { Titulo: "Exito", Mensaje: "Ticket Eliminado con Exito", Estado: true }
-                                    AlertaAjax(dataerror)
-                                    CerrarSuitAlert();
-                                },
-                                error: function (respuesta) {
-                                    var dataerror = { Titulo: "Error", Mensaje: "Error Al querer Eliminar el Ticket", Estado: false }
-                                    AlertaAjax(dataerror)
-                                }
-                            })
-                             
+
+                            if (datas.Estado) {
+                                tablaPrincipalticket.ajax.reload().draw(false);
+                                return ToastrSuccess("Exito!", "Ticket Eliminado Exitosamente");
+                                
+                                @*$.ajax({
+                                    url: "@Url.Action("GuardarBitacorahistorial", "Ticket")",
+                                    type: "POST",
+                                    data: { IdSolicitud: idsol, IdCliente: idclien, Observaciones: "Se Elimino el Ticket" },
+                                    success: function (respuesta) {
+                                        var dataerror = { Titulo: "Exito", Mensaje: "Ticket Eliminado con Exito", Estado: true }
+                                        AlertaAjax(dataerror)
+                                        CerrarSuitAlert();
+                                    },
+                                    error: function (respuesta) {
+                                        var dataerror = { Titulo: "Error", Mensaje: "Error Al querer Eliminar el Ticket", Estado: false }
+                                        AlertaAjax(dataerror)
+                                    }
+                                })*@
+                            }
+
+
                         },
                         error: function (datae) {
                             var dataerror = { Titulo: "Error", Mensaje: "Error Al querer Eliminar el Ticket", Estado: false }
@@ -440,7 +437,6 @@
             });
 
         }
-
 
         function ProcesosEstados(Ticket) {
             debugger;
@@ -512,6 +508,46 @@
             //VerModalScrollConObjetoDeParametro({}, "@Url.Action("ActualizarTicket", "Ticket")")
         }
 
+        //tablaPrincipal.columns(7).search(this.value).draw();
+
+        setInterval(function () {
+            // Obtener la instancia de DataTable
+            var tabla = $('#TablaPrincipalTicket').DataTable();
+
+            // Obtener los datos de la columna específica
+            var datosColumna = tabla.column(7).data();
+
+            // Actualizar los datos de la columna
+            datosColumna.each(function (valorActual, indice) {
+
+                //console.log(valorActual);
+                var ahora = new Date();
+                var fechaInicio = new Date(moment(valorActual.fdFechaCreacion).locale('es').format('YYYY/MM/DD hh:mm a'));
+                var diferencia = ahora.getTime() - fechaInicio.getTime();
+
+                // Calcula los segundos, minutos, horas y días transcurridos
+                var segundos = Math.floor(diferencia / 1000);
+                var minutos = Math.floor(segundos / 60);
+                var horas = Math.floor(minutos / 60);
+                var dias = Math.floor(horas / 24);
+
+//                return `${dias} <b>Di.</b>, ${horas % 24} <b>Ho.</b>, ${minutos % 60} <b>Mi.</b>, ${segundos % 60} <b>Seg.</b>`;
+
+
+                // Realizar cualquier operación o cálculo necesario para actualizar el valor
+                var nuevoValor = `${dias} <b>Di.</b>, ${horas % 24} <b>Ho.</b>, ${minutos % 60} <b>Mi.</b>, ${segundos % 60} <b>Seg.</b>`; // Por ejemplo, aumentar el valor actual en 1
+
+                // Actualizar el valor en la columna
+                tabla.cell({ row: indice, column: 7 }).data(nuevoValor);
+            });
+
+            // Redibujar la tabla para reflejar los cambios
+            tabla.draw(false); // Puedes pasar false para evitar que la tabla se redibuje con animación
+        }, 1000); // Ejecutar cada 5 segundos
+
+        setInterval(function () {
+            location.reload();
+        }, 300000);
 
     </script>
     

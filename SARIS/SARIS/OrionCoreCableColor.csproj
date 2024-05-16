@@ -423,6 +423,9 @@
     <Compile Include="DbConnection\sp_Configuraciones_Result.cs">
       <DependentUpon>SARIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="DbConnection\sp_Eliminar_Requerimiento_Result.cs">
+      <DependentUpon>SARIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="DbConnection\sp_Estados_Lista_Result.cs">
       <DependentUpon>SARIS.tt</DependentUpon>
     </Compile>

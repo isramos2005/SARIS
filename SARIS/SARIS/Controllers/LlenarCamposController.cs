@@ -46,7 +46,7 @@ namespace OrionCoreCableColor.Controllers
         {
             using (var contexto = new SARISEntities1())
             {
-                var jsonResult = Json(contexto.sp_Usuarios_Maestro_PorIdUsuarioSupervisor(idarea).Select(x => new SelectListItem 
+                var jsonResult = Json(contexto.sp_Usuarios_Maestro_PorArea(idarea).Select(x => new SelectListItem 
                 { 
                     Value = x.fiIDUsuario.ToString(), 
                     Text = x.fcPrimerNombre + " " + x.fcPrimerApellido 

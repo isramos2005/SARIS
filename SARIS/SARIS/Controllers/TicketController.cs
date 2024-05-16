@@ -16,6 +16,7 @@ namespace OrionCoreCableColor.Controllers
         // GET: Ticket
         public ActionResult Index()
         {
+            ViewBag.idUsuario = GetIdUser();
             return View();
         }
 
@@ -133,9 +134,7 @@ namespace OrionCoreCableColor.Controllers
             {
                 try
                 {
-
                     var cont = contexto.sp_Requerimiento_Maestro_Detalle(1, 1, GetIdUser(), idticket).FirstOrDefault();
-
 
                     var tick = new TicketMiewModel();
                     tick.fcDescripcionRequerimiento = cont.fcDescripcionRequerimiento;
@@ -172,7 +171,6 @@ namespace OrionCoreCableColor.Controllers
         [HttpPost]
         public JsonResult GuardarTicket(TicketMiewModel ticket,string comentarioticket)
         {
-
             try
             {
                 using (var contexto = new SARISEntities1()) {
@@ -222,7 +220,9 @@ namespace OrionCoreCableColor.Controllers
             {
                 using (var contexto = new SARISEntities1())
                 {
-                    var result = contexto.sp_Requerimiento_Bitacoras_Agregar(GetIdUser(), ticket.fiIDRequerimiento, GetIdUser(), ticket.fcDescripcionRequerimiento, 1, ticket.fiIDEstadoRequerimiento);
+                    var datosticket = contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), ticket.fiIDRequerimiento).FirstOrDefault();
+
+                    GuardarBitacoraGeneralhistorial(GetIdUser(), ticket.fiIDRequerimiento, GetIdUser(), ticket.fcDescripcionRequerimiento, 1, ticket.fiIDEstadoRequerimiento, ticket.fiIDUsuarioAsignado);
                     var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), ticket.fiIDRequerimiento, ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento, DateTime.Now, ticket.fiIDUsuarioAsignado, 0, ticket.fiTipoRequerimiento, 1, ticket.fiAreaAsignada);
                     return EnviarResultado(true, "", "Ticket Actualizado exitosamente");
                 }
@@ -300,9 +300,11 @@ namespace OrionCoreCableColor.Controllers
                     var areaasignada = contexto.sp_Requerimiento_Areas(1,1,GetIdUser()).FirstOrDefault(a => a.fiIDArea == idArea).fcDescripcion; // buscar el area a la cual se le asigno
                     var usuarioLogueado = contexto.sp_Usuarios_Maestro_PorIdUsuario(GetIdUser()).FirstOrDefault();
 
-                    var result = contexto.sp_Requerimiento_Bitacoras_Agregar(GetIdUser(), idticket, GetIdUser(), $"El Usuario {usuarioLogueado.fcPrimerNombre} {usuarioLogueado.fcPrimerApellido}Se Asigno El Area a " + areaasignada, 1, estadoTicket);
                     var datosticket = contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), idticket).FirstOrDefault();
-                    var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), datosticket.fiIDRequerimiento, datosticket.fcTituloRequerimiento, datosticket.fcDescripcionRequerimiento, Convert.ToByte(estadoTicket), DateTime.Now, datosticket.fiIDUsuarioAsignado, 0, datosticket.fiTipoRequerimiento, 1, idArea);
+                    
+                    GuardarBitacoraGeneralhistorial(GetIdUser(), idticket, GetIdUser(), $"El Usuario {usuarioLogueado.fcPrimerNombre} {usuarioLogueado.fcPrimerApellido}Se Asigno El Area a " + areaasignada, 1, estadoTicket,0);//se manda 0 por que se asigno una nueva area y por lo tanto el usuario asignado no puede ser otro
+                    
+                    var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), datosticket.fiIDRequerimiento, datosticket.fcTituloRequerimiento, datosticket.fcDescripcionRequerimiento, Convert.ToByte(estadoTicket), DateTime.Now, 0, 0, datosticket.fiTipoRequerimiento, 1, idArea);
                     return EnviarResultado(true, "", "Ticket Actualizado exitosamente");
                 }
             }
@@ -336,11 +338,11 @@ namespace OrionCoreCableColor.Controllers
                     //saber el string del nombre del usuario
                     var UsuarioAsignado = contexto.sp_Usuarios_Maestro_PorIdUsuario(usuario).FirstOrDefault(); // buscar el area a la cual se le asigno
                     var usuarioLogueado = contexto.sp_Usuarios_Maestro_PorIdUsuario(GetIdUser()).FirstOrDefault();
-                    //guardar la bitacora 
-                    var result = contexto.sp_Requerimiento_Bitacoras_Agregar(GetIdUser(), idticket, GetIdUser(), $"El Usuario {usuarioLogueado.fcPrimerNombre} {usuarioLogueado.fcPrimerApellido} Asigno al Usuario {UsuarioAsignado.fcPrimerNombre} {UsuarioAsignado.fcPrimerApellido}" , 1, 7);//el estado de ticket esta en 7 para que pueda guardar la bitacora
                     
                     var datosticket = contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), idticket).FirstOrDefault();
-                    
+                    //guardar la bitacora 
+                    GuardarBitacoraGeneralhistorial(GetIdUser(), idticket, datosticket.fiIDUsuarioSolicitante, $"El Usuario {usuarioLogueado.fcPrimerNombre} {usuarioLogueado.fcPrimerApellido} Asigno al Usuario {UsuarioAsignado.fcPrimerNombre} {UsuarioAsignado.fcPrimerApellido}", 1, 7, usuario);//el estado de ticket esta en 7 para que pueda guardar la bitacora
+
                     var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), datosticket.fiIDRequerimiento, datosticket.fcTituloRequerimiento, datosticket.fcDescripcionRequerimiento, 7, DateTime.Now, usuario, 0, datosticket.fiTipoRequerimiento, 1, datosticket.fiAreaAsignada);//el estado de ticket esta en 7 para que pueda guardar la bitacora
                     
                     return EnviarResultado(true, "", "Ticket Usuario Actualizado exitosamente");
@@ -353,6 +355,36 @@ namespace OrionCoreCableColor.Controllers
             }
         }
 
+        public JsonResult EliminarTicket(int idticket)
+        {
+            try
+            {
+                using (var contexto = new SARISEntities1()) {
+                    var result = contexto.sp_Eliminar_Requerimiento(idticket).FirstOrDefault();
+                    return EnviarResultado(true, "Eliminado!", "Ticket Eliminado Exitosamente");
+                }
+            }
+            catch (Exception ex)
+            {
+                return EnviarResultado(false, ex.Message.ToString(), "No se pudo Eliminar el ticket");
+                throw;
+            }
+        }
 
+        public JsonResult GuardarBitacoraGeneralhistorial(int idusuario, int idticket, int idusuariosolicitante, string comentario, int idapp, int idestado, int idusuarioasignado)
+        {
+            try
+            {
+                using (var contexto = new SARISEntities1())
+                {
+                    var result = contexto.sp_Requerimiento_Bitacoras_Agregar(idusuario, idticket, idusuariosolicitante, comentario, idapp, idestado, idusuarioasignado);
+                    return EnviarListaJson(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }
