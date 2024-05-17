@@ -814,13 +814,16 @@
     <Content Include="Content\img\fondo_aside.jpg" />
     <Content Include="Content\img\HOJAS_NOVANET.png" />
     <Content Include="Content\img\IconUbicacion.png" />
+    <Content Include="Content\img\IconUbicacionClientesMora.png" />
     <Content Include="Content\img\loading.gif" />
+    <Content Include="Content\img\loginStackFondo.jpg" />
     <Content Include="Content\img\logo-big.png" />
     <Content Include="Content\img\logo-flat.svg" />
     <Content Include="Content\img\logo-gradient.svg" />
     <Content Include="Content\img\logo-red.png" />
     <Content Include="Content\img\logo.png" />
     <Content Include="Content\img\logo.svg" />
+    <Content Include="Content\img\LogoCabeceraOrion.ico" />
     <Content Include="Content\img\LogoCabeceraOrion.png" />
     <Content Include="Content\img\logoNovanet.jpg" />
     <Content Include="Content\img\logoPrestadito.png" />

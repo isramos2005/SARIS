@@ -5,7 +5,6 @@
     Layout = null;
 }
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +14,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="msapplication-Tap-highlight" content="no">
     <link rel="stylesheet" href="~/Content/css/vendors.bundle.css">
     <link rel="stylesheet" href="~/Content/css/app.bundle.css">
     <link rel="stylesheet" href="~/Content/css/skins/skin-master.css">
@@ -25,7 +24,6 @@
     <link rel="stylesheet" href="~/Content/css/page-login-alt.css">
     <link rel="stylesheet" href="~/Content/css/themes/cust-theme-15.css">
     <link rel="stylesheet" href="~/Content/css/loginanimation.css">
-
 </head>
 <body class="mod-bg-1 mod-nav-link desktop chrome webkit pace-done blur gradient-fondo">
     <div class="pace pace-inactive">
@@ -34,36 +32,53 @@
         </div>
         <div class="pace-activity"></div>
     </div>
+    <div class="gradiente"></div>
 
     <div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 rounded">
-        <div class="card col-12 col-md-8 col-lg-6 m-0 gradient-border rounded">
-            <div class="row">
-                <div class="col-12 col-md-6 d-flex justify-content-center align-items-center mb-3 mb-md-0 rounded-md-top" style="background-image: url('../../Content/img/fondo_aside.jpg'); background-repeat: no-repeat; background-size: cover;">
+        <div class="card col-12 col-md-8 col-lg-6 m-0 rounded" style="background-color: transparent;">
+            <div class="row gradient-border">
+                <div class="col-md-6 d-flex justify-content-center align-items-center mb-3 mb-md-0 rounded-md-top" style="background-image: url('/Content/img/loginStackFondo.jpg'); background-repeat: no-repeat; background-size: cover;">
+                    <div class="gradiente-white"></div>
                     <div class="w-100 d-flex align-items-center justify-content-center px-4 py-5">
                         <div class="d-flex align-items-center w-75 p-0">
-                            <img src="~/Content/img/LogoCabeceraOrion.png" alt="ORION" aria-roledescription="logo" class="img-fluid">
+                            <img src="/Content/img/LogoCabeceraOrion.png" alt="ORION" aria-roledescription="logo" class="img-fluid">
                             <span class="page-logo-text mr-1"></span>
-                            <i class="fal fa-angle-down d-inline-block ml-1 fs-lg color-primary-300"></i>
-                        </div>
+                           </div>
                     </div>
                 </div>
-                <div class="col-12 col-md-6 g-0">
-                    <div class="card-body p-4 d-flex flex-column justify-content-center">
+                <div class="col-md-6 g-0">
+                    <div class="card-body p-5 d-flex flex-column justify-content-center h-100">
+                        <div class="gradiente"></div>
+
+                        <div class="text-center mb-4">
+                            <h5 class="card-title text-light"></h5>
+                            <p class="text-light"></p>
+                        </div>
                         @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                         {
                             @Html.ValidationSummary(true, "", new { @class = "text-danger text-center mb-3" })
-                            <div class="form-group mb-3">
-                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control input-lg", @placeholder = "User", @autofocus = true })
+                            <div class="form-group mb-3 col-12">
+                                <div class="input-group has-validation">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text text-light" style="background-color:transparent"><i class="fal fa-user"></i></span>
+                                    </div>
+                                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control custom-input", @placeholder = "Usuario" })
+                                </div>
                                 @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                             </div>
-                            <div class="form-group mb-3">
-                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control input-lg", @placeholder = "Password" } })
+                            <div class="form-group mb-3 col-12">
+                                <div class="input-group has-validation">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text text-light" style="background-color:transparent"><i class="fal fa-lock"></i></span>
+                                    </div>
+                                    @Html.PasswordFor(model => model.Password, new { @class = "form-control custom-input", @placeholder = "Contraseña" })
+                                </div>
                                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                             </div>
-                            <button class="btn btn-primary waves-effect waves-themed col-12 mb-3" type="submit">Iniciar Sesión</button>
+                            <button class="btn ov-btn-grow-primary pulse col-12 mb-3" type="submit">Iniciar Sesión</button>
                         }
                         <a href="/Account/ForgotPassword" class="d-block text-center">
-                            <span class="btn-link"><strong>¿Olvidaste la Contraseña?</strong></span>
+                            <span class="btn-link text-light"><strong>¿Olvidaste la Contraseña?</strong></span>
                         </a>
                     </div>
                 </div>
@@ -76,13 +91,10 @@
 </body>
 </html>
 
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-        function Resultado(data) {
-
-        }
+        function Resultado(data) { }
         $(document).ready(function (data) {
             AlertaAjax(data);
         });
