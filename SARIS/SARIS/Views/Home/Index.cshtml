@@ -4,8 +4,8 @@
 }
 
 <div class="row">
-    <div class="col-sm-6 col-xl-3">
-        <div class="p-3 bg-danger-200 rounded overflow-hidden position-relative text-white mb-g">
+    <div class="col-sm-1 col-xl-2">
+        <div class="p-3 bg-info-200 rounded overflow-hidden position-relative text-white mb-g">
             <div class="">
                 <h3 class="text-white display-4 d-block l-h-n m-0 fw-500">
                     <label id="lblTicketActivos"></label>
@@ -15,7 +15,18 @@
             <i class="fal fa-ticket position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n1" style="font-size:6rem"></i>
         </div>
     </div>
-    <div class="col-sm-6 col-xl-3">
+    <div class="col-sm-1 col-xl-2">
+        <div class="p-3 bg-primary-200 rounded overflow-hidden position-relative text-white mb-g">
+            <div class="">
+                <h3 class="text-white display-4 d-block l-h-n m-0 fw-500">
+                    <label id="lblTicket1H"></label>
+                    <small class="m-0 l-h-n">Ticket con menos de 4 Horas</small>
+                </h3>
+            </div>
+            <i class="fal fa-ticket position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n1" style="font-size:6rem"></i>
+        </div>
+    </div>
+    <div class="col-sm-1 col-xl-2">
         <div class="p-3 bg-success-700 rounded overflow-hidden position-relative text-white mb-g">
             <div class="">
                 <h3 class="text-white display-4 d-block l-h-n m-0 fw-500">
@@ -26,7 +37,7 @@
             <i class="fal fa-ticket position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n1" style="font-size:6rem"></i>
         </div>
     </div>
-    <div class="col-sm-6 col-xl-3">
+    <div class="col-sm-1 col-xl-2">
         <div class="p-3 bg-warning-700 rounded overflow-hidden position-relative text-white mb-g">
             <div class="">
                 <h3 class="text-white display-4 d-block l-h-n m-0 fw-500">
@@ -37,7 +48,7 @@
             <i class="fal fa-ticket position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n4" style="font-size: 6rem;"></i>
         </div>
     </div>
-    <div class="col-sm-6 col-xl-3">
+    <div class="col-sm-1 col-xl-2">
         <div class="p-3 bg-danger-200 rounded overflow-hidden position-relative text-white mb-g">
             <div class="">
                 <h3 class="text-white display-4 d-block l-h-n m-0 fw-500">
@@ -172,6 +183,7 @@
         function BulletIndicadores(datos)
         {
             $("#lblTicketActivos").text(datos[0].fiIncidentesActivos);
+            $("#lblTicket1H").text(datos[0].fiIncidentes1a4Horas);
             $("#lblTicket4H").text(datos[0].fiIncidentes4Horas);
             $("#lblTicket8H").text(datos[0].fiIncidentes8Horas);
             $("#lblTicket24H").text(datos[0].fiIncidentes24Horas);

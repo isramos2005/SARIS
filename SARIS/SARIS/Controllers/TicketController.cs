@@ -182,6 +182,9 @@ namespace OrionCoreCableColor.Controllers
                         var usuarioLogueado = contexto.sp_Usuarios_Maestro_PorIdUsuario(GetIdUser()).FirstOrDefault();
 
                         var save = contexto.sp_Requerimiento_Alta(1, 1, GetIdUser(), ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento, 1, idarea, $"El usuario {usuarioLogueado.fcPrimerNombre} ${usuarioLogueado.fcPrimerApellido}").FirstOrDefault();
+                        var datosticket = Datosticket((int)save.IdIngresado);
+                        GuardarBitacoraGeneralhistorial(GetIdUser(),datosticket.fiIDRequerimiento,datosticket.fiIDUsuarioSolicitante, comentarioticket,1,datosticket.fiIDEstadoRequerimiento,datosticket.fiIDUsuarioAsignado);
+
 
                         agregarCreacionTicket((int)save.IdIngresado);
                         return EnviarListaJson(save);
@@ -220,7 +223,7 @@ namespace OrionCoreCableColor.Controllers
             {
                 using (var contexto = new SARISEntities1())
                 {
-                    var datosticket = contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), ticket.fiIDRequerimiento).FirstOrDefault();
+                    var datosticket = Datosticket(ticket.fiIDRequerimiento);//contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), ticket.fiIDRequerimiento).FirstOrDefault();
 
                     GuardarBitacoraGeneralhistorial(GetIdUser(), ticket.fiIDRequerimiento, GetIdUser(), ticket.fcDescripcionRequerimiento, 1, ticket.fiIDEstadoRequerimiento, ticket.fiIDUsuarioAsignado);
                     var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), ticket.fiIDRequerimiento, ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento, DateTime.Now, ticket.fiIDUsuarioAsignado, 0, ticket.fiTipoRequerimiento, 1, ticket.fiAreaAsignada);
@@ -283,8 +286,8 @@ namespace OrionCoreCableColor.Controllers
             ViewBag.IdTicket = idticket;
             ViewBag.EstadoTicket = estadoticket;
             using (var contexto = new SARISEntities1())
-            { 
-                var datosticket = contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), idticket).FirstOrDefault();
+            {
+                var datosticket = Datosticket(idticket); //contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), idticket).FirstOrDefault();
                 //ViewBag.idArea = 
             }
 
@@ -300,7 +303,7 @@ namespace OrionCoreCableColor.Controllers
                     var areaasignada = contexto.sp_Requerimiento_Areas(1,1,GetIdUser()).FirstOrDefault(a => a.fiIDArea == idArea).fcDescripcion; // buscar el area a la cual se le asigno
                     var usuarioLogueado = contexto.sp_Usuarios_Maestro_PorIdUsuario(GetIdUser()).FirstOrDefault();
 
-                    var datosticket = contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), idticket).FirstOrDefault();
+                    var datosticket = Datosticket(idticket);//contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), idticket).FirstOrDefault();
                     
                     GuardarBitacoraGeneralhistorial(GetIdUser(), idticket, GetIdUser(), $"El Usuario {usuarioLogueado.fcPrimerNombre} {usuarioLogueado.fcPrimerApellido}Se Asigno El Area a " + areaasignada, 1, estadoTicket,0);//se manda 0 por que se asigno una nueva area y por lo tanto el usuario asignado no puede ser otro
                     
@@ -383,6 +386,23 @@ namespace OrionCoreCableColor.Controllers
             }
             catch (Exception ex)
             {
+                throw;
+            }
+        }
+
+        public sp_Requerimientos_Bandeja_ByID_Result Datosticket(int idticket)
+        {
+            try
+            {
+                using (var contexto = new SARISEntities1())
+                {
+                    var datosticket = contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), idticket).FirstOrDefault();
+                    return datosticket;
+                }
+            }
+            catch (Exception ex)
+            {
+
                 throw;
             }
         }

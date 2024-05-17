@@ -295,7 +295,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_Requerimiento_Bitacoras_Agregar" FunctionName="SARISModel.Store.sp_Requerimiento_Bitacoras_Agregar" />
     <FunctionImportMapping FunctionImportName="sp_Requerimientos_Adjuntos_Guardar" FunctionName="SARISModel.Store.sp_Requerimientos_Adjuntos_Guardar" />
     <FunctionImportMapping FunctionImportName="sp_Configuraciones" FunctionName="SARISModel.Store.sp_Configuraciones">
       <ResultMapping>
@@ -305,7 +304,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_Requerimiento_Maestro_Actualizar" FunctionName="SARISModel.Store.sp_Requerimiento_Maestro_Actualizar" />
     <FunctionImportMapping FunctionImportName="sp_Requerimientos_Bandeja" FunctionName="SARISModel.Store.sp_Requerimientos_Bandeja" />
     <FunctionImportMapping FunctionImportName="sp_Requerimientos_Bandeja_ByID" FunctionName="SARISModel.Store.sp_Requerimientos_Bandeja_ByID">
       <ResultMapping>
@@ -364,5 +362,16 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_Eliminar_Requerimiento" FunctionName="SARISModel.Store.sp_Eliminar_Requerimiento">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SARISModel.sp_Eliminar_Requerimiento_Result">
+          <ScalarProperty Name="fiMensaje" ColumnName="fiMensaje" />
+          <ScalarProperty Name="fcMensaje" ColumnName="fcMensaje" />
+          <ScalarProperty Name="IdIngresado" ColumnName="IdIngresado" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_Requerimiento_Bitacoras_Agregar" FunctionName="SARISModel.Store.sp_Requerimiento_Bitacoras_Agregar" />
+    <FunctionImportMapping FunctionImportName="sp_Requerimiento_Maestro_Actualizar" FunctionName="SARISModel.Store.sp_Requerimiento_Maestro_Actualizar" />
   </EntityContainerMapping>
 </Mapping>

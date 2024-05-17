@@ -122,14 +122,6 @@
       <Parameter Name="pcNombreCorto" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="sp_Areas_Lista" ReturnType="Collection(SARISModel.sp_Areas_Lista_Result)" />
-    <FunctionImport Name="sp_Requerimiento_Bitacoras_Agregar">
-      <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
-      <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
-      <Parameter Name="piIDUsuarioSolicitante" Mode="In" Type="Int32" />
-      <Parameter Name="fcComentario" Mode="In" Type="String" />
-      <Parameter Name="piIDApp" Mode="In" Type="Int32" />
-      <Parameter Name="piIDEstado" Mode="In" Type="Int32" />
-    </FunctionImport>
     <FunctionImport Name="sp_Requerimientos_Adjuntos_Guardar" ReturnType="Collection(String)">
       <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
       <Parameter Name="pcNombreArchivo" Mode="In" Type="String" />
@@ -142,19 +134,6 @@
     </FunctionImport>
     <FunctionImport Name="sp_Configuraciones" ReturnType="Collection(SARISModel.sp_Configuraciones_Result)">
       <Parameter Name="fcDescripcionLlave" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="sp_Requerimiento_Maestro_Actualizar">
-      <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
-      <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
-      <Parameter Name="pcTituloRequerimiento" Mode="In" Type="String" />
-      <Parameter Name="pcDescripcionRequerimiento" Mode="In" Type="String" />
-      <Parameter Name="piIDEstadoRequerimiento" Mode="In" Type="Byte" />
-      <Parameter Name="fdFechaAsignacion" Mode="In" Type="DateTime" />
-      <Parameter Name="pifiIDUsuarioAsignado" Mode="In" Type="Int32" />
-      <Parameter Name="piTiempodeDesarrollo" Mode="In" Type="Int32" />
-      <Parameter Name="pifiTipoRequerimiento" Mode="In" Type="Byte" />
-      <Parameter Name="piIDApp" Mode="In" Type="Int32" />
-      <Parameter Name="piIdAreaAsignada" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="sp_Requerimientos_Bandeja">
       <Parameter Name="piIDSesion" Mode="In" Type="Int32" />
@@ -183,6 +162,31 @@
       <Parameter Name="piIDApp" Mode="In" Type="Int16" />
       <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
       <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Eliminar_Requerimiento" ReturnType="Collection(SARISModel.sp_Eliminar_Requerimiento_Result)">
+      <Parameter Name="piIdRequerimiento" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Requerimiento_Bitacoras_Agregar">
+      <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
+      <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
+      <Parameter Name="piIDUsuarioSolicitante" Mode="In" Type="Int32" />
+      <Parameter Name="fcComentario" Mode="In" Type="String" />
+      <Parameter Name="piIDApp" Mode="In" Type="Int32" />
+      <Parameter Name="piIDEstado" Mode="In" Type="Int32" />
+      <Parameter Name="piIDUsuarioAsignado" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Requerimiento_Maestro_Actualizar">
+      <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
+      <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
+      <Parameter Name="pcTituloRequerimiento" Mode="In" Type="String" />
+      <Parameter Name="pcDescripcionRequerimiento" Mode="In" Type="String" />
+      <Parameter Name="piIDEstadoRequerimiento" Mode="In" Type="Byte" />
+      <Parameter Name="fdFechaAsignacion" Mode="In" Type="DateTime" />
+      <Parameter Name="pifiIDUsuarioAsignado" Mode="In" Type="Int32" />
+      <Parameter Name="piTiempodeDesarrollo" Mode="In" Type="Int32" />
+      <Parameter Name="pifiTipoRequerimiento" Mode="In" Type="Byte" />
+      <Parameter Name="piIDApp" Mode="In" Type="Int32" />
+      <Parameter Name="piIdAreaAsignada" Mode="In" Type="Int32" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_Requerimiento_Areas_Result">
@@ -450,5 +454,10 @@
     <Property Type="DateTime" Name="fdFechadeCierre" Nullable="false" Precision="23" />
     <Property Type="String" Name="fcBuzondeCorreo" Nullable="true" MaxLength="100" />
     <Property Type="Int32" Name="fiTiempodeDesarrollo" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sp_Eliminar_Requerimiento_Result">
+    <Property Type="String" Name="fiMensaje" Nullable="true" MaxLength="1" />
+    <Property Type="String" Name="fcMensaje" Nullable="true" MaxLength="255" />
+    <Property Type="Int32" Name="IdIngresado" Nullable="true" />
   </ComplexType>
 </Schema>

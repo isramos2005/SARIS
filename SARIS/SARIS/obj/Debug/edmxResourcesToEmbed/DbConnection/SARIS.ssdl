@@ -29,6 +29,9 @@
   <Function Name="sp_Configuraciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="fcDescripcionLlave" Type="nvarchar" Mode="In" />
   </Function>
+  <Function Name="sp_Eliminar_Requerimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="piIdRequerimiento" Type="int" Mode="In" />
+  </Function>
   <Function Name="sp_Estados_Editar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="piIDEstado" Type="int" Mode="In" />
     <Parameter Name="pcDescripcionEstado" Type="varchar" Mode="In" />
@@ -89,6 +92,7 @@
     <Parameter Name="fcComentario" Type="text" Mode="In" />
     <Parameter Name="piIDApp" Type="int" Mode="In" />
     <Parameter Name="piIDEstado" Type="int" Mode="In" />
+    <Parameter Name="piIDUsuarioAsignado" Type="int" Mode="In" />
   </Function>
   <Function Name="sp_Requerimiento_Bitacoras_Detalle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="piIDUsuario" Type="int" Mode="In" />
