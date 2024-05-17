@@ -22,6 +22,7 @@
                             <th>Fecha de Inicio (D:H:M:S)</th>
                             <th>Fecha Fin (D:H:M:S)</th>
                             <th>Horas Trabajadas</th>
+                            <th>Comentario</th>
                             <th>Estado</th>
                         </tr>
                     </thead>
@@ -123,9 +124,17 @@
                     }
                 },
                 {
-                    "data": "fcDescripcionEstado", "className": "td-responsive",
+                    "data": "fcComentario", "className": "td-responsive",
                     "render": function (data, type, row) {
-                        return row["fcDescripcionEstado"];
+                        return row["fcComentario"];
+                    }
+                },
+                {
+                    data: null,
+                    className: "text-center",
+                    render: function (data, type, row) {
+                        return `<a href="javascript:void(0)" > <span class="btn-sm btn-block btn-${data.fcClaseColor} text-center" > ${data.fcDescripcionEstado}</span> </a>`;
+
                     }
                 },
 
