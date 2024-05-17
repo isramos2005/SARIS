@@ -184,9 +184,9 @@ namespace OrionCoreCableColor.Controllers
                         //cambiar despues Los datos que se envian en duro para que sea mas dinamico las cosas 
                         var usuarioLogueado = contexto.sp_Usuarios_Maestro_PorIdUsuario(GetIdUser()).FirstOrDefault();
 
-                        var save = contexto.sp_Requerimiento_Alta(1, 1, GetIdUser(), ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento, 1, idarea, $"El usuario {usuarioLogueado.fcPrimerNombre} ${usuarioLogueado.fcPrimerApellido}").FirstOrDefault();
+                        var save = contexto.sp_Requerimiento_Alta(1, 1, GetIdUser(), ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento, 1, idarea, $"El usuario {usuarioLogueado.fcPrimerNombre} {usuarioLogueado.fcPrimerApellido} a Creado El Ticket").FirstOrDefault();
                         var datosticket = Datosticket((int)save.IdIngresado);
-                        GuardarBitacoraGeneralhistorial(GetIdUser(),datosticket.fiIDRequerimiento,datosticket.fiIDUsuarioSolicitante, comentarioticket,1,datosticket.fiIDEstadoRequerimiento,datosticket.fiIDUsuarioAsignado);
+                        //GuardarBitacoraGeneralhistorial(GetIdUser(),datosticket.fiIDRequerimiento,datosticket.fiIDUsuarioSolicitante, comentarioticket,1,datosticket.fiIDEstadoRequerimiento,datosticket.fiIDUsuarioAsignado);
 
 
                         agregarCreacionTicket((int)save.IdIngresado);
@@ -228,7 +228,7 @@ namespace OrionCoreCableColor.Controllers
                 {
                     var datosticket = Datosticket(ticket.fiIDRequerimiento);//contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), ticket.fiIDRequerimiento).FirstOrDefault();
 
-                    GuardarBitacoraGeneralhistorial(GetIdUser(), ticket.fiIDRequerimiento, GetIdUser(), ticket.fcDescripcionRequerimiento, 1, ticket.fiIDEstadoRequerimiento, ticket.fiIDUsuarioAsignado);
+                    GuardarBitacoraGeneralhistorial(GetIdUser(), ticket.fiIDRequerimiento, GetIdUser(), comentario, 1, ticket.fiIDEstadoRequerimiento, ticket.fiIDUsuarioAsignado);
                     var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), ticket.fiIDRequerimiento, ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento, DateTime.Now, ticket.fiIDUsuarioAsignado, 0, ticket.fiTipoRequerimiento, 1, datosticket.fiAreaAsignada);
                     return EnviarResultado(true, "", "Ticket Actualizado exitosamente");
                 }
@@ -308,7 +308,7 @@ namespace OrionCoreCableColor.Controllers
 
                     var datosticket = Datosticket(idticket);//contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), idticket).FirstOrDefault();
                     
-                    GuardarBitacoraGeneralhistorial(GetIdUser(), idticket, GetIdUser(), $"El Usuario {usuarioLogueado.fcPrimerNombre} {usuarioLogueado.fcPrimerApellido}Se Asigno El Area a " + areaasignada, 1, 7,0);//se manda 0 por que se asigno una nueva area y por lo tanto el usuario asignado no puede ser otro
+                    GuardarBitacoraGeneralhistorial(GetIdUser(), idticket, GetIdUser(), $"El Usuario {usuarioLogueado.fcPrimerNombre} {usuarioLogueado.fcPrimerApellido} Asigno El Area a " + areaasignada, 1, 7,0);//se manda 0 por que se asigno una nueva area y por lo tanto el usuario asignado no puede ser otro
                     
                     var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), datosticket.fiIDRequerimiento, datosticket.fcTituloRequerimiento, datosticket.fcDescripcionRequerimiento, Convert.ToByte(7), DateTime.Now, 0, 0, datosticket.fiTipoRequerimiento, 1, idArea);
                     return EnviarResultado(true, "", "Ticket Actualizado exitosamente");
