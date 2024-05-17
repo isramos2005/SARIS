@@ -18,6 +18,7 @@
                     <thead>
                         <tr>
                             <th>Usuario</th>
+                            <th>Area</th>
                             <th>Fecha de Inicio (D:H:M:S)</th>
                             <th>Fecha Fin (D:H:M:S)</th>
                             <th>Horas Trabajadas</th>
@@ -82,6 +83,14 @@
                     "render": function (data, type, row) {
 
                         return row["fcNombreCorto"];
+                    }
+                },
+                {
+
+                    "data": "fcDescripcion", "className": "text-center",
+                    "render": function (data, type, row) {
+
+                        return row["fcDescripcion"];
                     }
                 },
                 {
