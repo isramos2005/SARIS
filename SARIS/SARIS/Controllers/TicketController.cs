@@ -146,18 +146,21 @@ namespace OrionCoreCableColor.Controllers
                     tick.fiIDUsuarioAsignado = cont.fiIDUsuarioAsignado;
                     tick.fdFechaAsignacion = cont.fdFechaAsignacion;
                     tick.fdFechadeCierre = cont.fdFechadeCierre;
-                    
+
+
+                    var estadosquenovan = contexto.sp_Configuraciones("NoMostrarEstados").FirstOrDefault().fcValorLlave.Split(',').Select(a => Convert.ToInt32(a)).ToList();
                     ViewBag.ListarArea = contexto.sp_Areas_Lista().Select(x => new SelectListItem { Value = x.fiIDArea.ToString(), Text = x.fcDescripcion}).ToList();
                     if (GetIdUser() == cont.fiIDUsuarioSolicitante)
                     {
-                        ViewBag.Estados = contexto.sp_Estados_Lista().Select(x => new SelectListItem { Value = x.fiIDEstado.ToString(), Text = x.fcDescripcionEstado }).ToList();
+                        ViewBag.Estados = contexto.sp_Estados_Lista().Where(a => !estadosquenovan.Any(b => b == a.fiIDEstado)).Select(x => new SelectListItem { Value = x.fiIDEstado.ToString(), Text = x.fcDescripcionEstado }).ToList();
                     }
                     else
                     {
-                        ViewBag.Estados = contexto.sp_Estados_Lista().Where(a => a.fiIDEstado != 5).Select(x => new SelectListItem { Value = x.fiIDEstado.ToString(), Text = x.fcDescripcionEstado }).ToList();
+                        ViewBag.Estados = contexto.sp_Estados_Lista().Where(a => a.fiIDEstado != 5 && !estadosquenovan.Any(b => b == a.fiIDEstado)).Select(x => new SelectListItem { Value = x.fiIDEstado.ToString(), Text = x.fcDescripcionEstado }).ToList();
                     }
                     ViewBag.Usuario = contexto.sp_Usuarios_Maestro_PorIdUsuarioSupervisor(1).Select(x => new SelectListItem { Value = x.fiIDUsuario.ToString(), Text = x.fcPrimerNombre + " " + x.fcPrimerApellido }).ToList();
                     ViewBag.idticket = idticket;
+                    ViewBag.UsuarioLogueado = GetIdUser();
                     return PartialView(tick);
                 }
                 catch (Exception ex)
@@ -226,7 +229,7 @@ namespace OrionCoreCableColor.Controllers
                     var datosticket = Datosticket(ticket.fiIDRequerimiento);//contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), ticket.fiIDRequerimiento).FirstOrDefault();
 
                     GuardarBitacoraGeneralhistorial(GetIdUser(), ticket.fiIDRequerimiento, GetIdUser(), ticket.fcDescripcionRequerimiento, 1, ticket.fiIDEstadoRequerimiento, ticket.fiIDUsuarioAsignado);
-                    var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), ticket.fiIDRequerimiento, ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento, DateTime.Now, ticket.fiIDUsuarioAsignado, 0, ticket.fiTipoRequerimiento, 1, ticket.fiAreaAsignada);
+                    var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), ticket.fiIDRequerimiento, ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento, DateTime.Now, ticket.fiIDUsuarioAsignado, 0, ticket.fiTipoRequerimiento, 1, datosticket.fiAreaAsignada);
                     return EnviarResultado(true, "", "Ticket Actualizado exitosamente");
                 }
             }
@@ -305,9 +308,9 @@ namespace OrionCoreCableColor.Controllers
 
                     var datosticket = Datosticket(idticket);//contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), idticket).FirstOrDefault();
                     
-                    GuardarBitacoraGeneralhistorial(GetIdUser(), idticket, GetIdUser(), $"El Usuario {usuarioLogueado.fcPrimerNombre} {usuarioLogueado.fcPrimerApellido}Se Asigno El Area a " + areaasignada, 1, estadoTicket,0);//se manda 0 por que se asigno una nueva area y por lo tanto el usuario asignado no puede ser otro
+                    GuardarBitacoraGeneralhistorial(GetIdUser(), idticket, GetIdUser(), $"El Usuario {usuarioLogueado.fcPrimerNombre} {usuarioLogueado.fcPrimerApellido}Se Asigno El Area a " + areaasignada, 1, 7,0);//se manda 0 por que se asigno una nueva area y por lo tanto el usuario asignado no puede ser otro
                     
-                    var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), datosticket.fiIDRequerimiento, datosticket.fcTituloRequerimiento, datosticket.fcDescripcionRequerimiento, Convert.ToByte(estadoTicket), DateTime.Now, 0, 0, datosticket.fiTipoRequerimiento, 1, idArea);
+                    var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), datosticket.fiIDRequerimiento, datosticket.fcTituloRequerimiento, datosticket.fcDescripcionRequerimiento, Convert.ToByte(7), DateTime.Now, 0, 0, datosticket.fiTipoRequerimiento, 1, idArea);
                     return EnviarResultado(true, "", "Ticket Actualizado exitosamente");
                 }
             }
@@ -341,8 +344,8 @@ namespace OrionCoreCableColor.Controllers
                     //saber el string del nombre del usuario
                     var UsuarioAsignado = contexto.sp_Usuarios_Maestro_PorIdUsuario(usuario).FirstOrDefault(); // buscar el area a la cual se le asigno
                     var usuarioLogueado = contexto.sp_Usuarios_Maestro_PorIdUsuario(GetIdUser()).FirstOrDefault();
-                    
-                    var datosticket = contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), idticket).FirstOrDefault();
+
+                    var datosticket = Datosticket(idticket);//contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), idticket).FirstOrDefault();
                     //guardar la bitacora 
                     GuardarBitacoraGeneralhistorial(GetIdUser(), idticket, datosticket.fiIDUsuarioSolicitante, $"El Usuario {usuarioLogueado.fcPrimerNombre} {usuarioLogueado.fcPrimerApellido} Asigno al Usuario {UsuarioAsignado.fcPrimerNombre} {UsuarioAsignado.fcPrimerApellido}", 1, 7, usuario);//el estado de ticket esta en 7 para que pueda guardar la bitacora
 

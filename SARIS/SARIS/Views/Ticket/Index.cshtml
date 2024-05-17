@@ -105,7 +105,7 @@
                         var opt = ``;
                         //console.log(data)
                        
-                        if (idusuariologueado == data.fiIDUsuarioSolicitante) {
+                        if (idusuariologueado == data.fiIDUsuarioSolicitante && data.fiIDEstadoRequerimiento == 1) {
                             opt += `<a href='javascript:void(0);' onclick="EliminarTicket(${data.fiIDRequerimiento})" class='btn btn-sm btn-icon btn-outline-danger rounded-circle mr-1' title='Eliminar Ticket'><i class=\"fal fa-times\"></i></a>`;
                         }
                         opt += `

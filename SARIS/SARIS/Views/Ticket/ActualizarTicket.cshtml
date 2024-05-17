@@ -30,12 +30,6 @@
                     </div>
                 </div>
 
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <label class="col-form-label">Area</label>
-                        @Html.DropDownListFor(model => model.fiAreaAsignada, new SelectList(ViewBag.ListarArea, "Value", "Text"), null, new { @class = "form-control input-lg", @style = "width:100%;" })
-                    </div>
-                </div>
 
                 <div class="col-sm-12">
                     <div class="form-group">
@@ -44,14 +38,6 @@
                     </div>
                 </div>
 
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <label class="col-form-label">Asignado</label>
-                        <select id="selectusuarios" class="form-select form-control">
-                            <option value="0">Seleccione un Area Primero</option>
-                        </select>
-                    </div>
-                </div>
 
                 <div class="col-sm-12">
                     <div class="form-group">
@@ -99,11 +85,35 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-lg-6">
-        
+    @*<div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label> aqui ira el titutlo</label>
+                        @foreach (var item in Model.DatosDocumentoListado)
+                        {
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <div class="input-group mar-btm">
+                                        @if (item.fcTipoDocumento == "pdf")
+                                        {
+
+                                            <a href="javascript:ShowBigPdf('@item.fcNombreArchivo','@item.fcRuta')" class="text-info"> <i class="fal fa-2x fa-file-pdf"> </i> @item.fcDescripcion</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="javascript:void(0)" data-Description="@item.fcDescripcion" class="text-info" onclick="ShowBigImage(this)" src="@(MemoryLoadManager.Helper)?type=img&carpeta=@(item.fcRuta)&documento=@(item.fcNombreArchivo)"> <i class="fal fa-2x fa-file-image"> </i>  @item.fcDescripcion</a>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </div>*@
 
 
 </div>
@@ -114,7 +124,7 @@
     ///$("#fiIDAreaSolicitante").select2({ dropdownParent: $("#MyModalBig") }).trigger("change")
     var estadoRequerimiento = 0;
     var ID_REQUERIMIENTO = @ViewBag.idticket;
-    var ID_USUARIO = "1"
+    var ID_USUARIO = @ViewBag.UsuarioLogueado;
 
     var fotosredimencionadas = [];
 
@@ -144,12 +154,12 @@
                 fiIDEstadoRequerimiento: $("#fiIDEstadoRequerimiento option:selected").val(),
                 fcDescripcionEstado: $("#fiIDEstadoRequerimiento :selected").text(),
 
-                fiIDUsuarioAsignado: $("#fiIDUsuarioAsignado option:selected").val() == "" ? 1 : parseInt($("#fiIDUsuarioAsignado option:selected").val()),
+                //fiIDUsuarioAsignado: $("#fiIDUsuarioAsignado option:selected").val() == "" ? 1 : parseInt($("#fiIDUsuarioAsignado option:selected").val()),
 
                 fiTipoRequerimiento: 1,//$("#txtComentario").val(),
-                fiIDAreaSolicitante: $("#fiIDAreaSolicitante option:selected").val() == null ? 0 : parseInt($("#fiIDAreaSolicitante option:selected").val()),//$("#txtComentario").val(),
-                fcNombreAreaSolicitante: $("#fiIDAreaSolicitante :selected").text(),
-                fiAreaAsignada: $(`#fiAreaAsignada`).val() == null ? 0 : parseInt($("#fiAreaAsignada option:selected").val()),
+                //fiIDAreaSolicitante: $("#fiIDAreaSolicitante option:selected").val() == null ? 0 : parseInt($("#fiIDAreaSolicitante option:selected").val()),//$("#txtComentario").val(),
+                //fcNombreAreaSolicitante: $("#fiIDAreaSolicitante :selected").text(),
+                //fiAreaAsignada: $(`#fiAreaAsignada`).val() == null ? 0 : parseInt($("#fiAreaAsignada option:selected").val()),
             }
             $.ajax({
                 type: "POST",
@@ -285,13 +295,14 @@
 
         var cont = 0;
         if (fotosredimencionadas.length < 1) {
-            var datasus = { Titulo: "Exito", Mensaje: "Ticket Guardado correctamente", Estado: true }
+            var datasus = { Titulo: "Exito", Mensaje: "Imagenes", Estado: true }
             AlertaAjax(datasus)
             return 0;
         }
 
         for (const item of fotosredimencionadas) {
-            mod.push({ piIDRequerimiento: IdRequerimiento, pcTipoArchivo: 1, pcNombreArchivo: item.nombreArchivo, pcRutaArchivo: item.base, idSesion: 1, idApp: 1, pcURL: "-" });
+
+            mod.push({ piIDRequerimiento: ID_REQUERIMIENTO, pcTipoArchivo: 1, pcNombreArchivo: item.nombreArchivo, pcRutaArchivo: item.base, idSesion: 1, idApp: 1, pcURL: "-" });
 
 
             //form.append(`modelo[${cont}].`, );
