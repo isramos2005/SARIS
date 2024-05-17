@@ -49,7 +49,7 @@
                         <th style="width:80px">Usuario Asignado</th>
                         <th style="width:80px">Area Asignada</th>
                         <th style="width:150px">Fecha Creacion Solicitud</th>
-                        <th style="width:150px">Fecha Inicio</th>
+                        <th style="width:150px">Fecha Cierre</th>
                         <th style="width:150px">Tiempo Transcurrido</th>
                         <th style="width:80px">Estado</th>
                     </tr>
@@ -317,25 +317,13 @@
                     className: "td-responsive",
                 },
                 {
-                    data: "fdFechaCreacion",
-                    className: "td-responsive",
-
-                },
-                {
                     data: null,
                     className: "td-responsive",
                     render: function (data) {
-                        if (data.fdFechaAsignacion == " / Date(1581400800000) /") {
-                            return ""
-
-                        } else {
-
-                            return moment(data.fdFechaAsignacion).locale('es').format('YYYY/MM/DD hh:mm a');
-
-                        }
-
+                        return moment(data.fdFechaCreacion).locale('es').format('YYYY/MM/DD hh:mm a')
                     }
                 },
+                
                 {
                     data: null,
                     className: "td-responsive",
@@ -346,6 +334,25 @@
 
                             return moment(data.fdFechadeCierre).locale('es').format('YYYY/MM/DD hh:mm a');
                         }
+                    }
+                },
+                {
+                    data: null,
+                    className: "td-responsive",
+                    render: function (data, type, row) {
+
+                        var ahora = new Date(moment(data.fdFechadeCierre).locale('es').format('YYYY/MM/DD hh:mm a'));;
+                        var fechaInicio = new Date(moment(data.fdFechaCreacion).locale('es').format('YYYY/MM/DD hh:mm a'));
+                        var diferencia = ahora.getTime() - fechaInicio.getTime();
+
+                        // Calcula los segundos, minutos, horas y días transcurridos
+                        var segundos = Math.floor(diferencia / 1000);
+                        var minutos = Math.floor(segundos / 60);
+                        var horas = Math.floor(minutos / 60);
+                        var dias = Math.floor(horas / 24);
+
+                        return `${dias} <b>Di.</b>, ${horas % 24} <b>Ho.</b>, ${minutos % 60} <b>Mi.</b>, ${segundos % 60} <b>Seg.</b>`;
+                        //return "Han transcurrido " + dias + " días, " + horas % 24 + " horas, " + minutos % 60 + " minutos, " + segundos % 60 + " segundos.";
                     }
                 },
 
