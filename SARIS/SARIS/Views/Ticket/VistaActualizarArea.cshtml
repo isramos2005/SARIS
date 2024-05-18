@@ -30,6 +30,13 @@
 
                 </div>
 
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-form-label">Comentario</label>
+                        <input id="txtcomentario" class="form-control" type="text" placeholder="Definicion del titulo" />
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -85,11 +92,16 @@
 
 
         var idareactualizada = $(`#selectarea`).val();
+        var comentario = $(`#txtcomentario`).val();
+
+        if (comentario == "" || comentario == null) {
+            return ToastrError("Error", "Escriba un comentario");
+        }
 
         $.ajax({
             type: "POST",
             url: "@Url.Action("ActualizarArea", "Ticket")",
-            data: { idticket: idticket, idArea: idareactualizada, estadoTicket: idestadoticket },
+            data: { idticket: idticket, idArea: idareactualizada, estadoTicket: idestadoticket, comenta:comentario },
             error: function (xhr, ajaxOptions, thrownError) {
                 var dataerror = { Titulo: "Error", Mensaje: "No se guardo el ticket, Contacte con el Administrador", Estado: false }
                 AlertaAjax(dataerror)

@@ -316,7 +316,6 @@ namespace OrionCoreCableColor.Controllers
 
 
 
-
         public ListaDeUsuariosViewModel GetUser()
         {
             return MemoryLoadManager.ListaUsuarios.FirstOrDefault(x => x.UserName == User.Identity.Name);

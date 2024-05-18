@@ -25,24 +25,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_Requerimiento_Documentos_ObtenerPorIdRequerimiento" FunctionName="SARISModel.Store.sp_Requerimiento_Documentos_ObtenerPorIdRequerimiento">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="SARISModel.sp_Requerimiento_Documentos_ObtenerPorIdRequerimiento_Result">
-          <ScalarProperty Name="fiIDRequerimiento" ColumnName="fiIDRequerimiento" />
-          <ScalarProperty Name="fiIDUnicoAdjunto" ColumnName="fiIDUnicoAdjunto" />
-          <ScalarProperty Name="fdFechaRegistro" ColumnName="fdFechaRegistro" />
-          <ScalarProperty Name="fIDIUsuario" ColumnName="fIDIUsuario" />
-          <ScalarProperty Name="fiIDIPUsuarioSolicitante" ColumnName="fiIDIPUsuarioSolicitante" />
-          <ScalarProperty Name="fcDescripcionAdjunto" ColumnName="fcDescripcionAdjunto" />
-          <ScalarProperty Name="fcNombreArchivo" ColumnName="fcNombreArchivo" />
-          <ScalarProperty Name="fcTipoArchivo" ColumnName="fcTipoArchivo" />
-          <ScalarProperty Name="fcArchivoAdjunto" ColumnName="fcArchivoAdjunto" />
-          <ScalarProperty Name="fcRutaArchivo" ColumnName="fcRutaArchivo" />
-          <ScalarProperty Name="fcToken" ColumnName="fcToken" />
-          <ScalarProperty Name="fcURL" ColumnName="fcURL" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_Requerimiento_Estados" FunctionName="SARISModel.Store.sp_Requerimiento_Estados">
       <ResultMapping>
         <ComplexTypeMapping TypeName="SARISModel.sp_Requerimiento_Estados_Result">
@@ -373,5 +355,23 @@
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_Requerimiento_Bitacoras_Agregar" FunctionName="SARISModel.Store.sp_Requerimiento_Bitacoras_Agregar" />
     <FunctionImportMapping FunctionImportName="sp_Requerimiento_Maestro_Actualizar" FunctionName="SARISModel.Store.sp_Requerimiento_Maestro_Actualizar" />
+    <FunctionImportMapping FunctionImportName="sp_Requerimiento_Documentos_ObtenerPorIdRequerimiento" FunctionName="SARISModel.Store.sp_Requerimiento_Documentos_ObtenerPorIdRequerimiento">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SARISModel.sp_Requerimiento_Documentos_ObtenerPorIdRequerimiento_Result">
+          <ScalarProperty Name="fiIDRequerimiento" ColumnName="fiIDRequerimiento" />
+          <ScalarProperty Name="fiIDUnicoAdjunto" ColumnName="fiIDUnicoAdjunto" />
+          <ScalarProperty Name="fdFechaRegistro" ColumnName="fdFechaRegistro" />
+          <ScalarProperty Name="fIDIUsuario" ColumnName="fIDIUsuario" />
+          <ScalarProperty Name="fiIDIPUsuarioSolicitante" ColumnName="fiIDIPUsuarioSolicitante" />
+          <ScalarProperty Name="fcDescripcionAdjunto" ColumnName="fcDescripcionAdjunto" />
+          <ScalarProperty Name="fcNombreArchivo" ColumnName="fcNombreArchivo" />
+          <ScalarProperty Name="fcTipoArchivo" ColumnName="fcTipoArchivo" />
+          <ScalarProperty Name="fcArchivoAdjunto" ColumnName="fcArchivoAdjunto" />
+          <ScalarProperty Name="fcRutaArchivo" ColumnName="fcRutaArchivo" />
+          <ScalarProperty Name="fcToken" ColumnName="fcToken" />
+          <ScalarProperty Name="fcURL" ColumnName="fcURL" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

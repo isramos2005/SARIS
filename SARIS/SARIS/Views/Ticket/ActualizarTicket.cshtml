@@ -53,7 +53,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="form-group">
-                        <label class="control-label">DOCUMENTO (Solo se pueden subir pdf e imagenes) </label>
+                        <label class="control-label">DOCUMENTO (Solo se pueden subir imagenes) </label>
 
                         <form id="Imagen-dropzone" action="@Url.Action("FormFileResponse","Base")" method="post" enctype="multipart/form-data" class="dropzone needsclick">
                             <div class="dz-message needsclick">
@@ -85,25 +85,25 @@
         </div>
     </div>
 
-    @*<div class="row">
+    <div class="row">
         <div class="col-lg-12">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="form-group">
-                        <label> aqui ira el titutlo</label>
-                        @foreach (var item in Model.DatosDocumentoListado)
+                        <label class="control-label"> Imagenes Adjuntos</label>
+                        @foreach (var item in @ViewBag.DatosDocumentoListado)
                         {
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <div class="input-group mar-btm">
-                                        @if (item.fcTipoDocumento == "pdf")
+                                        @if (item.fcTipoArchivo == "pdf")
                                         {
 
-                                            <a href="javascript:ShowBigPdf('@item.fcNombreArchivo','@item.fcRuta')" class="text-info"> <i class="fal fa-2x fa-file-pdf"> </i> @item.fcDescripcion</a>
+                                            <a href="javascript:ShowBigPdf('@item.fcNombreArchivo','@item.fcURL')" class="text-info"> <i class="fal fa-2x fa-file-pdf"> </i> @item.fcNombreArchivo</a>
                                         }
                                         else
                                         {
-                                            <a href="javascript:void(0)" data-Description="@item.fcDescripcion" class="text-info" onclick="ShowBigImage(this)" src="@(MemoryLoadManager.Helper)?type=img&carpeta=@(item.fcRuta)&documento=@(item.fcNombreArchivo)"> <i class="fal fa-2x fa-file-image"> </i>  @item.fcDescripcion</a>
+                                            <a href="javascript:void(0)" data-Description="@item.fcNombreArchivo" class="text-info" onclick="ShowBigImage(this)" src="@item.fcURL"> <i class="fal fa-2x fa-file-image"> </i>  @item.fcNombreArchivo</a>
                                         }
                                     </div>
                                 </div>
@@ -113,7 +113,7 @@
                 </div>
             </div>
         </div>
-    </div>*@
+    </div>
 
 
 </div>

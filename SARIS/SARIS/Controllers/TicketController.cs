@@ -161,6 +161,8 @@ namespace OrionCoreCableColor.Controllers
                     ViewBag.Usuario = contexto.sp_Usuarios_Maestro_PorIdUsuarioSupervisor(1).Select(x => new SelectListItem { Value = x.fiIDUsuario.ToString(), Text = x.fcPrimerNombre + " " + x.fcPrimerApellido }).ToList();
                     ViewBag.idticket = idticket;
                     ViewBag.UsuarioLogueado = GetIdUser();
+                    ViewBag.DatosDocumentoListado = contexto.sp_Requerimiento_Documentos_ObtenerPorIdRequerimiento(idticket, 1, 1, GetIdUser()).ToList();
+
                     return PartialView(tick);
                 }
                 catch (Exception ex)
@@ -259,7 +261,7 @@ namespace OrionCoreCableColor.Controllers
                     {
 
                         var arch = ConvertirBase64AImagen(item.pcRutaArchivo, item.pcNombreArchivo);
-                        var guardardocumentos = contexto.sp_Requerimientos_Adjuntos_Guardar(item.piIDRequerimiento, item.pcNombreArchivo, item.pcTipoArchivo, MemoryLoadManager.UrlWeb + @"/Documentos\Ticket\Ticket_" + arch.FileName, MemoryLoadManager.UrlWeb + @"/Documentos/Ticket/Ticket_" + arch.FileName, item.piIDSesion, item.piIDApp,GetIdUser());
+                        var guardardocumentos = contexto.sp_Requerimientos_Adjuntos_Guardar(item.piIDRequerimiento, item.pcNombreArchivo, item.pcTipoArchivo, MemoryLoadManager.UrlWeb + @"/Documentos\Ticket\Ticket_" + item.piIDRequerimiento+ "/" + arch.FileName, MemoryLoadManager.UrlWeb + @"/Documentos/Ticket/Ticket_" + item.piIDRequerimiento + "/" + arch.FileName, item.piIDSesion, item.piIDApp,GetIdUser());
                         
                         string carpeta = @"\Documentos\Ticket\Ticket_" + item.piIDRequerimiento ;
                         var urlPdf = MemoryLoadManager.URL + carpeta;
@@ -297,7 +299,7 @@ namespace OrionCoreCableColor.Controllers
             return PartialView();
         }
 
-        public JsonResult ActualizarArea(int idticket, int idArea,int estadoTicket)
+        public JsonResult ActualizarArea(int idticket, int idArea,int estadoTicket, string comenta)
         {
             try
             {
@@ -308,7 +310,7 @@ namespace OrionCoreCableColor.Controllers
 
                     var datosticket = Datosticket(idticket);//contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), idticket).FirstOrDefault();
                     
-                    GuardarBitacoraGeneralhistorial(GetIdUser(), idticket, GetIdUser(), $"El Usuario {usuarioLogueado.fcPrimerNombre} {usuarioLogueado.fcPrimerApellido} Asigno El Area a " + areaasignada, 1, 7,0);//se manda 0 por que se asigno una nueva area y por lo tanto el usuario asignado no puede ser otro
+                    GuardarBitacoraGeneralhistorial(GetIdUser(), idticket, GetIdUser(), $"El Usuario {usuarioLogueado.fcPrimerNombre} {usuarioLogueado.fcPrimerApellido} reasigna por: " + comenta, 1, 7,0);//se manda 0 por que se asigno una nueva area y por lo tanto el usuario asignado no puede ser otro
                     
                     var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), datosticket.fiIDRequerimiento, datosticket.fcTituloRequerimiento, datosticket.fcDescripcionRequerimiento, Convert.ToByte(7), DateTime.Now, 0, 0, datosticket.fiTipoRequerimiento, 1, idArea);
                     return EnviarResultado(true, "", "Ticket Actualizado exitosamente");
@@ -335,7 +337,7 @@ namespace OrionCoreCableColor.Controllers
             return PartialView();
         }
 
-        public JsonResult ActualizarUsuario(int idticket, int usuario, int estadoTicket)
+        public JsonResult ActualizarUsuario(int idticket, int usuario, int estadoTicket, string comenta)
         {
             try
             {
@@ -347,7 +349,7 @@ namespace OrionCoreCableColor.Controllers
 
                     var datosticket = Datosticket(idticket);//contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), idticket).FirstOrDefault();
                     //guardar la bitacora 
-                    GuardarBitacoraGeneralhistorial(GetIdUser(), idticket, datosticket.fiIDUsuarioSolicitante, $"El Usuario {usuarioLogueado.fcPrimerNombre} {usuarioLogueado.fcPrimerApellido} Asigno al Usuario {UsuarioAsignado.fcPrimerNombre} {UsuarioAsignado.fcPrimerApellido}", 1, 7, usuario);//el estado de ticket esta en 7 para que pueda guardar la bitacora
+                    GuardarBitacoraGeneralhistorial(GetIdUser(), idticket, datosticket.fiIDUsuarioSolicitante, comenta, 1, 7, usuario);//el estado de ticket esta en 7 para que pueda guardar la bitacora
 
                     var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), datosticket.fiIDRequerimiento, datosticket.fcTituloRequerimiento, datosticket.fcDescripcionRequerimiento, 7, DateTime.Now, usuario, 0, datosticket.fiTipoRequerimiento, 1, datosticket.fiAreaAsignada);//el estado de ticket esta en 7 para que pueda guardar la bitacora
                     

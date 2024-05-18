@@ -27,12 +27,6 @@
       <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
       <Parameter Name="piIDApp" Mode="In" Type="Int32" />
     </FunctionImport>
-    <FunctionImport Name="sp_Requerimiento_Documentos_ObtenerPorIdRequerimiento" ReturnType="Collection(SARISModel.sp_Requerimiento_Documentos_ObtenerPorIdRequerimiento_Result)">
-      <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
-      <Parameter Name="piIDSesion" Mode="In" Type="Int32" />
-      <Parameter Name="piIDApp" Mode="In" Type="Int32" />
-      <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
-    </FunctionImport>
     <FunctionImport Name="sp_Requerimiento_Estados" ReturnType="Collection(SARISModel.sp_Requerimiento_Estados_Result)">
       <Parameter Name="piIDSesion" Mode="In" Type="Int32" />
       <Parameter Name="piIDApp" Mode="In" Type="Int16" />
@@ -188,6 +182,12 @@
       <Parameter Name="piIDApp" Mode="In" Type="Int32" />
       <Parameter Name="piIdAreaAsignada" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="sp_Requerimiento_Documentos_ObtenerPorIdRequerimiento" ReturnType="Collection(SARISModel.sp_Requerimiento_Documentos_ObtenerPorIdRequerimiento_Result)">
+      <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
+      <Parameter Name="piIDSesion" Mode="In" Type="Int32" />
+      <Parameter Name="piIDApp" Mode="In" Type="Int32" />
+      <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_Requerimiento_Areas_Result">
     <Property Type="Int16" Name="fiIDArea" Nullable="false" />
@@ -201,20 +201,6 @@
     <Property Type="Int32" Name="fIDIUsuario" Nullable="false" />
     <Property Type="String" Name="fcComentario" Nullable="false" MaxLength="Max" />
     <Property Type="String" Name="fcNombreUsuario" Nullable="false" MaxLength="30" />
-  </ComplexType>
-  <ComplexType Name="sp_Requerimiento_Documentos_ObtenerPorIdRequerimiento_Result">
-    <Property Type="Int32" Name="fiIDRequerimiento" Nullable="false" />
-    <Property Type="Int32" Name="fiIDUnicoAdjunto" Nullable="false" />
-    <Property Type="DateTime" Name="fdFechaRegistro" Nullable="false" Precision="23" />
-    <Property Type="Int32" Name="fIDIUsuario" Nullable="false" />
-    <Property Type="String" Name="fiIDIPUsuarioSolicitante" Nullable="false" MaxLength="15" />
-    <Property Type="String" Name="fcDescripcionAdjunto" Nullable="false" MaxLength="300" />
-    <Property Type="String" Name="fcNombreArchivo" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="fcTipoArchivo" Nullable="false" MaxLength="4" />
-    <Property Type="String" Name="fcArchivoAdjunto" Nullable="false" MaxLength="1000" />
-    <Property Type="String" Name="fcRutaArchivo" Nullable="true" MaxLength="500" />
-    <Property Type="String" Name="fcToken" Nullable="false" MaxLength="512" />
-    <Property Type="String" Name="fcURL" Nullable="true" MaxLength="2256" />
   </ComplexType>
   <ComplexType Name="sp_Requerimiento_Estados_Result">
     <Property Type="Byte" Name="fiIDEstado" Nullable="false" />
@@ -459,5 +445,19 @@
     <Property Type="String" Name="fiMensaje" Nullable="true" MaxLength="1" />
     <Property Type="String" Name="fcMensaje" Nullable="true" MaxLength="255" />
     <Property Type="Int32" Name="IdIngresado" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_Requerimiento_Documentos_ObtenerPorIdRequerimiento_Result">
+    <Property Type="Int32" Name="fiIDRequerimiento" Nullable="false" />
+    <Property Type="Int32" Name="fiIDUnicoAdjunto" Nullable="false" />
+    <Property Type="DateTime" Name="fdFechaRegistro" Nullable="false" Precision="23" />
+    <Property Type="Int32" Name="fIDIUsuario" Nullable="false" />
+    <Property Type="String" Name="fiIDIPUsuarioSolicitante" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="fcDescripcionAdjunto" Nullable="false" MaxLength="300" />
+    <Property Type="String" Name="fcNombreArchivo" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="fcTipoArchivo" Nullable="false" MaxLength="4" />
+    <Property Type="String" Name="fcArchivoAdjunto" Nullable="false" MaxLength="1000" />
+    <Property Type="String" Name="fcRutaArchivo" Nullable="true" />
+    <Property Type="String" Name="fcToken" Nullable="false" MaxLength="512" />
+    <Property Type="String" Name="fcURL" Nullable="true" MaxLength="2256" />
   </ComplexType>
 </Schema>
