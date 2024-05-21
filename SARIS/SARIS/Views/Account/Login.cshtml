@@ -62,7 +62,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text text-light" style="background-color:transparent"><i class="fal fa-user"></i></span>
                                     </div>
-                                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control custom-input", @placeholder = "Usuario" })
+                                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control custom-input text-white", @placeholder = "Usuario" })
                                 </div>
                                 @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                             </div>
@@ -71,7 +71,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text text-light" style="background-color:transparent"><i class="fal fa-lock"></i></span>
                                     </div>
-                                    @Html.PasswordFor(model => model.Password, new { @class = "form-control custom-input", @placeholder = "Contraseña" })
+                                    @Html.PasswordFor(model => model.Password, new { @class = "form-control custom-input text-white", @placeholder = "Contraseña" })
                                 </div>
                                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                             </div>
