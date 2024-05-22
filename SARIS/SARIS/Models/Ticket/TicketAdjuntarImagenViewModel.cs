@@ -15,6 +15,7 @@ namespace OrionCoreCableColor.Models.Ticket
         public int piIDSesion { get; set; }
         public int piIDApp { get; set; }
         public int piIDUsuario { get; set; }
-        
-	}
+        public bool pbEsImagen { get; set; }
+
+    }
 }

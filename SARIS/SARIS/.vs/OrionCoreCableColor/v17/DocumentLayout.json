@@ -3,7 +3,15 @@
   "WorkspaceRootPath": "C:\\Users\\DTORRES\\Documents\\SARIS\\SARIS\\SARIS\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8DE43FAF-87B9-45C9-939E-2BBAA4067445}|OrionCoreCableColor.csproj|c:\\users\\dtorres\\documents\\saris\\saris\\saris\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{8DE43FAF-87B9-45C9-939E-2BBAA4067445}|OrionCoreCableColor.csproj|c:\\users\\dtorres\\documents\\saris\\saris\\saris\\views\\ticket\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{8DE43FAF-87B9-45C9-939E-2BBAA4067445}|OrionCoreCableColor.csproj|solutionrelative:views\\ticket\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8DE43FAF-87B9-45C9-939E-2BBAA4067445}|OrionCoreCableColor.csproj|c:\\users\\dtorres\\documents\\saris\\saris\\saris\\views\\ticket\\registrarticket.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{8DE43FAF-87B9-45C9-939E-2BBAA4067445}|OrionCoreCableColor.csproj|solutionrelative:views\\ticket\\registrarticket.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8DE43FAF-87B9-45C9-939E-2BBAA4067445}|OrionCoreCableColor.csproj|C:\\Users\\DTORRES\\Documents\\SARIS\\SARIS\\SARIS\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{8DE43FAF-87B9-45C9-939E-2BBAA4067445}|OrionCoreCableColor.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
@@ -20,14 +28,39 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\DTORRES\\Documents\\SARIS\\SARIS\\SARIS\\Views\\Ticket\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Ticket\\Index.cshtml",
+              "ToolTip": "C:\\Users\\DTORRES\\Documents\\SARIS\\SARIS\\SARIS\\Views\\Ticket\\Index.cshtml",
+              "RelativeToolTip": "Views\\Ticket\\Index.cshtml",
+              "ViewState": "AQIAAJkAAAAAAAAAAAAAAKwAAABpAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-05-20T14:03:22.672Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RegistrarTicket.cshtml",
+              "DocumentMoniker": "C:\\Users\\DTORRES\\Documents\\SARIS\\SARIS\\SARIS\\Views\\Ticket\\RegistrarTicket.cshtml",
+              "RelativeDocumentMoniker": "Views\\Ticket\\RegistrarTicket.cshtml",
+              "ToolTip": "C:\\Users\\DTORRES\\Documents\\SARIS\\SARIS\\SARIS\\Views\\Ticket\\RegistrarTicket.cshtml",
+              "RelativeToolTip": "Views\\Ticket\\RegistrarTicket.cshtml",
+              "ViewState": "AQIAAIkAAAAAAAAAAAAmwI4AAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-05-18T22:03:08.616Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\DTORRES\\Documents\\SARIS\\SARIS\\SARIS\\Views\\Home\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
               "ToolTip": "C:\\Users\\DTORRES\\Documents\\SARIS\\SARIS\\SARIS\\Views\\Home\\Index.cshtml",
               "RelativeToolTip": "Views\\Home\\Index.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-16T18:17:18.001Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-16T18:17:18.001Z"
             }
           ]
         }

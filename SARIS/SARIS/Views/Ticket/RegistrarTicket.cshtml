@@ -185,17 +185,8 @@
         }
 
         for (const item of fotosredimencionadas) {
-            mod.push({ piIDRequerimiento: IdRequerimiento, pcTipoArchivo: item.tipoarchivo, pcNombreArchivo: item.nombreArchivo, pcRutaArchivo: item.base, idSesion: 1, idApp: 1, pcURL: "-" });
+            mod.push({ piIDRequerimiento: IdRequerimiento, pcTipoArchivo: item.tipoarchivo, pcNombreArchivo: item.nombreArchivo, pcRutaArchivo: item.base, piIDSesion: 1, piIDApp: 1, pcURL: "-", pbEsImagen: item.pbEsImagen });
 
-
-            //form.append(`modelo[${cont}].`, );
-            ////form.append("modelo[].idUsuario", ID_USUARIO);
-            //form.append(`modelo[${cont}].`, 1); // se usaba anteriormente para saber si un archivo era imagen, documento o un dinosaurio, pero con el base 64 eso ya no importa pero para no cambiar todo el flujo se deja en 1
-            //form.append(`modelo[${cont}].`, );
-            //form.append(`modelo[${cont}].`, );
-            //form.append(`modelo[${cont}].`, 1); //de momento no se para que se ocupa estas variables pero el procedimiento las pide asi que poner 1 por cualquier cosa
-            //form.append(`modelo[${cont}].`, 1);//de momento no se para que se ocupa estas variables pero el procedimiento las pide asi que poner 1 por cualquier cosa
-            //cont++
         }
 
 
@@ -222,7 +213,6 @@
 
 
     }
-
 
 
     function GuardarRequermiento(id) {
@@ -259,6 +249,7 @@
                     H5_loading.hide();
                     CerrarModal();
                     GuardarDocumentos(data.IdIngresado);
+                    return ToastrSuccess("Exito", "Ticket Registrado Correctamente");
                 }
             }
         });
@@ -270,46 +261,57 @@
         //url: '/file/post',
         autoProcessQueue: true,
         uploadMultiple: true,
-        acceptedFiles: "image/*,.pdf",
+        acceptedFiles: "image/*,.pdf,.doc,.docx,.xls,.xlsx",
         //maxFiles: 1,
         addRemoveLinks: true,
         dictMaxFilesExceeded: "Maximum upload limit reached",
-        dictInvalidFileType: "upload only JPG/PNG",
+        dictInvalidFileType: "Upload only JPG/PNG/PDF/DOC/XLS",
         //resizeWidth: 500,
         //resizeHeight: 300,
 
         init: function () {
-            myDropzoneCapture = this;
             var myDropzone = this;
+
             myDropzone.on('maxfilesexceeded', function (file) {
                 this.removeAllFiles();
                 this.addFile(file);
             });
 
-            myDropzone.on('thumbnail', function (file, dataURL) {
+            myDropzone.on('addedfile', function (file) {
+                console.log("entro aquí el base64");
+                console.log("file.type:", file.type);
 
-                console.log("entro aqui el base64")
-                console.log(file);
-                var tipoimagen = file.type.split('/')[1];
-                if (tipoimagen == "pdf") {
+                var tipoarchivo = file.type;
+                if (tipoarchivo === "application/pdf" ||
+                    tipoarchivo === "application/msword" ||
+                    tipoarchivo === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+                    tipoarchivo === "application/vnd.ms-excel" ||
+                    tipoarchivo === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+
                     var reader = new FileReader();
-                    reader.onload = function () {
-                        var base64String = reader.result.split(',')[1]; // Obtener solo la parte base64
-                        console.log('Base64 String:', base64String);
+                    reader.onload = function (e) {
+                        var base64String = e.target.result.split(',')[1]; // Obtener solo la parte base64
+
+                        //console.log('Base64 String:', base64String);
+                        fotosredimencionadas.push({ base: base64String, nombreArchivo: file.name, tipoarchivo: file.type.split('/')[1], pbEsImagen: false});
+                        console.log(fotosredimencionadas);
 
                         // Aquí puedes manejar el Base64 string, por ejemplo enviarlo a un servidor
                     };
-                } else {
-                    RedimencionarImagen(`fotopreviacanva`, file, "fotoprevia2", file.name, tipoimagen);
+                    reader.readAsDataURL(file);
+                } else if (tipoarchivo.startsWith("image/")) {
+                    myDropzone.emit("thumbnail", file); // Emitir el evento de thumbnail para imágenes
                 }
+            });
+
+            myDropzone.on('thumbnail', function (file, dataURL) {
+                RedimencionarImagen(`fotopreviacanva`, file, "fotoprevia2", file.name, file.type.split('/')[1]);
             });
         },
 
         removedfile: function (file) {
-
             archivoExterno = 0;
             var _ref = file.previewElement;
-
             return _ref != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
         }
     });
@@ -317,8 +319,8 @@
 
     $("#btnGuardarRequerimientoEnviar").click(function (e) {
 
-        GuardarRequermiento(1);
-
+        //GuardarRequermiento(1);
+        GuardarDocumentos(22)
     });
 
     function RedimencionarImagen(idcanva, eimagencaptada, idimg, NombreArchivo, tipoimagen) {
@@ -348,7 +350,7 @@
 
             var urlbase64 = getBase64Image(img); // tira el base 64
             console.log(canvas.toDataURL('image/jpeg', 0.7)); // aqui para saber el base64 de la imagen
-            fotosredimencionadas.push({ base: canvas.toDataURL('image/jpeg', 0.7), nombreArchivo: NombreArchivo, tipoarchivo: tipoimagen});
+            fotosredimencionadas.push({ base: canvas.toDataURL('image/jpeg', 0.7), nombreArchivo: NombreArchivo, tipoarchivo: tipoimagen, pbEsImagen: true});
             return ctx;
             //document.getElementById(idimg).src = canvas.toDataURL('image/jpeg', 0.7); // el 07 es la calidad de la imagen si no estoy mal eso decia en la documentacion
             //document.getElementById(idcanva).style.display = "block"; //mostrar la imagen que esta oculta

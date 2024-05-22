@@ -182,7 +182,9 @@
                         $("#modalConfirmarDatos").modal('hide');
                         //window.location = "BandejaRequerimientoDesarrollo.aspx?" + window.location.href.split('?')[1];
                         GuardarDocumentos(data.IdIngresado);
-                        window.location.href ="@Url.Action("Index", "Ticket")"
+                        CerrarModal();
+                        return ToastrSuccess("Exito", "Ticket Actualizado Correctamente");
+                        //window.location.href ="@Url.Action("Index", "Ticket")"
                         //CargarDetalleBitacora();
                         //location.reload();
                     }
@@ -213,43 +215,69 @@
         //url: '/file/post',
         autoProcessQueue: true,
         uploadMultiple: true,
-        acceptedFiles: "image/*,.pdf",
+        acceptedFiles: "image/*,.pdf,.doc,.docx,.xls,.xlsx",
         //maxFiles: 1,
         addRemoveLinks: true,
         dictMaxFilesExceeded: "Maximum upload limit reached",
-        dictInvalidFileType: "upload only JPG/PNG",
+        dictInvalidFileType: "Upload only JPG/PNG/PDF/DOC/XLS",
         //resizeWidth: 500,
         //resizeHeight: 300,
 
         init: function () {
-            myDropzoneCapture = this;
             var myDropzone = this;
+
             myDropzone.on('maxfilesexceeded', function (file) {
                 this.removeAllFiles();
                 this.addFile(file);
             });
 
+            myDropzone.on('addedfile', function (file) {
+                console.log("entro aquí el base64");
+                console.log("file.type:", file.type);
+
+                var tipoarchivo = file.type;
+                if (tipoarchivo === "application/pdf" ||
+                    tipoarchivo === "application/msword" ||
+                    tipoarchivo === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+                    tipoarchivo === "application/vnd.ms-excel" ||
+                    tipoarchivo === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var base64String = e.target.result.split(',')[1]; // Obtener solo la parte base64
+
+                        //console.log('Base64 String:', base64String);
+                        fotosredimencionadas.push({ base: base64String, nombreArchivo: file.name, tipoarchivo: file.type.split('/')[1], pbEsImagen: false });
+                        console.log(fotosredimencionadas);
+
+                        // Aquí puedes manejar el Base64 string, por ejemplo enviarlo a un servidor
+                    };
+                    reader.readAsDataURL(file);
+                } else if (tipoarchivo.startsWith("image/")) {
+                    myDropzone.emit("thumbnail", file); // Emitir el evento de thumbnail para imágenes
+                }
+            });
+
             myDropzone.on('thumbnail', function (file, dataURL) {
-
-                RedimencionarImagen(`fotopreviacanva`, file, "fotoprevia2", file.name);
-
+                RedimencionarImagen(`fotopreviacanva`, file, "fotoprevia2", file.name, file.type.split('/')[1])
             });
         },
 
         removedfile: function (file) {
-
             archivoExterno = 0;
             var _ref = file.previewElement;
-
             return _ref != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
         }
     });
 
-    function RedimencionarImagen(idcanva, eimagencaptada, idimg, NombreArchivo) {
+    function RedimencionarImagen(idcanva, eimagencaptada, idimg, NombreArchivo, tipoimagen) {
         debugger;
         var canvas = document.createElement('canvas');
         var ctx = canvas.getContext('2d'); // capturamos el id del camva para ponerlo la imagen oculta ahi y asi poder tomar esa imagen y no la que se esta mostrando
         var img = new Image;
+
+        //console.log(eimagencaptada.type);
+
         img.src = URL.createObjectURL(eimagencaptada); // insertamos la imagen que el cliente subio para posteriormente hacer la reduccion
         img.onload = function () {
             //var canvas = document.getElementById(idcanva);
@@ -269,7 +297,7 @@
 
             var urlbase64 = getBase64Image(img); // tira el base 64
             console.log(canvas.toDataURL('image/jpeg', 0.7)); // aqui para saber el base64 de la imagen
-            fotosredimencionadas.push({ base: canvas.toDataURL('image/jpeg', 0.7), nombreArchivo: NombreArchivo });
+            fotosredimencionadas.push({ base: canvas.toDataURL('image/jpeg', 0.7), nombreArchivo: NombreArchivo, tipoarchivo: tipoimagen, pbEsImagen: true });
             return ctx;
             //document.getElementById(idimg).src = canvas.toDataURL('image/jpeg', 0.7); // el 07 es la calidad de la imagen si no estoy mal eso decia en la documentacion
             //document.getElementById(idcanva).style.display = "block"; //mostrar la imagen que esta oculta
@@ -302,7 +330,7 @@
 
         for (const item of fotosredimencionadas) {
 
-            mod.push({ piIDRequerimiento: ID_REQUERIMIENTO, pcTipoArchivo: 1, pcNombreArchivo: item.nombreArchivo, pcRutaArchivo: item.base, idSesion: 1, idApp: 1, pcURL: "-" });
+            mod.push({ piIDRequerimiento: ID_REQUERIMIENTO, pcTipoArchivo: item.tipoarchivo, pcNombreArchivo: item.nombreArchivo, pcRutaArchivo: item.base, idSesion: 1, idApp: 1, pcURL: "-" });
 
 
             //form.append(`modelo[${cont}].`, );

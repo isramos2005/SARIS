@@ -105,10 +105,12 @@
             {
 
                 console.log(data);
-                window.location.href ="@Url.Action("Index", "Ticket")"//cambiarlo de estado despues
+                CerrarModal();
+                return ToastrSuccess("Exito", "Usuario Asignado Correctamente");
+                //window.location.href ="@Url.Action("Index", "Ticket")"//cambiarlo de estado despues
                 if (data.fiMensaje == "1") {
                     CerrarModal();
-                    window.location.href ="@Url.Action("Index", "Ticket")"
+                    //window.location.href ="@Url.Action("Index", "Ticket")"
                     //GuardarDocumentos(data.IdIngresado);
                 }
             }

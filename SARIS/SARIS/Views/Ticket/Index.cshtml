@@ -231,6 +231,25 @@
             tabla.row.add(modelo).draw(false);
         }
 
+        chat.client.actualizarBandeja = function (ticket) {
+            console.log(ticket);
+
+            var tabla = $.fn.dataTable.Api("#TablaPrincipalTicket");
+            var nodes = tabla.rows().nodes().toArray();
+            var node = nodes.find(x => tabla.row(x).data().fiIDRequerimiento == ticket.fiIDRequerimiento);
+            tabla.row(node).data(ticket).draw(false);
+
+        }
+
+        chat.client.eliminarrow = function (idequifax) {
+            var tabla = $.fn.dataTable.Api("#TablaPrincipalTicket");
+            var nodes = tabla.rows().nodes().toArray();
+            var node = nodes.find(x => tabla.row(x).data().fiIDRequerimiento == idequifax);
+
+            tabla.row(node).remove().draw(false);
+        }
+
+
         var tablaPrincipalcerrados = $('#TablaPrincipalTicketCerrados').DataTable({
 
             autoWidth: true,
@@ -266,9 +285,7 @@
                     render: function (data) {
                         var opt = `<div class='dropdown d-inline-block dropleft'>
                                     <a href='#'' class='btn btn-sm btn-icon btn-outline-primary rounded-circle shadow-0' data-toggle='dropdown' aria-expanded='true' title='More options'>\n\t\t\t\t\t\t\t\t<i class=\"fal fa-ellipsis-v\"></i>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t
-                                    <div class='dropdown-menu'>
-                                        <a class='dropdown-item' href='javascript:void(0);' onclick="ActualizarTicket(${data.fiIDRequerimiento})">Actualizar Ticket</a>
-                                    `;
+                                    <div class='dropdown-menu'>`;
 
                         opt += `</div>
                                 </div>`

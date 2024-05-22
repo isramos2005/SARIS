@@ -191,7 +191,7 @@ namespace OrionCoreCableColor.Controllers
                         //GuardarBitacoraGeneralhistorial(GetIdUser(),datosticket.fiIDRequerimiento,datosticket.fiIDUsuarioSolicitante, comentarioticket,1,datosticket.fiIDEstadoRequerimiento,datosticket.fiIDUsuarioAsignado);
 
 
-                        agregarCreacionTicket((int)save.IdIngresado);
+                        agregarCreacionTicket((int)save.IdIngresado);//esto es SignalR
                         return EnviarListaJson(save);
 
                     }
@@ -232,6 +232,7 @@ namespace OrionCoreCableColor.Controllers
 
                     GuardarBitacoraGeneralhistorial(GetIdUser(), ticket.fiIDRequerimiento, GetIdUser(), comentario, 1, ticket.fiIDEstadoRequerimiento, ticket.fiIDUsuarioAsignado);
                     var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), ticket.fiIDRequerimiento, ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento, DateTime.Now, ticket.fiIDUsuarioAsignado, 0, ticket.fiTipoRequerimiento, 1, datosticket.fiAreaAsignada);
+                    ObtenerDataTicket(ticket.fiIDRequerimiento); //Esto es el signalR
                     return EnviarResultado(true, "", "Ticket Actualizado exitosamente");
                 }
             }
@@ -259,8 +260,9 @@ namespace OrionCoreCableColor.Controllers
                 {
                     foreach (var item in modelo)
                     {
-
-                        var arch = ConvertirBase64AImagen(item.pcRutaArchivo, item.pcNombreArchivo);
+                        
+                        var arch = ConvertirBase64AImagen(item.pcRutaArchivo, item.pcNombreArchivo);//esto funciona tan bien que convierte imagenes, pdf, word, pdf, gatos, perros y los sube bien
+                        
                         var guardardocumentos = contexto.sp_Requerimientos_Adjuntos_Guardar(item.piIDRequerimiento, item.pcNombreArchivo, item.pcTipoArchivo, MemoryLoadManager.UrlWeb + @"/Documentos\Ticket\Ticket_" + item.piIDRequerimiento+ "/" + arch.FileName, MemoryLoadManager.UrlWeb + @"/Documentos/Ticket/Ticket_" + item.piIDRequerimiento + "/" + arch.FileName, item.piIDSesion, item.piIDApp,GetIdUser());
                         
                         string carpeta = @"\Documentos\Ticket\Ticket_" + item.piIDRequerimiento ;
@@ -313,6 +315,7 @@ namespace OrionCoreCableColor.Controllers
                     GuardarBitacoraGeneralhistorial(GetIdUser(), idticket, GetIdUser(), $"El Usuario {usuarioLogueado.fcPrimerNombre} {usuarioLogueado.fcPrimerApellido} reasigna por: " + comenta, 1, 7,0);//se manda 0 por que se asigno una nueva area y por lo tanto el usuario asignado no puede ser otro
                     
                     var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), datosticket.fiIDRequerimiento, datosticket.fcTituloRequerimiento, datosticket.fcDescripcionRequerimiento, Convert.ToByte(7), DateTime.Now, 0, 0, datosticket.fiTipoRequerimiento, 1, idArea);
+                    ObtenerDataTicket(idticket); // aqui va el signalR
                     return EnviarResultado(true, "", "Ticket Actualizado exitosamente");
                 }
             }
@@ -352,7 +355,7 @@ namespace OrionCoreCableColor.Controllers
                     GuardarBitacoraGeneralhistorial(GetIdUser(), idticket, datosticket.fiIDUsuarioSolicitante, comenta, 1, 7, usuario);//el estado de ticket esta en 7 para que pueda guardar la bitacora
 
                     var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), datosticket.fiIDRequerimiento, datosticket.fcTituloRequerimiento, datosticket.fcDescripcionRequerimiento, 7, DateTime.Now, usuario, 0, datosticket.fiTipoRequerimiento, 1, datosticket.fiAreaAsignada);//el estado de ticket esta en 7 para que pueda guardar la bitacora
-                    
+                    ObtenerDataTicket(idticket);//aqui esta el signalR
                     return EnviarResultado(true, "", "Ticket Usuario Actualizado exitosamente");
                 }
             }
@@ -369,6 +372,7 @@ namespace OrionCoreCableColor.Controllers
             {
                 using (var contexto = new SARISEntities1()) {
                     var result = contexto.sp_Eliminar_Requerimiento(idticket).FirstOrDefault();
+                    eliminarTicketAbierto(idticket);
                     return EnviarResultado(true, "Eliminado!", "Ticket Eliminado Exitosamente");
                 }
             }

@@ -108,7 +108,8 @@
             },
             success: function (data) {
                 console.log(data);
-                window.location.href ="@Url.Action("Index", "Ticket")"//cambiarlo de estado despues
+                CerrarModal();
+                return ToastrSuccess("Exito", "Area Asignada Correctamente");
                 if (data.fiMensaje == "1") {
                     CerrarModal();
 

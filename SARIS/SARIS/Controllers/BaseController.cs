@@ -314,6 +314,21 @@ namespace OrionCoreCableColor.Controllers
 
         }
 
+        public void ObtenerDataTicket(int idticket)
+        {
+            using (var contexto = new SARISEntities1())
+            {
+                var model = contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), idticket).ToList();
+                var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificacionesHub>();
+                hubContext.Clients.All.actualizarBandeja(model.FirstOrDefault());
+            }
+        }
+
+        public void eliminarTicketAbierto(int IdTicket) // adaptarlo al de ticket
+        {
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificacionesHub>();
+            hubContext.Clients.All.eliminarrow(IdTicket);
+        }
 
 
         public ListaDeUsuariosViewModel GetUser()
@@ -343,19 +358,6 @@ namespace OrionCoreCableColor.Controllers
                 return contexto.PrivilegiosPorRol.Where(x => x.Fk_IdRol == idRol).Select(x => x.AspNetRoles).ToList();
             }
         }
-
-
-        
-
-        
-
-
-
-        
-
-
-        
-
 
 
         [HttpPost]
@@ -598,25 +600,6 @@ namespace OrionCoreCableColor.Controllers
             MensajeriaApi.MensajesDigitales(telefono, mensaje);
         }
 
-        
-
-       
-
-        
-
-
-      
-
-        public void eliminar(int idequifax)
-        {
-            var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificacionesHub>();
-            hubContext.Clients.All.eliminarrow(idequifax);
-        }
-
-        
-
-        
-
         public ActionResult MensajeriaMasiva()
         {
             return View();
@@ -691,5 +674,6 @@ namespace OrionCoreCableColor.Controllers
 
         public override Stream InputStream => new MemoryStream(_fileBytes);
     }
+
 
 }
