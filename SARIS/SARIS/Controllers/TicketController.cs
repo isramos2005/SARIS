@@ -415,5 +415,10 @@ namespace OrionCoreCableColor.Controllers
                 throw;
             }
         }
+        public ActionResult DetalleTicket()
+        {
+            return PartialView();
+        }
+
     }
 }
