@@ -11,6 +11,7 @@ namespace OrionCoreCableColor.Models.Indicadores
 
         public string fcTipoRequerimiento { get; set; }
 
+        public string fcDescripcionCategoria { get; set; }
 
         public string fcToken { get; set; }
 

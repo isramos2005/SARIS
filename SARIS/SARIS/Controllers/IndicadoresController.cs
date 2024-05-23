@@ -29,7 +29,9 @@ namespace OrionCoreCableColor.Controllers
                     {
                         fiIDTipoRequerimiento = x.fiIDTipoRequerimiento,
                         fcTipoRequerimiento = x.fcTipoRequerimiento,
-                        fcToken = x.fcToken
+                        fcToken = x.fcToken,
+                        fcDescripcionCategoria = x.fcDescripcionCategoria
+
 
 
                     }).ToList(), JsonRequestBehavior.AllowGet);
@@ -47,7 +49,12 @@ namespace OrionCoreCableColor.Controllers
         [HttpGet]
         public ActionResult Crear()
         {
-            return PartialView(new IndicadoresCrearViewModel());
+            using (var context = new SARISEntities1())
+            {
+                ViewBag.ListaCategorias = context.sp_Categorias_Indicidencias_Listado().ToList().Select(x => new SelectListItem { Value = x.fiIDCategoriaDesarrollo.ToString(), Text = x.fcDescripcionCategoria }).ToList();
+            
+                return PartialView(new IndicadoresCrearViewModel());
+            }
         }
 
 
@@ -57,11 +64,11 @@ namespace OrionCoreCableColor.Controllers
         {
             using (var context = new SARISEntities1())
             {
-                var newModel = context.sp_Indicadores_Insertar(model.fcTipoRequerimiento.Trim());
+                var newModel = context.sp_Indicadores_Insertar(model.fcTipoRequerimiento.Trim(), model.fiIDCategoriaDesarrollo);
+                var result = newModel.FirstOrDefault() > 0;
 
-                Console.WriteLine(newModel); //por que hay un console.writeline ? 
 
-                return EnviarResultado(true, "Crear Indicador", "Se Creó Satisfactoriamente");
+                return EnviarResultado(true, "Crear Incidencia", result ? "Se Creó Satisfactoriamente" : "Error al eliminar");
 
             }
 
@@ -76,6 +83,8 @@ namespace OrionCoreCableColor.Controllers
                 var indicador = context.sp_Indicadores_Lista().FirstOrDefault(x => x.fiIDTipoRequerimiento == id);
                 if (indicador != null)
                 {
+                    ViewBag.ListaCategorias = context.sp_Categorias_Indicidencias_Listado().ToList().Select(x => new SelectListItem { Value = x.fiIDCategoriaDesarrollo.ToString(), Text = x.fcDescripcionCategoria }).ToList();
+
                     return PartialView("Crear", new IndicadoresCrearViewModel { fiIDTipoRequerimiento = indicador.fiIDTipoRequerimiento, fcTipoRequerimiento = indicador.fcTipoRequerimiento.Trim(), EsEditar = true });
                 }
                 else
@@ -93,10 +102,10 @@ namespace OrionCoreCableColor.Controllers
                 var indicador = context.sp_Indicadores_Lista().FirstOrDefault(x => x.fcTipoRequerimiento == model.fcTipoRequerimiento && x.fiIDTipoRequerimiento != model.fiIDTipoRequerimiento);
 
 
-                var newModel = context.sp_Indicadores_Editar(model.fiIDTipoRequerimiento, model.fcTipoRequerimiento.Trim());
-                var result = context.SaveChanges() > 0;
+                var newModel = context.sp_Indicadores_Editar(model.fiIDTipoRequerimiento, model.fcTipoRequerimiento.Trim(), model.fiIDCategoriaDesarrollo);
+                var result = newModel.FirstOrDefault() > 0;
 
-                return EnviarResultado(true, "Editar Indicador", "Se edito Satisfactoriamente");
+                return EnviarResultado(result, "Editar Incidencia", result ? "Se Editó Satisfactoriamente" : "Error al eliminar");
 
             }
 
@@ -106,8 +115,11 @@ namespace OrionCoreCableColor.Controllers
         {
             using (var context = new SARISEntities1())
             {
-                var area = context.sp_Indicadores_Desactivar(id);
-                return EnviarResultado(true, "Eliminar Indicador");
+                var newModel = context.sp_Indicadores_Desactivar(id);
+                var result = newModel.FirstOrDefault() > 0;
+                
+                return EnviarResultado(result, "Eliminar Incidencia", result ? "Se Eliminó Satisfactoriamente" : "Error al eliminar");
+
             }
         }
 
