@@ -6,9 +6,13 @@
 <div class="panel">
     <div class="panel-hdr">
         <h2 class="panel-title"> <i class="fal fa-map fa-fw"></i>Tickets Pendientes</h2>
-        <div class="panel-toolbar " role="menu">
-            <button onclick="CrearTicket()" class="btn btn-success"><i class="fal fa-plus fa-fw"></i> Crear Ticket</button>
-        </div>
+        @if (User.IsInRole("SARIS_CREARTICKET"))
+        {
+            <div class="panel-toolbar " role="menu">
+                <button onclick="CrearTicket()" class="btn btn-success"><i class="fal fa-plus fa-fw"></i> Crear Ticket</button>
+            </div>
+        }
+
     </div>
     <div class="panel-container" style="padding-top:12px; padding-bottom:15px;">
         <div class="col-lg-12">

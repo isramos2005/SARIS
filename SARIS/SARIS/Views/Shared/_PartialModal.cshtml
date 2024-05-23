@@ -154,22 +154,24 @@
 
     function ShowBigPdf(descripcion, carpeta) {
         debugger;
-        $.ajax({
+        @*$.ajax({
             url:"@Url.Action("GetContentDocument","Base")",
             type: "Get",
             data: { tipo: "pdf", carpeta: carpeta, nombreArchivo: descripcion },
             success: function (resp) {
-                $(divContrato).empty();
-                var embed = $(`<embed src="" id="DocumentoBig" type="application/pdf"  class="img-responsive img-thumbnail" style="width:100%;height:500px;" />`);
-                $("#TituloContrato").text(descripcion);
-                debugger;
-                //$(embed).attr('src', "data:application/pdf;base64," + resp);
-                $(embed).attr('src',resp);
-                $(embed).css("height", window.innerHeight - (window.innerHeight * 0.25) + "px");
-                $(divContrato).append(embed);
-                $('#MyModalContrato').modal("show");
+                
             }
-        });
+        });*@
+
+        $(divContrato).empty();
+        var embed = $(`<embed src="" id="DocumentoBig" type="application/pdf"  class="img-responsive img-thumbnail" style="width:100%;height:500px;" />`);
+        $("#TituloContrato").text(descripcion);
+        debugger;
+        //$(embed).attr('src', "data:application/pdf;base64," + resp);
+        $(embed).attr('src', carpeta);
+        $(embed).css("height", window.innerHeight - (window.innerHeight * 0.25) + "px");
+        $(divContrato).append(embed);
+        $('#MyModalContrato').modal("show");
         
         
     }
