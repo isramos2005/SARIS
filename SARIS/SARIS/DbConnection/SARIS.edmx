@@ -31,6 +31,17 @@
           <Parameter Name="piIDUsuarioResponsable" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_Areas_Lista" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_Categorias_Indicidencias_Desactivar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="piIDCategoriaDesarrollo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_Categorias_Indicidencias_Editar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="piIDCategoriaDesarrollo" Type="int" Mode="In" />
+          <Parameter Name="pcDescripcionCategoria" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_Categorias_Indicidencias_Insertar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pcDescripcionCategoria" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_Categorias_Indicidencias_Listado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_Configuraciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fcDescripcionLlave" Type="nvarchar" Mode="In" />
         </Function>
@@ -53,12 +64,14 @@
         <Function Name="sp_Indicadores_Editar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fiIDTipoRequerimiento" Type="int" Mode="In" />
           <Parameter Name="fcTipoRequerimiento" Type="varchar" Mode="In" />
+          <Parameter Name="piIDCategoriaDesarrollo" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_Indicadores_Find" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fiIDTipoRequerimiento" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_Indicadores_Insertar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fcTipoRequerimiento" Type="varchar" Mode="In" />
+          <Parameter Name="piIDCategoriaDesarrollo" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_Indicadores_Lista" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_ListadoPaisPrueba" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -281,20 +294,6 @@
             <Parameter Name="pcClaseColor" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_Estados_Lista" ReturnType="Collection(SARISModel.sp_Estados_Lista_Result)" />
-          <FunctionImport Name="sp_Indicadores_Desactivar">
-          <Parameter Name="fiIDTipoRequerimiento" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_Indicadores_Editar">
-            <Parameter Name="fiIDTipoRequerimiento" Mode="In" Type="Int32" />
-            <Parameter Name="fcTipoRequerimiento" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_Indicadores_Find" ReturnType="Collection(SARISModel.sp_Indicadores_Find_Result)">
-          <Parameter Name="fiIDTipoRequerimiento" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_Indicadores_Insertar">
-          <Parameter Name="fcTipoRequerimiento" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_Indicadores_Lista" ReturnType="Collection(SARISModel.sp_Indicadores_Lista_Result)" />
           <FunctionImport Name="sp_ListadoPaisPrueba" />
           <FunctionImport Name="sp_UsuarioMaestro_ObtenerIdAreaAsignada" ReturnType="Collection(Int32)">
           <Parameter Name="piIDusuario" Mode="In" Type="Int32" />
@@ -385,6 +384,33 @@
             <Parameter Name="piIDApp" Mode="In" Type="Int32" />
             <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="sp_Categorias_Indicidencias_Desactivar" ReturnType="Collection(Int32)">
+          <Parameter Name="piIDCategoriaDesarrollo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Categorias_Indicidencias_Editar" ReturnType="Collection(Int32)">
+            <Parameter Name="piIDCategoriaDesarrollo" Mode="In" Type="Int32" />
+            <Parameter Name="pcDescripcionCategoria" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Categorias_Indicidencias_Insertar" ReturnType="Collection(Int32)">
+          <Parameter Name="pcDescripcionCategoria" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Categorias_Indicidencias_Listado" ReturnType="Collection(SARISModel.sp_Categorias_Indicidencias_Listado_Result)" />
+          <FunctionImport Name="sp_Indicadores_Desactivar" ReturnType="Collection(Int32)">
+            <Parameter Name="fiIDTipoRequerimiento" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Indicadores_Editar" ReturnType="Collection(Int32)">
+            <Parameter Name="fiIDTipoRequerimiento" Mode="In" Type="Int32" />
+            <Parameter Name="fcTipoRequerimiento" Mode="In" Type="String" />
+            <Parameter Name="piIDCategoriaDesarrollo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Indicadores_Find" ReturnType="Collection(SARISModel.sp_Indicadores_Find_Result)">
+            <Parameter Name="fiIDTipoRequerimiento" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Indicadores_Insertar" ReturnType="Collection(Int32)">
+            <Parameter Name="fcTipoRequerimiento" Mode="In" Type="String" />
+            <Parameter Name="piIDCategoriaDesarrollo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Indicadores_Lista" ReturnType="Collection(SARISModel.sp_Indicadores_Lista_Result)" />
         </EntityContainer>
         <ComplexType Name="sp_Requerimiento_Areas_Result">
           <Property Type="Int16" Name="fiIDArea" Nullable="false" />
@@ -439,16 +465,6 @@
           <Property Type="Int32" Name="fiIDEstado" Nullable="false" />
           <Property Type="String" Name="fcDescripcionEstado" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="fcClaseColor" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="sp_Indicadores_Find_Result">
-          <Property Type="Int32" Name="fiIDTipoRequerimiento" Nullable="false" />
-          <Property Type="String" Name="fcTipoRequerimiento" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="fcToken" Nullable="false" MaxLength="512" />
-        </ComplexType>
-        <ComplexType Name="sp_Indicadores_Lista_Result">
-          <Property Type="Int32" Name="fiIDTipoRequerimiento" Nullable="false" />
-          <Property Type="String" Name="fcTipoRequerimiento" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="fcToken" Nullable="false" MaxLength="512" />
         </ComplexType>
         <ComplexType Name="sp_Usuarios_Maestro_Lista_Result">
           <Property Type="Int32" Name="fiIDUsuario" Nullable="false" />
@@ -657,6 +673,23 @@
           <Property Type="String" Name="fcToken" Nullable="false" MaxLength="512" />
           <Property Type="String" Name="fcURL" Nullable="true" MaxLength="2256" />
         </ComplexType>
+        <ComplexType Name="sp_Categorias_Indicidencias_Listado_Result">
+          <Property Type="Int32" Name="fiIDCategoriaDesarrollo" Nullable="false" />
+          <Property Type="String" Name="fcDescripcionCategoria" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="fcToken" Nullable="false" MaxLength="512" />
+          <Property Type="Int32" Name="fiEstado" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_Indicadores_Find_Result">
+          <Property Type="Int32" Name="fiIDTipoRequerimiento" Nullable="false" />
+          <Property Type="String" Name="fcTipoRequerimiento" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="fcToken" Nullable="true" MaxLength="512" />
+        </ComplexType>
+        <ComplexType Name="sp_Indicadores_Lista_Result">
+          <Property Type="Int32" Name="fiIDTipoRequerimiento" Nullable="false" />
+          <Property Type="String" Name="fcTipoRequerimiento" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="fcDescripcionCategoria" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="fcToken" Nullable="true" MaxLength="512" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -753,27 +786,6 @@
                 <ScalarProperty Name="fiIDEstado" ColumnName="fiIDEstado" />
                 <ScalarProperty Name="fcDescripcionEstado" ColumnName="fcDescripcionEstado" />
                 <ScalarProperty Name="fcClaseColor" ColumnName="fcClaseColor" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_Indicadores_Desactivar" FunctionName="SARISModel.Store.sp_Indicadores_Desactivar" />
-          <FunctionImportMapping FunctionImportName="sp_Indicadores_Editar" FunctionName="SARISModel.Store.sp_Indicadores_Editar" />
-          <FunctionImportMapping FunctionImportName="sp_Indicadores_Find" FunctionName="SARISModel.Store.sp_Indicadores_Find">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SARISModel.sp_Indicadores_Find_Result">
-                <ScalarProperty Name="fiIDTipoRequerimiento" ColumnName="fiIDTipoRequerimiento" />
-                <ScalarProperty Name="fcTipoRequerimiento" ColumnName="fcTipoRequerimiento" />
-                <ScalarProperty Name="fcToken" ColumnName="fcToken" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_Indicadores_Insertar" FunctionName="SARISModel.Store.sp_Indicadores_Insertar" />
-          <FunctionImportMapping FunctionImportName="sp_Indicadores_Lista" FunctionName="SARISModel.Store.sp_Indicadores_Lista">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SARISModel.sp_Indicadores_Lista_Result">
-                <ScalarProperty Name="fiIDTipoRequerimiento" ColumnName="fiIDTipoRequerimiento" />
-                <ScalarProperty Name="fcTipoRequerimiento" ColumnName="fcTipoRequerimiento" />
-                <ScalarProperty Name="fcToken" ColumnName="fcToken" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -1032,6 +1044,41 @@
                 <ScalarProperty Name="fcRutaArchivo" ColumnName="fcRutaArchivo" />
                 <ScalarProperty Name="fcToken" ColumnName="fcToken" />
                 <ScalarProperty Name="fcURL" ColumnName="fcURL" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Categorias_Indicidencias_Desactivar" FunctionName="SARISModel.Store.sp_Categorias_Indicidencias_Desactivar" />
+          <FunctionImportMapping FunctionImportName="sp_Categorias_Indicidencias_Editar" FunctionName="SARISModel.Store.sp_Categorias_Indicidencias_Editar" />
+          <FunctionImportMapping FunctionImportName="sp_Categorias_Indicidencias_Insertar" FunctionName="SARISModel.Store.sp_Categorias_Indicidencias_Insertar" />
+          <FunctionImportMapping FunctionImportName="sp_Categorias_Indicidencias_Listado" FunctionName="SARISModel.Store.sp_Categorias_Indicidencias_Listado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SARISModel.sp_Categorias_Indicidencias_Listado_Result">
+                <ScalarProperty Name="fiIDCategoriaDesarrollo" ColumnName="fiIDCategoriaDesarrollo" />
+                <ScalarProperty Name="fcDescripcionCategoria" ColumnName="fcDescripcionCategoria" />
+                <ScalarProperty Name="fcToken" ColumnName="fcToken" />
+                <ScalarProperty Name="fiEstado" ColumnName="fiEstado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Indicadores_Desactivar" FunctionName="SARISModel.Store.sp_Indicadores_Desactivar" />
+          <FunctionImportMapping FunctionImportName="sp_Indicadores_Editar" FunctionName="SARISModel.Store.sp_Indicadores_Editar" />
+          <FunctionImportMapping FunctionImportName="sp_Indicadores_Find" FunctionName="SARISModel.Store.sp_Indicadores_Find">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SARISModel.sp_Indicadores_Find_Result">
+                <ScalarProperty Name="fiIDTipoRequerimiento" ColumnName="fiIDTipoRequerimiento" />
+                <ScalarProperty Name="fcTipoRequerimiento" ColumnName="fcTipoRequerimiento" />
+                <ScalarProperty Name="fcToken" ColumnName="fcToken" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Indicadores_Insertar" FunctionName="SARISModel.Store.sp_Indicadores_Insertar" />
+          <FunctionImportMapping FunctionImportName="sp_Indicadores_Lista" FunctionName="SARISModel.Store.sp_Indicadores_Lista">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SARISModel.sp_Indicadores_Lista_Result">
+                <ScalarProperty Name="fiIDTipoRequerimiento" ColumnName="fiIDTipoRequerimiento" />
+                <ScalarProperty Name="fcTipoRequerimiento" ColumnName="fcTipoRequerimiento" />
+                <ScalarProperty Name="fcDescripcionCategoria" ColumnName="fcDescripcionCategoria" />
+                <ScalarProperty Name="fcToken" ColumnName="fcToken" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

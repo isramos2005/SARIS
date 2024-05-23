@@ -422,15 +422,6 @@
     <Compile Include="DbConnection\sp_CatalogoManual_Listado_Result.cs">
       <DependentUpon>SoporteOP.tt</DependentUpon>
     </Compile>
-    <Compile Include="DbConnection\sp_Categorias_Indicidencias_Desactivar_Result.cs">
-      <DependentUpon>SARIS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DbConnection\sp_Categorias_Indicidencias_Editar_Result.cs">
-      <DependentUpon>SARIS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DbConnection\sp_Categorias_Indicidencias_Insertar_Result.cs">
-      <DependentUpon>SARIS.tt</DependentUpon>
-    </Compile>
     <Compile Include="DbConnection\sp_Categorias_Indicidencias_Listado_Result.cs">
       <DependentUpon>SARIS.tt</DependentUpon>
     </Compile>

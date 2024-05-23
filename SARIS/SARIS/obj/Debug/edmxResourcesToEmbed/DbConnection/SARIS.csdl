@@ -84,20 +84,6 @@
       <Parameter Name="pcClaseColor" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="sp_Estados_Lista" ReturnType="Collection(SARISModel.sp_Estados_Lista_Result)" />
-    <FunctionImport Name="sp_Indicadores_Desactivar">
-      <Parameter Name="fiIDTipoRequerimiento" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_Indicadores_Editar">
-      <Parameter Name="fiIDTipoRequerimiento" Mode="In" Type="Int32" />
-      <Parameter Name="fcTipoRequerimiento" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="sp_Indicadores_Find" ReturnType="Collection(SARISModel.sp_Indicadores_Find_Result)">
-      <Parameter Name="fiIDTipoRequerimiento" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_Indicadores_Insertar">
-      <Parameter Name="fcTipoRequerimiento" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="sp_Indicadores_Lista" ReturnType="Collection(SARISModel.sp_Indicadores_Lista_Result)" />
     <FunctionImport Name="sp_ListadoPaisPrueba" />
     <FunctionImport Name="sp_UsuarioMaestro_ObtenerIdAreaAsignada" ReturnType="Collection(Int32)">
       <Parameter Name="piIDusuario" Mode="In" Type="Int32" />
@@ -188,6 +174,33 @@
       <Parameter Name="piIDApp" Mode="In" Type="Int32" />
       <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="sp_Categorias_Indicidencias_Desactivar" ReturnType="Collection(Int32)">
+      <Parameter Name="piIDCategoriaDesarrollo" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Categorias_Indicidencias_Editar" ReturnType="Collection(Int32)">
+      <Parameter Name="piIDCategoriaDesarrollo" Mode="In" Type="Int32" />
+      <Parameter Name="pcDescripcionCategoria" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Categorias_Indicidencias_Insertar" ReturnType="Collection(Int32)">
+      <Parameter Name="pcDescripcionCategoria" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Categorias_Indicidencias_Listado" ReturnType="Collection(SARISModel.sp_Categorias_Indicidencias_Listado_Result)" />
+    <FunctionImport Name="sp_Indicadores_Desactivar" ReturnType="Collection(Int32)">
+      <Parameter Name="fiIDTipoRequerimiento" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Indicadores_Editar" ReturnType="Collection(Int32)">
+      <Parameter Name="fiIDTipoRequerimiento" Mode="In" Type="Int32" />
+      <Parameter Name="fcTipoRequerimiento" Mode="In" Type="String" />
+      <Parameter Name="piIDCategoriaDesarrollo" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Indicadores_Find" ReturnType="Collection(SARISModel.sp_Indicadores_Find_Result)">
+      <Parameter Name="fiIDTipoRequerimiento" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Indicadores_Insertar" ReturnType="Collection(Int32)">
+      <Parameter Name="fcTipoRequerimiento" Mode="In" Type="String" />
+      <Parameter Name="piIDCategoriaDesarrollo" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Indicadores_Lista" ReturnType="Collection(SARISModel.sp_Indicadores_Lista_Result)" />
   </EntityContainer>
   <ComplexType Name="sp_Requerimiento_Areas_Result">
     <Property Type="Int16" Name="fiIDArea" Nullable="false" />
@@ -242,16 +255,6 @@
     <Property Type="Int32" Name="fiIDEstado" Nullable="false" />
     <Property Type="String" Name="fcDescripcionEstado" Nullable="true" MaxLength="50" />
     <Property Type="String" Name="fcClaseColor" Nullable="true" MaxLength="50" />
-  </ComplexType>
-  <ComplexType Name="sp_Indicadores_Find_Result">
-    <Property Type="Int32" Name="fiIDTipoRequerimiento" Nullable="false" />
-    <Property Type="String" Name="fcTipoRequerimiento" Nullable="false" MaxLength="30" />
-    <Property Type="String" Name="fcToken" Nullable="false" MaxLength="512" />
-  </ComplexType>
-  <ComplexType Name="sp_Indicadores_Lista_Result">
-    <Property Type="Int32" Name="fiIDTipoRequerimiento" Nullable="false" />
-    <Property Type="String" Name="fcTipoRequerimiento" Nullable="false" MaxLength="30" />
-    <Property Type="String" Name="fcToken" Nullable="false" MaxLength="512" />
   </ComplexType>
   <ComplexType Name="sp_Usuarios_Maestro_Lista_Result">
     <Property Type="Int32" Name="fiIDUsuario" Nullable="false" />
@@ -459,5 +462,22 @@
     <Property Type="String" Name="fcRutaArchivo" Nullable="true" />
     <Property Type="String" Name="fcToken" Nullable="false" MaxLength="512" />
     <Property Type="String" Name="fcURL" Nullable="true" MaxLength="2256" />
+  </ComplexType>
+  <ComplexType Name="sp_Categorias_Indicidencias_Listado_Result">
+    <Property Type="Int32" Name="fiIDCategoriaDesarrollo" Nullable="false" />
+    <Property Type="String" Name="fcDescripcionCategoria" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="fcToken" Nullable="false" MaxLength="512" />
+    <Property Type="Int32" Name="fiEstado" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sp_Indicadores_Find_Result">
+    <Property Type="Int32" Name="fiIDTipoRequerimiento" Nullable="false" />
+    <Property Type="String" Name="fcTipoRequerimiento" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="fcToken" Nullable="true" MaxLength="512" />
+  </ComplexType>
+  <ComplexType Name="sp_Indicadores_Lista_Result">
+    <Property Type="Int32" Name="fiIDTipoRequerimiento" Nullable="false" />
+    <Property Type="String" Name="fcTipoRequerimiento" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="fcDescripcionCategoria" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="fcToken" Nullable="true" MaxLength="512" />
   </ComplexType>
 </Schema>

@@ -51,7 +51,7 @@ namespace OrionCoreCableColor.Controllers
         {
             using (var context = new SARISEntities1())
             {
-                ViewBag.ListaCategorias = context.sp_Categorias_Indicidencias_Listado().ToList().Select(x => new SelectListItem { Value = x.fiIDCategoriaDesarrollo.ToString(), Text = x.fcDescripcionCategoria }).ToList();
+                ViewBag.ListaCategorias = context.sp_Categorias_Indicidencias_Listado().Where(a => a.fiEstado == 1).ToList().Select(x => new SelectListItem { Value = x.fiIDCategoriaDesarrollo.ToString(), Text = x.fcDescripcionCategoria }).ToList();
             
                 return PartialView(new IndicadoresCrearViewModel());
             }
@@ -83,7 +83,7 @@ namespace OrionCoreCableColor.Controllers
                 var indicador = context.sp_Indicadores_Lista().FirstOrDefault(x => x.fiIDTipoRequerimiento == id);
                 if (indicador != null)
                 {
-                    ViewBag.ListaCategorias = context.sp_Categorias_Indicidencias_Listado().ToList().Select(x => new SelectListItem { Value = x.fiIDCategoriaDesarrollo.ToString(), Text = x.fcDescripcionCategoria }).ToList();
+                    ViewBag.ListaCategorias = context.sp_Categorias_Indicidencias_Listado().Where(a => a.fiEstado == 1).ToList().Select(x => new SelectListItem { Value = x.fiIDCategoriaDesarrollo.ToString(), Text = x.fcDescripcionCategoria }).ToList();
 
                     return PartialView("Crear", new IndicadoresCrearViewModel { fiIDTipoRequerimiento = indicador.fiIDTipoRequerimiento, fcTipoRequerimiento = indicador.fcTipoRequerimiento.Trim(), EsEditar = true });
                 }

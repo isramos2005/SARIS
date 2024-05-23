@@ -299,51 +299,6 @@ namespace OrionCoreCableColor.DbConnection
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Estados_Lista_Result>("sp_Estados_Lista");
         }
     
-        public virtual int sp_Indicadores_Desactivar(Nullable<int> fiIDTipoRequerimiento)
-        {
-            var fiIDTipoRequerimientoParameter = fiIDTipoRequerimiento.HasValue ?
-                new ObjectParameter("fiIDTipoRequerimiento", fiIDTipoRequerimiento) :
-                new ObjectParameter("fiIDTipoRequerimiento", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Indicadores_Desactivar", fiIDTipoRequerimientoParameter);
-        }
-    
-        public virtual int sp_Indicadores_Editar(Nullable<int> fiIDTipoRequerimiento, string fcTipoRequerimiento)
-        {
-            var fiIDTipoRequerimientoParameter = fiIDTipoRequerimiento.HasValue ?
-                new ObjectParameter("fiIDTipoRequerimiento", fiIDTipoRequerimiento) :
-                new ObjectParameter("fiIDTipoRequerimiento", typeof(int));
-    
-            var fcTipoRequerimientoParameter = fcTipoRequerimiento != null ?
-                new ObjectParameter("fcTipoRequerimiento", fcTipoRequerimiento) :
-                new ObjectParameter("fcTipoRequerimiento", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Indicadores_Editar", fiIDTipoRequerimientoParameter, fcTipoRequerimientoParameter);
-        }
-    
-        public virtual ObjectResult<sp_Indicadores_Find_Result> sp_Indicadores_Find(Nullable<int> fiIDTipoRequerimiento)
-        {
-            var fiIDTipoRequerimientoParameter = fiIDTipoRequerimiento.HasValue ?
-                new ObjectParameter("fiIDTipoRequerimiento", fiIDTipoRequerimiento) :
-                new ObjectParameter("fiIDTipoRequerimiento", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Indicadores_Find_Result>("sp_Indicadores_Find", fiIDTipoRequerimientoParameter);
-        }
-    
-        public virtual int sp_Indicadores_Insertar(string fcTipoRequerimiento)
-        {
-            var fcTipoRequerimientoParameter = fcTipoRequerimiento != null ?
-                new ObjectParameter("fcTipoRequerimiento", fcTipoRequerimiento) :
-                new ObjectParameter("fcTipoRequerimiento", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Indicadores_Insertar", fcTipoRequerimientoParameter);
-        }
-    
-        public virtual ObjectResult<sp_Indicadores_Lista_Result> sp_Indicadores_Lista()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Indicadores_Lista_Result>("sp_Indicadores_Lista");
-        }
-    
         public virtual int sp_ListadoPaisPrueba()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_ListadoPaisPrueba");
@@ -660,6 +615,95 @@ namespace OrionCoreCableColor.DbConnection
                 new ObjectParameter("piIDUsuario", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Requerimiento_Documentos_ObtenerPorIdRequerimiento_Result>("sp_Requerimiento_Documentos_ObtenerPorIdRequerimiento", piIDRequerimientoParameter, piIDSesionParameter, piIDAppParameter, piIDUsuarioParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> sp_Categorias_Indicidencias_Desactivar(Nullable<int> piIDCategoriaDesarrollo)
+        {
+            var piIDCategoriaDesarrolloParameter = piIDCategoriaDesarrollo.HasValue ?
+                new ObjectParameter("piIDCategoriaDesarrollo", piIDCategoriaDesarrollo) :
+                new ObjectParameter("piIDCategoriaDesarrollo", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_Categorias_Indicidencias_Desactivar", piIDCategoriaDesarrolloParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> sp_Categorias_Indicidencias_Editar(Nullable<int> piIDCategoriaDesarrollo, string pcDescripcionCategoria)
+        {
+            var piIDCategoriaDesarrolloParameter = piIDCategoriaDesarrollo.HasValue ?
+                new ObjectParameter("piIDCategoriaDesarrollo", piIDCategoriaDesarrollo) :
+                new ObjectParameter("piIDCategoriaDesarrollo", typeof(int));
+    
+            var pcDescripcionCategoriaParameter = pcDescripcionCategoria != null ?
+                new ObjectParameter("pcDescripcionCategoria", pcDescripcionCategoria) :
+                new ObjectParameter("pcDescripcionCategoria", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_Categorias_Indicidencias_Editar", piIDCategoriaDesarrolloParameter, pcDescripcionCategoriaParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> sp_Categorias_Indicidencias_Insertar(string pcDescripcionCategoria)
+        {
+            var pcDescripcionCategoriaParameter = pcDescripcionCategoria != null ?
+                new ObjectParameter("pcDescripcionCategoria", pcDescripcionCategoria) :
+                new ObjectParameter("pcDescripcionCategoria", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_Categorias_Indicidencias_Insertar", pcDescripcionCategoriaParameter);
+        }
+    
+        public virtual ObjectResult<sp_Categorias_Indicidencias_Listado_Result> sp_Categorias_Indicidencias_Listado()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Categorias_Indicidencias_Listado_Result>("sp_Categorias_Indicidencias_Listado");
+        }
+    
+        public virtual ObjectResult<Nullable<int>> sp_Indicadores_Desactivar(Nullable<int> fiIDTipoRequerimiento)
+        {
+            var fiIDTipoRequerimientoParameter = fiIDTipoRequerimiento.HasValue ?
+                new ObjectParameter("fiIDTipoRequerimiento", fiIDTipoRequerimiento) :
+                new ObjectParameter("fiIDTipoRequerimiento", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_Indicadores_Desactivar", fiIDTipoRequerimientoParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> sp_Indicadores_Editar(Nullable<int> fiIDTipoRequerimiento, string fcTipoRequerimiento, Nullable<int> piIDCategoriaDesarrollo)
+        {
+            var fiIDTipoRequerimientoParameter = fiIDTipoRequerimiento.HasValue ?
+                new ObjectParameter("fiIDTipoRequerimiento", fiIDTipoRequerimiento) :
+                new ObjectParameter("fiIDTipoRequerimiento", typeof(int));
+    
+            var fcTipoRequerimientoParameter = fcTipoRequerimiento != null ?
+                new ObjectParameter("fcTipoRequerimiento", fcTipoRequerimiento) :
+                new ObjectParameter("fcTipoRequerimiento", typeof(string));
+    
+            var piIDCategoriaDesarrolloParameter = piIDCategoriaDesarrollo.HasValue ?
+                new ObjectParameter("piIDCategoriaDesarrollo", piIDCategoriaDesarrollo) :
+                new ObjectParameter("piIDCategoriaDesarrollo", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_Indicadores_Editar", fiIDTipoRequerimientoParameter, fcTipoRequerimientoParameter, piIDCategoriaDesarrolloParameter);
+        }
+    
+        public virtual ObjectResult<sp_Indicadores_Find_Result> sp_Indicadores_Find(Nullable<int> fiIDTipoRequerimiento)
+        {
+            var fiIDTipoRequerimientoParameter = fiIDTipoRequerimiento.HasValue ?
+                new ObjectParameter("fiIDTipoRequerimiento", fiIDTipoRequerimiento) :
+                new ObjectParameter("fiIDTipoRequerimiento", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Indicadores_Find_Result>("sp_Indicadores_Find", fiIDTipoRequerimientoParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> sp_Indicadores_Insertar(string fcTipoRequerimiento, Nullable<int> piIDCategoriaDesarrollo)
+        {
+            var fcTipoRequerimientoParameter = fcTipoRequerimiento != null ?
+                new ObjectParameter("fcTipoRequerimiento", fcTipoRequerimiento) :
+                new ObjectParameter("fcTipoRequerimiento", typeof(string));
+    
+            var piIDCategoriaDesarrolloParameter = piIDCategoriaDesarrollo.HasValue ?
+                new ObjectParameter("piIDCategoriaDesarrollo", piIDCategoriaDesarrollo) :
+                new ObjectParameter("piIDCategoriaDesarrollo", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_Indicadores_Insertar", fcTipoRequerimientoParameter, piIDCategoriaDesarrolloParameter);
+        }
+    
+        public virtual ObjectResult<sp_Indicadores_Lista_Result> sp_Indicadores_Lista()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Indicadores_Lista_Result>("sp_Indicadores_Lista");
         }
     }
 }

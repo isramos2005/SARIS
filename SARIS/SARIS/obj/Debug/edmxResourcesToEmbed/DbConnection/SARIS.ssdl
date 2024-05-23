@@ -26,6 +26,17 @@
     <Parameter Name="piIDUsuarioResponsable" Type="int" Mode="In" />
   </Function>
   <Function Name="sp_Areas_Lista" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="sp_Categorias_Indicidencias_Desactivar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="piIDCategoriaDesarrollo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_Categorias_Indicidencias_Editar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="piIDCategoriaDesarrollo" Type="int" Mode="In" />
+    <Parameter Name="pcDescripcionCategoria" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_Categorias_Indicidencias_Insertar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="pcDescripcionCategoria" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_Categorias_Indicidencias_Listado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="sp_Configuraciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="fcDescripcionLlave" Type="nvarchar" Mode="In" />
   </Function>
@@ -48,12 +59,14 @@
   <Function Name="sp_Indicadores_Editar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="fiIDTipoRequerimiento" Type="int" Mode="In" />
     <Parameter Name="fcTipoRequerimiento" Type="varchar" Mode="In" />
+    <Parameter Name="piIDCategoriaDesarrollo" Type="int" Mode="In" />
   </Function>
   <Function Name="sp_Indicadores_Find" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="fiIDTipoRequerimiento" Type="int" Mode="In" />
   </Function>
   <Function Name="sp_Indicadores_Insertar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="fcTipoRequerimiento" Type="varchar" Mode="In" />
+    <Parameter Name="piIDCategoriaDesarrollo" Type="int" Mode="In" />
   </Function>
   <Function Name="sp_Indicadores_Lista" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="sp_ListadoPaisPrueba" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
