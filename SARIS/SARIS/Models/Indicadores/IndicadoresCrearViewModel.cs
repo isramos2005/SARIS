@@ -11,6 +11,10 @@ namespace OrionCoreCableColor.Models.Indicadores
         [Display(Name = "Id")]
         public int fiIDTipoRequerimiento { get; set; }
 
+        [Display(Name = "Categoria de Incidencia")]
+        public int fiIDCategoriaDesarrollo { get; set; }
+
+
         [Display(Name = "Tipo de Requerimiento")]
         [Required]
 

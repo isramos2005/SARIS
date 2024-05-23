@@ -43,11 +43,13 @@
                         <div class="d-flex align-items-center w-75 p-0">
                             <img src="/Content/img/LogoCabeceraOrion.png" alt="ORION" aria-roledescription="logo" class="img-fluid">
                             <span class="page-logo-text mr-1"></span>
-                           </div>
+                            <i class="fal fa-angle-down d-inline-block ml-1 fs-lg color-primary-300"></i>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-6 g-0">
-                    <div class="card-body p-5 d-flex flex-column justify-content-center h-100">
+                    <div class="card-body p-4 d-flex flex-column justify-content-center h-100">
+                        <!-- Ajuste aquí: se agrega la clase h-100 para altura 100% -->
                         <div class="gradiente"></div>
 
                         <div class="text-center mb-4">
@@ -62,7 +64,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text text-light" style="background-color:transparent"><i class="fal fa-user"></i></span>
                                     </div>
-                                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control custom-input", @placeholder = "Usuario" })
+                                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control custom-input text-white", @placeholder = "Usuario" })
                                 </div>
                                 @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                             </div>
@@ -71,7 +73,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text text-light" style="background-color:transparent"><i class="fal fa-lock"></i></span>
                                     </div>
-                                    @Html.PasswordFor(model => model.Password, new { @class = "form-control custom-input", @placeholder = "Contraseña" })
+                                    @Html.PasswordFor(model => model.Password, new { @class = "form-control custom-input text-white", @placeholder = "Contraseña" })
                                 </div>
                                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                             </div>
