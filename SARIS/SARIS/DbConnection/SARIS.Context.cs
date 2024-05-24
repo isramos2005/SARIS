@@ -705,5 +705,14 @@ namespace OrionCoreCableColor.DbConnection
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Indicadores_Lista_Result>("sp_Indicadores_Lista");
         }
+    
+        public virtual ObjectResult<sp_DatosTicket_Correo_Result> sp_DatosTicket_Correo(Nullable<int> piTicket)
+        {
+            var piTicketParameter = piTicket.HasValue ?
+                new ObjectParameter("piTicket", piTicket) :
+                new ObjectParameter("piTicket", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_DatosTicket_Correo_Result>("sp_DatosTicket_Correo", piTicketParameter);
+        }
     }
 }

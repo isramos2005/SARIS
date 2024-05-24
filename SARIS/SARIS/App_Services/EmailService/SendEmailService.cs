@@ -12,17 +12,17 @@ namespace OrionCoreCableColor.App_Services.EmailService
 
         //public string From_Email = "notifications@miprestadito.com";// "no-responder@miprestadito.com";
         //private string From_Password = "P@ssword155";
+
+
+        //public string From_Email = "systembot@miprestadito.com";// "no-responder@miprestadito.com";
+        //private string From_Password = "iPwf@p3q";
+        //private string Host = "mail.miprestadito.com";
+
+        public string From_Email = "saristicket@cablecolor.net";// "no-responder@miprestadito.com";
+        private string From_Password = "Saris2024";
+        private string Host = "mail.cablecolor.net";
+
         private int Port = 587;
-
-
-        public string From_Email = "systembot@miprestadito.com";// "no-responder@miprestadito.com";
-        private string From_Password = "iPwf@p3q";
-        private string Host = "mail.miprestadito.com";
-
-        // public string From_Email = "saristicket@cablecolor.net";// "no-responder@miprestadito.com";
-        // private string From_Password = "Saris2024";
-        // private string Host = "mail.cablecolor.net";
-
         //public string From_Email = "systembot@novanetgroup.com";
         //private string From_Password = "SystemBot2024#";
         //private string Host = "mail.novanetgroup.com";
@@ -57,7 +57,10 @@ namespace OrionCoreCableColor.App_Services.EmailService
                 {
                     smtp.Credentials = new System.Net.NetworkCredential(From_Email, From_Password);
 
-                    smtp.EnableSsl = true;
+                    smtp.EnableSsl = true;//para CC
+                    //smtp.EnableSsl = false;//para Orion el mejor internet de honduras de momento :D
+
+
                     //   smtp.ClientCertificates.Add(new X509Certificate());
                     //smtp.ConnectionProtocols = ConnectionProtocols.Ssl;
 

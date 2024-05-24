@@ -45,6 +45,9 @@
         <Function Name="sp_Configuraciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fcDescripcionLlave" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="sp_DatosTicket_Correo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="piTicket" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_Eliminar_Requerimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="piIdRequerimiento" Type="int" Mode="In" />
         </Function>
@@ -396,7 +399,7 @@
           </FunctionImport>
           <FunctionImport Name="sp_Categorias_Indicidencias_Listado" ReturnType="Collection(SARISModel.sp_Categorias_Indicidencias_Listado_Result)" />
           <FunctionImport Name="sp_Indicadores_Desactivar" ReturnType="Collection(Int32)">
-            <Parameter Name="fiIDTipoRequerimiento" Mode="In" Type="Int32" />
+          <Parameter Name="fiIDTipoRequerimiento" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_Indicadores_Editar" ReturnType="Collection(Int32)">
             <Parameter Name="fiIDTipoRequerimiento" Mode="In" Type="Int32" />
@@ -404,13 +407,16 @@
             <Parameter Name="piIDCategoriaDesarrollo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_Indicadores_Find" ReturnType="Collection(SARISModel.sp_Indicadores_Find_Result)">
-            <Parameter Name="fiIDTipoRequerimiento" Mode="In" Type="Int32" />
+          <Parameter Name="fiIDTipoRequerimiento" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_Indicadores_Insertar" ReturnType="Collection(Int32)">
             <Parameter Name="fcTipoRequerimiento" Mode="In" Type="String" />
             <Parameter Name="piIDCategoriaDesarrollo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_Indicadores_Lista" ReturnType="Collection(SARISModel.sp_Indicadores_Lista_Result)" />
+          <FunctionImport Name="sp_DatosTicket_Correo" ReturnType="Collection(SARISModel.sp_DatosTicket_Correo_Result)">
+            <Parameter Name="piTicket" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_Requerimiento_Areas_Result">
           <Property Type="Int16" Name="fiIDArea" Nullable="false" />
@@ -689,6 +695,19 @@
           <Property Type="String" Name="fcTipoRequerimiento" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="fcDescripcionCategoria" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="fcToken" Nullable="true" MaxLength="512" />
+        </ComplexType>
+        <ComplexType Name="sp_DatosTicket_Correo_Result">
+          <Property Type="Int32" Name="fiIDRequerimiento" Nullable="false" />
+          <Property Type="String" Name="fcTituloRequerimiento" Nullable="false" MaxLength="1000" />
+          <Property Type="String" Name="fcDescripcionRequerimiento" Nullable="false" MaxLength="Max" />
+          <Property Type="DateTime" Name="fdFechaCreacion" Nullable="false" Precision="23" />
+          <Property Type="Byte" Name="fiIDAreaSolicitante" Nullable="false" />
+          <Property Type="String" Name="fcAreaSolicitante" Nullable="true" MaxLength="40" />
+          <Property Type="Int32" Name="fiIDUsuarioSolicitante" Nullable="false" />
+          <Property Type="String" Name="fcNombreCorto" Nullable="true" MaxLength="30" />
+          <Property Type="Byte" Name="fiIDEstadoRequerimiento" Nullable="false" />
+          <Property Type="String" Name="fcDescripcionEstado" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="fcCorreoElectronico" Nullable="true" MaxLength="100" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1079,6 +1098,23 @@
                 <ScalarProperty Name="fcTipoRequerimiento" ColumnName="fcTipoRequerimiento" />
                 <ScalarProperty Name="fcDescripcionCategoria" ColumnName="fcDescripcionCategoria" />
                 <ScalarProperty Name="fcToken" ColumnName="fcToken" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_DatosTicket_Correo" FunctionName="SARISModel.Store.sp_DatosTicket_Correo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SARISModel.sp_DatosTicket_Correo_Result">
+                <ScalarProperty Name="fiIDRequerimiento" ColumnName="fiIDRequerimiento" />
+                <ScalarProperty Name="fcTituloRequerimiento" ColumnName="fcTituloRequerimiento" />
+                <ScalarProperty Name="fcDescripcionRequerimiento" ColumnName="fcDescripcionRequerimiento" />
+                <ScalarProperty Name="fdFechaCreacion" ColumnName="fdFechaCreacion" />
+                <ScalarProperty Name="fiIDAreaSolicitante" ColumnName="fiIDAreaSolicitante" />
+                <ScalarProperty Name="fcAreaSolicitante" ColumnName="fcAreaSolicitante" />
+                <ScalarProperty Name="fiIDUsuarioSolicitante" ColumnName="fiIDUsuarioSolicitante" />
+                <ScalarProperty Name="fcNombreCorto" ColumnName="fcNombreCorto" />
+                <ScalarProperty Name="fiIDEstadoRequerimiento" ColumnName="fiIDEstadoRequerimiento" />
+                <ScalarProperty Name="fcDescripcionEstado" ColumnName="fcDescripcionEstado" />
+                <ScalarProperty Name="fcCorreoElectronico" ColumnName="fcCorreoElectronico" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
