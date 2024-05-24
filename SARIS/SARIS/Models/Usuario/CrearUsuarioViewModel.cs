@@ -37,6 +37,8 @@ namespace OrionCoreCableColor.Models.Usuario
         public byte fiIDDepartamento { get; set; }
 
 
+        [Required]
+        [Display(Name = "Jefe Inmediato")]
         public int fiIDJefeInmediato { get; set; }
 
 

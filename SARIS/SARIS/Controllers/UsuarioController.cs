@@ -9,6 +9,7 @@ using OrionCoreCableColor.Models.Usuario;
 using System.Data.Entity;
 using System.Threading.Tasks;
 using OrionCoreCableColor.DbConnection;
+using Microsoft.AspNet.Identity;
 
 namespace OrionCoreCableColor.Controllers
 {
@@ -26,7 +27,7 @@ namespace OrionCoreCableColor.Controllers
             return View();
         }
 
-      
+
 
         public JsonResult CargarListaUsuarios()
         {
@@ -49,8 +50,8 @@ namespace OrionCoreCableColor.Controllers
                         NombreRol = x.RolesPorUsuario.Any() ? x.RolesPorUsuario.FirstOrDefault().Roles.Nombre ?? "" : "",
                         fiAreaAsignada = x.fiAreaAsignada,
                         fcAreaAsignada = x.Area.fcDescripcion
-       
-    }).ToList(), JsonRequestBehavior.AllowGet);
+
+                    }).ToList(), JsonRequestBehavior.AllowGet);
                     jsonResult.MaxJsonLength = Int32.MaxValue;
                     return jsonResult;
                 }
@@ -62,7 +63,7 @@ namespace OrionCoreCableColor.Controllers
         }
 
 
-       
+
 
 
         [HttpGet]
@@ -77,7 +78,7 @@ namespace OrionCoreCableColor.Controllers
                     var usuarioLogueado = GetUser();
                     //var rol = 1; // GetRol(usuarioLogueado.IdRol);
                     //var permisos = GetPermisos(usuarioLogueado.IdRol);
-                    ViewBag.ListaAreas = contextSaris.sp_Requerimiento_Areas(1,1,1).ToList().Select(x => new SelectListItem { Value = x.fiIDArea.ToString(), Text = x.fcDescripcion }).ToList();
+                    ViewBag.ListaAreas = contextSaris.sp_Requerimiento_Areas(1, 1, 1).ToList().Select(x => new SelectListItem { Value = x.fiIDArea.ToString(), Text = x.fcDescripcion }).ToList();
                     ViewBag.ListaRoles = context.Roles.Where(x => x.Activo).Select(x => new SelectListItem { Value = x.Pk_IdRol.ToString(), Text = x.Nombre }).ToList();
                     //if (rol == "Orion_Contratista")
                     //{
@@ -150,7 +151,7 @@ namespace OrionCoreCableColor.Controllers
                             fcIdAspNetUser = usuario.Id,
                             fiIDEmpresa = model.fiIDEmpresa ?? 0,
                             fiAreaAsignada = model.fiAreaAsignada
-                            
+
 
 
 
@@ -295,6 +296,7 @@ namespace OrionCoreCableColor.Controllers
             }
         }
 
+
         [HttpPost]
         public ActionResult EditarInfoUsuario(CrearUsuarioViewModel model)
         {
@@ -313,6 +315,68 @@ namespace OrionCoreCableColor.Controllers
         }
 
 
+        [HttpGet]
+        public ActionResult EditarInfoUsuarioLaboral(int Id)
+        {
+            using (var contextSaris = new SARISEntities1())
+            {
+                using (var context = new OrionSecurityEntities())
+                {
+
+                    var usuario = context.Usuarios.Find(Id);
+
+                    ViewBag.ListaAreas = contextSaris.sp_Requerimiento_Areas(1, 1, 1)
+                    .ToList()
+                    .Select(x => new SelectListItem
+                    {
+                        Value = x.fiIDArea.ToString(),
+                        Text = x.fcDescripcion,
+                        Selected = x.fiIDArea == usuario.fiAreaAsignada
+                    })
+                    .ToList();
+                    ViewBag.ListaRoles = context.Roles.Where(x => x.Activo).Select(x => new SelectListItem { Value = x.Pk_IdRol.ToString(), Text = x.Nombre, Selected = x.Pk_IdRol == usuario.fiIDPuesto }).ToList();
+
+                    ViewBag.ListaJefesArea = contextSaris.sp_Usuarios_Maestro_Lista().ToList().Where(x => x.fiEstado == 1 && x.fiIDPuesto != 4).Select(x => new SelectListItem { Value = x.fiIDUsuario.ToString(), Text = $"{x.fcPrimerNombre} {x.fcPrimerApellido}", Selected = x.fiIDUsuario == usuario.fiIDJefeInmediato }).ToList();
+
+                    return PartialView(new CrearUsuarioViewModel
+                    {
+                        fiIdUsuario = Id,
+                        fiIDJefeInmediato = usuario.fiIDJefeInmediato,
+                        fiAreaAsignada = usuario.fiAreaAsignada,
+                        IdRol = usuario.RolesPorUsuario.FirstOrDefault()?.Fk_IdRol ?? 0,
+                    });
+                }
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditarInfoUsuarioLaboral(CrearUsuarioViewModel model)
+        {
+            try
+            {
+                using (var context = new OrionSecurityEntities())
+                {
+                    var usuario = context.Usuarios.Find(model.fiIdUsuario);
+
+
+                    usuario.fiIDJefeInmediato = model.fiIDJefeInmediato;
+                    usuario.fiAreaAsignada = model.fiAreaAsignada;
+                    usuario.fiIDPuesto = model.fiIDPuesto;
+
+                    context.Entry(usuario).State = System.Data.Entity.EntityState.Modified;
+
+                    var result = context.SaveChanges() > 0;
+                    return EnviarResultado(result, "Editar Información Laboral", result /*&& result2.Succeeded*/ ? "Se edito Satisfactoriamente" : "Error al Información Laboral");
+
+                }
+            }
+            catch (Exception e)
+            {
+                return EnviarException(e, "Editar Información Laboral");
+
+            }
+
+        }
 
         [HttpGet]
         public async Task<ActionResult> EditarCuentaUsuario(int Id)
@@ -435,6 +499,6 @@ namespace OrionCoreCableColor.Controllers
         }
 
 
-    
-}
+
+    }
 }
