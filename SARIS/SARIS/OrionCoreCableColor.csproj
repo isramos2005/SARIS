@@ -428,6 +428,9 @@
     <Compile Include="DbConnection\sp_Configuraciones_Result.cs">
       <DependentUpon>SARIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="DbConnection\sp_DatosTicket_Correo_Result.cs">
+      <DependentUpon>SARIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="DbConnection\sp_Eliminar_Requerimiento_Result.cs">
       <DependentUpon>SARIS.tt</DependentUpon>
     </Compile>
@@ -518,6 +521,7 @@
     <Compile Include="Models\DashBoard\Indicadores_ViewModel.cs" />
     <Compile Include="Models\DashBoard\Requerimiento_Detalle_Hora_ViewModel.cs" />
     <Compile Include="Models\EmailTemplateService\EmailTemplateServiceModel.cs" />
+    <Compile Include="Models\EmailTemplateService\EmailTemplateTicketModel.cs" />
     <Compile Include="Models\Estados\EstadosCrearViewModel.cs" />
     <Compile Include="Models\Estados\ListaEstadosViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
