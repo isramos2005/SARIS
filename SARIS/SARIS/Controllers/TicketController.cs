@@ -8,6 +8,9 @@ using OrionCoreCableColor.DbConnection;
 using OrionCoreCableColor.Models.Ticket;
 using System.IO;
 using OrionCoreCableColor.App_Helper;
+using System.Threading.Tasks;
+using OrionCoreCableColor.App_Services.EmailService;
+using OrionCoreCableColor.Models.EmailTemplateService;
 
 namespace OrionCoreCableColor.Controllers
 {
@@ -174,7 +177,7 @@ namespace OrionCoreCableColor.Controllers
         }
 
         [HttpPost]
-        public JsonResult GuardarTicket(TicketMiewModel ticket,string comentarioticket)
+        public async Task<JsonResult> GuardarTicket(TicketMiewModel ticket,string comentarioticket)
         {
             try
             {
@@ -190,9 +193,27 @@ namespace OrionCoreCableColor.Controllers
                         var datosticket = Datosticket((int)save.IdIngresado);
                         //GuardarBitacoraGeneralhistorial(GetIdUser(),datosticket.fiIDRequerimiento,datosticket.fiIDUsuarioSolicitante, comentarioticket,1,datosticket.fiIDEstadoRequerimiento,datosticket.fiIDUsuarioAsignado);
 
-
+                        
                         agregarCreacionTicket((int)save.IdIngresado);//esto es SignalR
+                        var correo = contexto.sp_DatosTicket_Correo(datosticket.fiIDRequerimiento).FirstOrDefault();
+                        var _emailTemplateService = new EmailTemplateService();
+                        await _emailTemplateService.SendEmailToSolicitud(new EmailTemplateTicketModel
+                        {
+                            fiIDRequerimiento = correo.fiIDRequerimiento,
+                            fcTituloRequerimiento = correo.fcTituloRequerimiento,
+                            fcDescripcionRequerimiento = correo.fcDescripcionRequerimiento,
+                            fdFechaCreacion = correo.fdFechaCreacion,
+                            fiIDAreaSolicitante = correo.fiIDAreaSolicitante,
+                            fcAreaSolicitante = correo.fcAreaSolicitante,
+                            fiIDUsuarioSolicitante = correo.fiIDUsuarioSolicitante,
+                            fcNombreCorto = correo.fcNombreCorto,
+                            fiIDEstadoRequerimiento = correo.fiIDEstadoRequerimiento,
+                            fcDescripcionEstado = correo.fcDescripcionEstado,
+                            fcCorreoElectronico = correo.fcCorreoElectronico
+                        });
+                        //MensajeDeTexto.EnviarLinkGeoLocation(model.Nombre, model.IdCliente, model.Telefono, "");
                         return EnviarListaJson(save);
+
 
                     }
                     catch (Exception ex)

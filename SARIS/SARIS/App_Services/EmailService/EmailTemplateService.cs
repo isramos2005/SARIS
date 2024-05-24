@@ -224,61 +224,59 @@ namespace OrionCoreCableColor.App_Services.EmailService
 
         
 
-        public async Task<bool> SendEmailToSolicitud(EmailTemplateServiceModel model)
+        public async Task<bool> SendEmailToSolicitud(EmailTemplateTicketModel model)
         {
             try
             {
 
-                var contenidoCorreo = "<table style=\"width: 600px; border-collapse: collapse; border-width: 0; border-style: none; border-spacing: 0; padding: 0;\">" +
-                                  $"<tr><th style='text-align:left;'>1) Geolocalizacion:</th> <td> {MemoryLoadManager.UrlWeb}/DatosCliente/ViewFormMapa/" + model.IdCliente + "</td></tr>" +
-                                  $"<tr><th style='text-align:left;'>2) Contrato y Firma:</th> <td>{MemoryLoadManager.UrlContrato}?" + model.IDFirma + "</td></tr>" +
-                                  $"<tr><th style='text-align:left;'>3) Toma de Fotos:</th> <td>{MemoryLoadManager.UrlWeb}/DatosCliente/ViewFormCargarIdentidad/" + model.IDSolicitud + "</td></tr>" +
+                var contenidoCorreo = "<table style=\"width: 500px; border-collapse: collapse; border-width: 0; border-style: none; border-spacing: 0; padding: 0;\">" +
+                                       "<tr><th style='text-align:left;'>Numero de Ticket:</th> <td>" + model.fiIDRequerimiento + "</td></tr>" +
+                                       "<tr><th style='text-align:left;'>Titulo Ticket:</th> <td>" + model.fcTituloRequerimiento + "</td></tr>" +
+                                       "<tr><th style='text-align:left;'>Fecha de Creacion:</th> <td>" + model.fdFechaCreacion.ToString("MM/dd/yyyy hh:mm tt") + "</td></tr>" +
+                                       "<tr><th style='text-align:left;'>Area Solicitante:</th> <td>" + model.fcAreaSolicitante + "</td></tr>" +
+                                       "<tr><th style='text-align:left;'>Usuario Solicitante:</th> <td>" + model.fcNombreCorto + "</td></tr>" +
+                                       "<tr><th style='text-align:left;'>Descripcion:</th> <td>" + model.fcDescripcionRequerimiento + "</td></tr>" +
+                                       "<tr><th style='text-align:left;'>Estado: </th> <td>" + model.fcDescripcionEstado + "</td></tr>" +
 
                                   "</table>";
 
-                var htmlString = @"<!DOCTYPE html> " +
-                        "<html>" +
-                        "<body>" +
-                        "<div style=\"width: 300px;\"><label>Estimado cliente,</label></div>" +
-                        "<br/> <div style=\"width: 600px;\"><label>Es un placer proporcionarle los enlaces a los formularios necesarios para solicitar nuestros servicios." +
-                        "<br/>1)La Geolocalizacion la tiene que realizar cuando este en el lugar donde se realizara la instalacion de servicios y tiene que dar permisos para poder utilizar el GPS para poder georeferenciar" +
-                        "<br/>2)En el link de contrato y firma necesitara el token que se le envio a su telefono personal para poder habilitar la firma digital de su contrato." +
-                        "<br/>3)En la Toma de fotos tiene que tomar la foto delantera de su Identidad y una selfi y subir cuando se termine el proceso saldra un mensaje de que se subieron las fotos" +
-                        "<br/>A continuación, encontrará acceso directo a los formularios:</label></div>" +
-                        "<div style=\"width: 600px;\">" +
-                        " <table style=\"width: 600px; border-collapse: collapse; border-width: 0; border-style: none; border-spacing: 0; padding: 0;\">" +
-                        " <tr style=\"height: 30px; background-color:#F29E00; font-family: 'Microsoft Tai Le'; font-size: 14px; font-weight: bold; color: white;\">" +
-                        " <td style=\"vertical-align: central; text-align:center;\">Formularios de Solicitud de Servicios</td>" +
-                        " </tr>" +
-                        " <tr style=\"height: 24px; font-family: 'Microsoft Tai Le'; font-size: 12px; font-weight: bold;\">" +
-                        " <td>&nbsp;</td>" +
-                        " </tr>" +
-                        " <tr style=\"height: 24px; font-family: 'Microsoft Tai Le'; font-size: 12px; font-weight: bold;\">" +
-                        " <td style=\"background-color:whitesmoke; text-align:center;\">LINK</td>" +
-                        " </tr>" +
-                        " <tr style=\"height: 24px; font-family: 'Microsoft Tai Le'; font-size: 12px; font-weight: bold;\">" +
-                        " <td>&nbsp;</td>" +
-                        " </tr>" +
-                        " <tr style=\"height: 24px; font-family: 'Microsoft Tai Le'; font-size: 12px; font-weight: bold;\">" +
-                        " <td style=\"vertical-align: central;\">" + contenidoCorreo + "</td>" +
-                        " </tr>" +
-                        " <tr style=\"height: 24px; font-family: 'Microsoft Tai Le'; font-size: 12px; font-weight: bold;\">" +
-                        " <td>&nbsp;</td>" +
-                        " </tr>" +
-                        " <tr style=\"height: 20px; font-family: 'Microsoft Tai Le'; font-size: 12px; text-align:center;\">" +
-                        " <td>System Bot Prestadito</td>" +
-                        " </tr>" +
-                        " </table>" +
-                        " </div>" +
-                        "</body> " +
-                        "</html> ";
+                string htmlString = @"<!DOCTYPE html> " +
+                                    "<html>" +
+                                    "<body>" +
+                                    " <div style=\"width: 500px;\">" +
+                                    " <table style=\"width: 500px; border-collapse: collapse; border-width: 0; border-style: none; border-spacing: 0; padding: 0;\">" +
+                                    " <tr style=\"height: 30px; background-color:#56396b; font-family: 'Microsoft Tai Le'; font-size: 14px; font-weight: bold; color: white;\">" +
+                                    " <td style=\"vertical-align: central; text-align:center;\">Ticket</td>" +
+                                    " </tr>" +
+                                    " <tr style=\"height: 24px; font-family: 'Microsoft Tai Le'; font-size: 12px; font-weight: bold;\">" +
+                                    " <td>&nbsp;</td>" +
+                                    " </tr>" +
+                                    " <tr style=\"height: 24px; font-family: 'Microsoft Tai Le'; font-size: 12px; font-weight: bold;\">" +
+                                    " <td style=\"background-color:whitesmoke; text-align:center;\">Datos</td>" +
+                                    " </tr>" +
+                                    " <tr style=\"height: 24px; font-family: 'Microsoft Tai Le'; font-size: 12px; font-weight: bold;\">" +
+                                    " <td>&nbsp;</td>" +
+                                    " </tr>" +
+                                    " <tr style=\"height: 24px; font-family: 'Microsoft Tai Le'; font-size: 12px; font-weight: bold;\">" +
+                                    " <td style=\"vertical-align: central;\">" + contenidoCorreo + "</td>" +
+                                    " </tr>" +
+                                    " <tr style=\"height: 24px; font-family: 'Microsoft Tai Le'; font-size: 12px; font-weight: bold;\">" +
+                                    " <td>&nbsp;</td>" +
+                                    " </tr>" +
+                                    " <tr style=\"height: 20px; font-family: 'Microsoft Tai Le'; font-size: 12px; text-align:center;\">" +
+                                    " <td>System Bot Prestadito</td>" +
+                                    " </tr>" +
+                                    " </table>" +
+                                    " </div>" +
+                                    "</body> " +
+                                    "</html> ";
 
                 var emailGeneratedToSend = new SendEmailViewModel
                 {
-                    EmailName = "NovaNet",
-                    Subject = "Formularios de Solicitud de Servicios",
+                    EmailName = "Saris",
+                    Subject = "Ticket",
                     Body = htmlString,
-                    DestinationEmail = model.CustomerEmail,
+                    DestinationEmail = model.fcCorreoElectronico,
                 };
 
                 var SendEmailResult = await _emailService.SendEmailAsync(emailGeneratedToSend);
