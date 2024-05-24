@@ -230,13 +230,13 @@
         });
 
         chat.client.agregarrow = function (modelo) {
-            console.log(modelo);
+            //console.log(modelo);
             var tabla = $.fn.dataTable.Api("#TablaPrincipalTicket");
             tabla.row.add(modelo).draw(false);
         }
 
         chat.client.actualizarBandeja = function (ticket) {
-            console.log(ticket);
+            //console.log(ticket);
 
             var tabla = $.fn.dataTable.Api("#TablaPrincipalTicket");
             var nodes = tabla.rows().nodes().toArray();
@@ -252,6 +252,12 @@
 
             tabla.row(node).remove().draw(false);
         }
+
+        chat.client.agregarrowTicketCerrado = function (modelo) {
+            var tabla = $.fn.dataTable.Api("#TablaPrincipalTicketCerrados");
+            tabla.row.add(modelo).draw(false);
+        }
+
 
 
         var tablaPrincipalcerrados = $('#TablaPrincipalTicketCerrados').DataTable({

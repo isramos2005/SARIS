@@ -232,7 +232,15 @@ namespace OrionCoreCableColor.Controllers
 
                     GuardarBitacoraGeneralhistorial(GetIdUser(), ticket.fiIDRequerimiento, GetIdUser(), comentario, 1, ticket.fiIDEstadoRequerimiento, ticket.fiIDUsuarioAsignado);
                     var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), ticket.fiIDRequerimiento, ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento, DateTime.Now, ticket.fiIDUsuarioAsignado, 0, ticket.fiTipoRequerimiento, 1, datosticket.fiAreaAsignada);
-                    ObtenerDataTicket(ticket.fiIDRequerimiento); //Esto es el signalR
+                    if (ticket.fiIDEstadoRequerimiento == 5)
+                    {
+                        eliminarTicketAbierto(ticket.fiIDRequerimiento);
+                        agregarDatosTicketCerrados(ticket.fiIDRequerimiento);
+                    }
+                    else
+                    {
+                        ObtenerDataTicket(ticket.fiIDRequerimiento); //Esto es el SignalR
+                    }
                     return EnviarResultado(true, "", "Ticket Actualizado exitosamente");
                 }
             }
