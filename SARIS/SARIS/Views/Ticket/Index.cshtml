@@ -474,12 +474,25 @@
 
         function ProcesosEstados(Ticket) {
             debugger;
-            $.ajax({
+            //ShowLeftModal('3○', 'titulo');
+
+            @*$.ajax({
                 url: "@Url.Action("ModalBitacora", "Ticket")",
                 method: "get",
                 data: { id: Ticket },
                 success: function (resp) {
                     ShowModalBig(resp);
+                },
+                error: function (resp) {
+                    AlertaError();
+                }
+            });*@
+            $.ajax({
+                url: "@Url.Action("ModalBitacoraMejora", "Ticket")",
+                method: "get",
+                data: { id: Ticket },
+                success: function (resp) {
+                    ShowLeftModal(resp,"Recorrido Ticket");
                 },
                 error: function (resp) {
                     AlertaError();
