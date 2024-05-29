@@ -236,7 +236,7 @@
         }
 
         chat.client.actualizarBandeja = function (ticket) {
-            //console.log(ticket);
+            console.log(ticket);
 
             var tabla = $.fn.dataTable.Api("#TablaPrincipalTicket");
             var nodes = tabla.rows().nodes().toArray();
@@ -378,7 +378,22 @@
                         var horas = Math.floor(minutos / 60);
                         var dias = Math.floor(horas / 24);
 
-                        return `${dias} <b>Di.</b>, ${horas % 24} <b>Ho.</b>, ${minutos % 60} <b>Mi.</b>, ${segundos % 60} <b>Seg.</b>`;
+                        var tiempototal = '';
+                        if (dias > 0) {
+                            tiempototal += `${dias} <b>Di.</b>, `;
+                        }
+                        console.log((horas % 24))
+                        if ((horas % 24) > 0) {
+                            tiempototal += `${horas % 24} <b>Ho.</b>, `;
+                        }
+                        if ((minutos % 60) > 0) {
+                            tiempototal += `${minutos % 60} <b>Mi.</b>, `;
+                        }
+                        // Realizar cualquier operación o cálculo necesario para actualizar el valor
+                        var nuevoValor = `${tiempototal} ${segundos % 60} <b>Seg.</b>`; // Por ejemplo, aumentar el valor actual en 1
+
+
+                        return nuevoValor;//`${dias} <b>Di.</b>, ${horas % 24} <b>Ho.</b>, ${minutos % 60} <b>Mi.</b>, ${segundos % 60} <b>Seg.</b>`;
                         //return "Han transcurrido " + dias + " días, " + horas % 24 + " horas, " + minutos % 60 + " minutos, " + segundos % 60 + " segundos.";
                     }
                 },
@@ -474,12 +489,25 @@
 
         function ProcesosEstados(Ticket) {
             debugger;
-            $.ajax({
+            //ShowLeftModal('3○', 'titulo');
+
+            @*$.ajax({
                 url: "@Url.Action("ModalBitacora", "Ticket")",
                 method: "get",
                 data: { id: Ticket },
                 success: function (resp) {
                     ShowModalBig(resp);
+                },
+                error: function (resp) {
+                    AlertaError();
+                }
+            });*@
+            $.ajax({
+                url: "@Url.Action("ModalBitacoraMejora", "Ticket")",
+                method: "get",
+                data: { id: Ticket },
+                success: function (resp) {
+                    ShowLeftModal(resp,"Recorrido Ticket");
                 },
                 error: function (resp) {
                     AlertaError();
@@ -566,10 +594,19 @@
                 var dias = Math.floor(horas / 24);
 
 //                return `${dias} <b>Di.</b>, ${horas % 24} <b>Ho.</b>, ${minutos % 60} <b>Mi.</b>, ${segundos % 60} <b>Seg.</b>`;
-
-
+                var tiempototal = '';
+                if (dias > 0) {
+                    tiempototal += `${dias} <b>Di.</b>, `;
+                }
+                console.log((horas % 24))
+                if ((horas % 24) > 0 ) {
+                    tiempototal += `${horas % 24} <b>Ho.</b>, `;
+                }
+                if ((minutos % 60) > 0) {
+                    tiempototal += `${minutos % 60} <b>Mi.</b>, `;
+                }
                 // Realizar cualquier operación o cálculo necesario para actualizar el valor
-                var nuevoValor = `${dias} <b>Di.</b>, ${horas % 24} <b>Ho.</b>, ${minutos % 60} <b>Mi.</b>, ${segundos % 60} <b>Seg.</b>`; // Por ejemplo, aumentar el valor actual en 1
+                var nuevoValor = `${tiempototal} ${segundos % 60} <b>Seg.</b>`; // Por ejemplo, aumentar el valor actual en 1
 
                 // Actualizar el valor en la columna
                 tabla.cell({ row: indice, column: 7 }).data(nuevoValor);
@@ -577,7 +614,7 @@
 
             // Redibujar la tabla para reflejar los cambios
             tabla.draw(false); // Puedes pasar false para evitar que la tabla se redibuje con animación
-        }, 1000); // Ejecutar cada 5 segundos
+        }, 100000); // Ejecutar cada minuto segundos
 
         setInterval(function () {
             location.reload();
