@@ -42,6 +42,24 @@ namespace OrionCoreCableColor.Controllers
             }
         }
 
+        public JsonResult SelectIncidenciasByCategorias(string fccategoria)
+        {
+            using (var contexto = new SARISEntities1())
+            {
+                var jsonResult = Json(contexto.sp_Indicadores_Lista().Where(a => a.fcDescripcionCategoria == fccategoria).Select(x => new ListaIndicadoresViewModel
+                {
+                    fiIDTipoRequerimiento = x.fiIDTipoRequerimiento,
+                    fcTipoRequerimiento = x.fcTipoRequerimiento,
+                    fcToken = x.fcToken
+
+
+                }).ToList(), JsonRequestBehavior.AllowGet);
+                jsonResult.MaxJsonLength = Int32.MaxValue;
+                return jsonResult;
+            }
+        }
+
+
         public JsonResult SelectUsuarios(int idarea)
         {
             using (var contexto = new SARISEntities1())
@@ -55,6 +73,23 @@ namespace OrionCoreCableColor.Controllers
                 return jsonResult;
             }
         } 
+
+        public JsonResult SelectCategorias()
+        {
+            using (var contexto = new SARISEntities1())
+            {
+                var jsonResult = Json(contexto.sp_Categorias_Indicidencias_Listado().Where(a => a.fiEstado == 1).Select(x => new ListaIndicadoresViewModel
+                {
+                    fiIDTipoRequerimiento = x.fiIDCategoriaDesarrollo,
+                    fcTipoRequerimiento = x.fcDescripcionCategoria,
+                    fcToken = x.fcToken
+
+
+                }).ToList(), JsonRequestBehavior.AllowGet);
+                jsonResult.MaxJsonLength = Int32.MaxValue;
+                return jsonResult;
+            }
+        }
 
     }
 }

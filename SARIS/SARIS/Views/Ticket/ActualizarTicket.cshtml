@@ -53,7 +53,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="form-group">
-                        <label class="control-label">DOCUMENTO (Solo se pueden subir imagenes) </label>
+                        <label class="control-label">DOCUMENTO (Suba imagenes,Word,Excel,Pdf para este ticket) </label>
 
                         <form id="Imagen-dropzone" action="@Url.Action("FormFileResponse","Base")" method="post" enctype="multipart/form-data" class="dropzone needsclick">
                             <div class="dz-message needsclick">
@@ -127,7 +127,7 @@
     var ID_USUARIO = @ViewBag.UsuarioLogueado;
 
     var fotosredimencionadas = [];
-
+    $("#fiIDEstadoRequerimiento").select2({ dropdownParent: $("#MyModalBig") }).val(null).trigger("change");
 
     $(document).ready(function () {
         estadoRequerimiento = $("#dllEstadoRequerimiento option:selected").val();
@@ -146,7 +146,13 @@
                 //idRequerimiento: ID_REQUERIMIENTO,
                 Observaciones: $("#txtComentario").val(),
             }
-            
+            if ($("#fiIDEstadoRequerimiento option:selected").val() == 11 || $("#fiIDEstadoRequerimiento option:selected").val() == "11") {
+                if (fotosredimencionadas.length < 1) {
+                    ToastrError("Documento/Imagen", "Suba un documento o imagen para comprobar");
+                    return 0;
+                }
+            }
+
             var requerimiento = {
                 fiIDRequerimiento: ID_REQUERIMIENTO,
                 fcTituloRequerimiento: $("#fcTituloRequerimiento").val(),
@@ -175,18 +181,15 @@
 
                     let resultado = data.d;
                     if (data.Estado == true) {
-                        var dataerror = { Titulo: "Exito", Mensaje: "Se Actualizo el Ticket Correctamente", Estado: true }
-                        AlertaAjax(dataerror)
+                        
                         $("#txtComentario").val(""),
-                          //  MensajeExitoModal('los datos se Actualizaron correctamente.');
+                          
                         $("#modalConfirmarDatos").modal('hide');
-                        //window.location = "BandejaRequerimientoDesarrollo.aspx?" + window.location.href.split('?')[1];
+                        
                         GuardarDocumentos(data.IdIngresado);
                         CerrarModal();
                         return ToastrSuccess("Exito", "Ticket Actualizado Correctamente");
-                        //window.location.href ="@Url.Action("Index", "Ticket")"
-                        //CargarDetalleBitacora();
-                        //location.reload();
+                        
                     }
                     else {
                         var dataerror = { Titulo: "Error", Mensaje: "Error Al Actualizar el Ticket", Estado: false }
@@ -323,8 +326,8 @@
 
         var cont = 0;
         if (fotosredimencionadas.length < 1) {
-            var datasus = { Titulo: "Exito", Mensaje: "Imagenes", Estado: true }
-            AlertaAjax(datasus)
+            //var datasus = { Titulo: "Exito", Mensaje: "Imagenes", Estado: true }
+            //AlertaAjax(datasus)
             return 0;
         }
 
@@ -351,8 +354,9 @@
 
                 timeout: 800000,
                 success: function (data) {
-                    var datasus = { Titulo: "Exito", Mensaje: "Documentos guardados correctamente", Estado: true }
-                    AlertaAjax(datasus)
+
+                    //var datasus = { Titulo: "Exito", Mensaje: "Documentos guardados correctamente", Estado: true }
+                    //AlertaAjax(datasus)
 
                     //location.reload();
 

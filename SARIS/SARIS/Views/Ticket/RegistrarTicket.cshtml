@@ -57,8 +57,26 @@
 
                 <div class="col-lg-12">
                     <div class="form-group">
+                        <label class="col-form-label">Tipo Categoria</label>
+                        <select id="seleccategoria" class="form-select form-control">
+                        </select>
+                    </div>
+
+                </div>
+                
+                <div class="col-lg-12">
+                    <div class="form-group">
                         <label class="col-form-label">Tipo Incidencia</label>
                         <select id="selectincidencia" class="form-select form-control">
+                        </select>
+                    </div>
+
+                </div>
+                
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="col-form-label">Asignar a</label>
+                        <select id="selectasignar" class="form-select form-control">
                         </select>
                     </div>
 
@@ -80,7 +98,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="form-group">
-                        <label class="control-label">DOCUMENTO (Solo se pueden subir imagenes) </label>
+                        <label class="control-label">DOCUMENTO (Suba imagenes,Word,Excel,Pdf para este ticket) </label>
 
                         <form id="Imagen-dropzone" action="@Url.Action("FormFileResponse","Base")" method="post" enctype="multipart/form-data" class="dropzone needsclick">
                             <div class="dz-message needsclick">
@@ -143,30 +161,58 @@
     select();
 
     function select() {
-          $.ajax({
-                url: "@Url.Action("CargarListaIndicadores", "Indicadores")",
-                type: "GET",
-                success: function (respuesta) {
 
-                    var selectIncidencia = $("#selectincidencia");
+        $.ajax({
+            url: "@Url.Action("SelectCategorias", "LlenarCampos")",
+            type: "GET",
+            success: function (respuesta) {
 
-                    selectIncidencia.empty();
-                    selectIncidencia.append($('<option>', {
-                        value: 0,
-                        text: 'Defina un Tipo Incidencia'
+                var selectcategoria = $("#seleccategoria");
+
+                selectcategoria.empty();
+                selectcategoria.append($('<option>', {
+                    value: 0,
+                    text: 'Defina un Tipo Incidencia'
+                }));
+                $("#seleccategoria").select2({ dropdownParent: $("#MyModalBig") }).val(null).trigger("change");
+                $.each(respuesta, function(index, item) {
+                    selectcategoria.append($('<option>', {
+                        value: item.fiIDTipoRequerimiento,
+                        text: item.fcTipoRequerimiento
                     }));
-                    $("#selectincidencia").select2({ dropdownParent: $("#MyModalBig") }).val(null).trigger("change");
-                    $.each(respuesta, function(index, item) {
-                        selectIncidencia.append($('<option>', {
-                            value: item.fiIDTipoRequerimiento,
-                            text: item.fcTipoRequerimiento
-                        }));
-                    });
-                },
-                error: function (respuesta) {
-                    console.log(respuesta);
-                }
-          });
+                });
+            },
+            error: function (respuesta) {
+                console.log(respuesta);
+            }
+        });
+
+        $.ajax({
+            url: "@Url.Action("", "LlenarCampos")",
+            type: "GET",
+            success: function (respuesta) {
+
+                var selectcategoria = $("#seleccategoria");
+
+                selectcategoria.empty();
+                selectcategoria.append($('<option>', {
+                    value: 0,
+                    text: 'Defina un Tipo Incidencia'
+                }));
+                $("#seleccategoria").select2({ dropdownParent: $("#MyModalBig") }).val(null).trigger("change");
+                $.each(respuesta, function(index, item) {
+                    selectcategoria.append($('<option>', {
+                        value: item.fiIDTipoRequerimiento,
+                        text: item.fcTipoRequerimiento
+                    }));
+                });
+            },
+            error: function (respuesta) {
+                console.log(respuesta);
+            }
+        });
+
+
 
     }
 
@@ -215,6 +261,37 @@
     }
 
 
+    $(`#seleccategoria`).on('change', function () {
+        debugger
+        var textcategorias = $("#seleccategoria option:selected").text();
+
+        $.ajax({
+            url: "@Url.Action("SelectIncidenciasByCategorias", "LlenarCampos")",
+            type: "GET",
+            data: { fccategoria: textcategorias},
+            success: function (respuesta) {
+
+                var selectIncidencia = $("#selectincidencia");
+
+                selectIncidencia.empty();
+                selectIncidencia.append($('<option>', {
+                    value: 0,
+                    text: 'Defina un Tipo Incidencia'
+                }));
+                $("#selectincidencia").select2({ dropdownParent: $("#MyModalBig") }).val(null).trigger("change");
+                $.each(respuesta, function(index, item) {
+                    selectIncidencia.append($('<option>', {
+                        value: item.fiIDTipoRequerimiento,
+                        text: item.fcTipoRequerimiento
+                    }));
+                });
+            },
+            error: function (respuesta) {
+                console.log(respuesta);
+            }
+        });
+    })
+
     function GuardarRequermiento(id) {
         H5_loading.show();
         var EstadoRequerimiento = id;
@@ -225,7 +302,7 @@
             fcDescripcionRequerimiento: $("#txtdescripcion").val(),
             fiIDAreaSolicitante: $(`#selectarea`).val(),
             fiTipoRequerimiento: $("#selectincidencia").val()
-           
+
         }
         var comentario = $("#txtcomentario").val();
         if (comentario == "" || comentario == null) {
@@ -315,7 +392,7 @@
             return _ref != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
         }
     });
-    
+
 
     $("#btnGuardarRequerimientoEnviar").click(function (e) {
 
@@ -330,7 +407,7 @@
         var img = new Image;
 
         //console.log(eimagencaptada.type);
-       
+
         img.src = URL.createObjectURL(eimagencaptada); // insertamos la imagen que el cliente subio para posteriormente hacer la reduccion
         img.onload = function () {
             //var canvas = document.getElementById(idcanva);
