@@ -85,7 +85,7 @@ namespace OrionCoreCableColor.Controllers
                 if (categoria != null)
                 {
 
-                    return PartialView("Crear", new ListaCategoriaIncidencias { fcDescripcionCategoria = categoria.fcDescripcionCategoria, EsEditar = true });
+                    return PartialView("Crear", new ListaCategoriaIncidencias {fiIDCategoriaDesarrollo = categoria.fiIDCategoriaDesarrollo , fcDescripcionCategoria = categoria.fcDescripcionCategoria, EsEditar = true });
                 }
                 else
                 {
@@ -103,7 +103,7 @@ namespace OrionCoreCableColor.Controllers
                 
                 var success = result > 0;
 
-                return EnviarResultado(success, "Crear Categoria", success ? "Se Creó Satisfactoriamente" : "Error al editar ");
+                return EnviarResultado(success, "Editar Categoria", success ? "Se Editó Satisfactoriamente" : "Error al editar ");
 
 
             }

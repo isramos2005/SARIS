@@ -72,12 +72,10 @@
         }
         var model = @Html.Raw(Json.Encode(Model));
         debugger;
-        model.fiIdUsuario = $("#fiIdUsuario").val();
-        model.fcSegundoNombre = $("#fcSegundoNombre").val();
-
-        model.fiAreaAsignada = $("#fiAreaAsignada").val();
-
         model.fiIDJefeInmediato = $("#fiIDJefeInmediato").val();
+        model.fiAreaAsignada = $("#fiAreaAsignada").val();
+        model.IdRol = $("#IdRol").val();
+        model.fiIdUsuario = $("#fiIdUsuario").val();
 
             $.ajax({
                 url: '@Url.Action("EditarInfoUsuarioLaboral", "Usuario")',
