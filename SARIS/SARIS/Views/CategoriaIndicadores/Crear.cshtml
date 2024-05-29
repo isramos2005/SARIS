@@ -17,7 +17,7 @@
 <div class="modal-body">
     <form id="MyFormModal">
         @Html.HiddenFor(model => model.fiIDCategoriaDesarrollo)
-
+        
         <div class="form-group">
             @Html.LabelFor(model => model.fcDescripcionCategoria, htmlAttributes: new { @class = "control-label" })
             <div class="input-group mar-btm">
@@ -50,7 +50,10 @@
         if (!$("#MyFormModal").valid()) {
             return false;
         }
+        console.log("Valor de fiIDCategoriaDesarrollo:", $("#fiIDCategoriaDesarrollo").val());
+
         var model = @Html.Raw(Json.Encode(Model));
+        model.fiIDCategoriaDesarrollo = $("#fiIDCategoriaDesarrollo").val();
         model.fcDescripcionCategoria = $("#fcDescripcionCategoria").val();
 
         var url = "@Url.Action("Crear", "CategoriaIndicadores")";

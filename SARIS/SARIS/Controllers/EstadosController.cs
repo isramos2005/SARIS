@@ -59,6 +59,11 @@ namespace OrionCoreCableColor.Controllers
                     },
                     new SelectListItem
                     {
+                        Value = "primary",
+                        Text = "primary"
+                    },
+                    new SelectListItem
+                    {
                         Value = "warning",
                         Text = "warning"
                     },
@@ -74,8 +79,8 @@ namespace OrionCoreCableColor.Controllers
                     },
                     new SelectListItem
                     {
-                        Value = "secundary",
-                        Text = "secundary"
+                        Value = "secondary",
+                        Text = "secondary"
                     },
                 };
                 return PartialView(new EstadosCrearViewModel());
@@ -113,6 +118,11 @@ namespace OrionCoreCableColor.Controllers
                     },
                     new SelectListItem
                     {
+                        Value = "primary",
+                        Text = "primary"
+                    },
+                    new SelectListItem
+                    {
                         Value = "warning",
                         Text = "warning"
                     },
@@ -128,8 +138,8 @@ namespace OrionCoreCableColor.Controllers
                     },
                     new SelectListItem
                     {
-                        Value = "secundary",
-                        Text = "secundary"
+                        Value = "secondary",
+                        Text = "secondary"
                     },
                 };
                 var estado = context.sp_Estados_Lista().FirstOrDefault(x => x.fiIDEstado == id);
