@@ -79,7 +79,6 @@
                         <select id="selectasignar" class="form-select form-control">
                         </select>
                     </div>
-
                 </div>
 
 
@@ -186,33 +185,6 @@
                 console.log(respuesta);
             }
         });
-
-        $.ajax({
-            url: "@Url.Action("", "LlenarCampos")",
-            type: "GET",
-            success: function (respuesta) {
-
-                var selectcategoria = $("#seleccategoria");
-
-                selectcategoria.empty();
-                selectcategoria.append($('<option>', {
-                    value: 0,
-                    text: 'Defina un Tipo Incidencia'
-                }));
-                $("#seleccategoria").select2({ dropdownParent: $("#MyModalBig") }).val(null).trigger("change");
-                $.each(respuesta, function(index, item) {
-                    selectcategoria.append($('<option>', {
-                        value: item.fiIDTipoRequerimiento,
-                        text: item.fcTipoRequerimiento
-                    }));
-                });
-            },
-            error: function (respuesta) {
-                console.log(respuesta);
-            }
-        });
-
-
 
     }
 

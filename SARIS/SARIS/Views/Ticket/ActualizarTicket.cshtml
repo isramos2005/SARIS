@@ -30,12 +30,25 @@
                     </div>
                 </div>
 
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <label class="col-form-label">Categoria</label>
-                        @Html.DropDownListFor(model => model.fiIDEstadoRequerimiento, new SelectList(ViewBag.Estados, "Value", "Text"), null, new { @class = "form-control input-lg", @style = "width:100%;" })
+                @if (ViewBag.PuedeEditarCategoria)
+                {
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="col-form-label">Categoria</label>
+                            @Html.DropDownListFor(model => model.fiCategoriadeDesarrollo, new SelectList(ViewBag.ListaCategorias, "Value", "Text"), null, new { @class = "form-control input-lg", @style = "width:100%;" })
+                        </div>
                     </div>
-                </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label class="col-form-label">Tipo Incidencia</label>
+                            <select id="selectincidencia" class="form-select form-control">
+                            </select>
+                        </div>
+
+                    </div>
+                }
+
 
                 <div class="col-sm-12">
                     <div class="form-group">
@@ -131,8 +144,46 @@
     var estadoRequerimiento = 0;
     var ID_REQUERIMIENTO = @ViewBag.idticket;
     var ID_USUARIO = @ViewBag.UsuarioLogueado;
-
+    var idtiporequerimiento = @ViewBag.IdIncidencia;
     var fotosredimencionadas = [];
+
+    $(`#fiCategoriadeDesarrollo`).on('change', function () {
+        cambiodecategoria(0);
+    })
+    cambiodecategoria(idtiporequerimiento);
+    function cambiodecategoria(tipore) {
+        var textcategorias = $("#fiCategoriadeDesarrollo option:selected").text();
+
+        $.ajax({
+            url: "@Url.Action("SelectIncidenciasByCategorias", "LlenarCampos")",
+            type: "GET",
+            data: { fccategoria: textcategorias},
+            success: function (respuesta) {
+
+                var selectIncidencia = $("#selectincidencia");
+
+                selectIncidencia.empty();
+                selectIncidencia.append($('<option>', {
+                    value: 0,
+                    text: 'Defina un Tipo Incidencia'
+                }));
+                $("#selectincidencia").select2({ dropdownParent: $("#MyModalBig") }).val(null).trigger("change");
+                $.each(respuesta, function(index, item) {
+                    selectIncidencia.append($('<option>', {
+                        value: item.fiIDTipoRequerimiento,
+                        text: item.fcTipoRequerimiento
+                    }));
+                });
+
+                if (tipore != 0) {
+                    selectIncidencia.val(tipore).trigger("change");
+                }
+            },
+            error: function (respuesta) {
+                console.log(respuesta);
+            }
+        });
+    }
     $("#fiIDEstadoRequerimiento").select2({ dropdownParent: $("#MyModalBig") }).val(null).trigger("change");
 
     $(document).ready(function () {
@@ -187,15 +238,15 @@
 
                     let resultado = data.d;
                     if (data.Estado == true) {
-                        
+
                         $("#txtComentario").val(""),
-                          
+
                         $("#modalConfirmarDatos").modal('hide');
-                        
+
                         GuardarDocumentos(data.IdIngresado);
                         CerrarModal();
                         return ToastrSuccess("Exito", "Ticket Actualizado Correctamente");
-                        
+
                     }
                     else {
                         var dataerror = { Titulo: "Error", Mensaje: "Error Al Actualizar el Ticket", Estado: false }

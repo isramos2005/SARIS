@@ -25,6 +25,10 @@
                         <th style="width:80px">Area Solicitante</th>
                         <th style="width:80px">Usuario Asignado</th>
                         <th style="width:80px">Area Asignada</th>
+
+                        <th style="width:80px">Categoria</th>
+                        <th style="width:80px">Incidencia</th>
+
                         <th style="width:150px">Fecha Creacion Solicitud</th>
                         <th style="width:150px">Tiempo Transcurrido</th>
                         <th style="width:80px">Estado</th>
@@ -52,6 +56,10 @@
                         <th style="width:80px">Area Solicitante</th>
                         <th style="width:80px">Usuario Asignado</th>
                         <th style="width:80px">Area Asignada</th>
+
+                        <th style="width:80px">Categoria</th>
+                        <th style="width:80px">Incidencia</th>
+
                         <th style="width:150px">Fecha Creacion Solicitud</th>
                         <th style="width:150px">Fecha Cierre</th>
                         <th style="width:150px">Tiempo Transcurrido</th>
@@ -179,6 +187,14 @@
                             return data.fcNombreAreaAsignada;
                         }
                     }
+                },
+                {
+                    data: "fcDescripcionCategoria",
+                    className: "td-responsive",
+                },
+                {
+                    data: "fcTipoRequerimiento",
+                    className: "td-responsive",
                 },
 
                 {
@@ -342,6 +358,23 @@
                 {
                     data: "fcNombreAreaAsignada",
                     className: "td-responsive",
+                },
+                {
+                    data: null,
+                    className: "td-responsive",
+                    render: function (data) {
+                        return data.fcDescripcionCategoria;
+
+                    }
+                },
+
+                {
+                    data: null,
+                    className: "td-responsive",
+                    render: function (data) {
+                        return data.fcTipoRequerimiento;
+
+                    }
                 },
                 {
                     data: null,
