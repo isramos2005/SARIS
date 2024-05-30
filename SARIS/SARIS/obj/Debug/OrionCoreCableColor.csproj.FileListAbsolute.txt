@@ -2334,3 +2334,5 @@ C:\Users\DTORRES\Documents\SARIS\SARIS\SARIS\obj\Debug\OrionCoreCableColor.cspro
 C:\Users\DTORRES\Documents\SARIS\SARIS\SARIS\obj\Debug\OrionCoreCableColor.csproj.CopyComplete
 C:\Users\DTORRES\Documents\SARIS\SARIS\SARIS\obj\Debug\OrionCoreCableColor.dll
 C:\Users\DTORRES\Documents\SARIS\SARIS\SARIS\obj\Debug\OrionCoreCableColor.pdb
+C:\Users\DTORRES\Documents\SARIS\SARIS\SARIS\bin\roslyn\csc.exe
+C:\Users\DTORRES\Documents\SARIS\SARIS\SARIS\obj\Debug\OrionCoreCableColor.csproj.AssemblyReference.cache

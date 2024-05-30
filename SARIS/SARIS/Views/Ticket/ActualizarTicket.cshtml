@@ -30,6 +30,12 @@
                     </div>
                 </div>
 
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-form-label">Categoria</label>
+                        @Html.DropDownListFor(model => model.fiIDEstadoRequerimiento, new SelectList(ViewBag.Estados, "Value", "Text"), null, new { @class = "form-control input-lg", @style = "width:100%;" })
+                    </div>
+                </div>
 
                 <div class="col-sm-12">
                     <div class="form-group">
