@@ -115,34 +115,6 @@
     <FunctionImport Name="sp_Configuraciones" ReturnType="Collection(SARISModel.sp_Configuraciones_Result)">
       <Parameter Name="fcDescripcionLlave" Mode="In" Type="String" />
     </FunctionImport>
-    <FunctionImport Name="sp_Requerimientos_Bandeja">
-      <Parameter Name="piIDSesion" Mode="In" Type="Int32" />
-      <Parameter Name="piIDApp" Mode="In" Type="Int32" />
-      <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_Requerimientos_Bandeja_ByID" ReturnType="Collection(SARISModel.sp_Requerimientos_Bandeja_ByID_Result)">
-      <Parameter Name="piIDSesion" Mode="In" Type="Int32" />
-      <Parameter Name="piIDApp" Mode="In" Type="Int32" />
-      <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
-      <Parameter Name="piIDRequerimientos" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_Requerimiento_Alta" ReturnType="Collection(SARISModel.sp_Requerimiento_Alta_Result)">
-      <Parameter Name="piIDSesion" Mode="In" Type="Int32" />
-      <Parameter Name="piIDApp" Mode="In" Type="Int16" />
-      <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
-      <Parameter Name="pcTituloRequerimiento" Mode="In" Type="String" />
-      <Parameter Name="pcDetalleRequerimiento" Mode="In" Type="String" />
-      <Parameter Name="piEstadoRequerimiento" Mode="In" Type="Byte" />
-      <Parameter Name="piTipoRequerimiento" Mode="In" Type="Byte" />
-      <Parameter Name="piIdArea" Mode="In" Type="Int32" />
-      <Parameter Name="pcComentario" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="sp_Requerimiento_Maestro_Detalle" ReturnType="Collection(SARISModel.sp_Requerimiento_Maestro_Detalle_Result)">
-      <Parameter Name="piIDSesion" Mode="In" Type="Int32" />
-      <Parameter Name="piIDApp" Mode="In" Type="Int16" />
-      <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
-      <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
-    </FunctionImport>
     <FunctionImport Name="sp_Eliminar_Requerimiento" ReturnType="Collection(SARISModel.sp_Eliminar_Requerimiento_Result)">
       <Parameter Name="piIdRequerimiento" Mode="In" Type="Int32" />
     </FunctionImport>
@@ -154,19 +126,6 @@
       <Parameter Name="piIDApp" Mode="In" Type="Int32" />
       <Parameter Name="piIDEstado" Mode="In" Type="Int32" />
       <Parameter Name="piIDUsuarioAsignado" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_Requerimiento_Maestro_Actualizar">
-      <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
-      <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
-      <Parameter Name="pcTituloRequerimiento" Mode="In" Type="String" />
-      <Parameter Name="pcDescripcionRequerimiento" Mode="In" Type="String" />
-      <Parameter Name="piIDEstadoRequerimiento" Mode="In" Type="Byte" />
-      <Parameter Name="fdFechaAsignacion" Mode="In" Type="DateTime" />
-      <Parameter Name="pifiIDUsuarioAsignado" Mode="In" Type="Int32" />
-      <Parameter Name="piTiempodeDesarrollo" Mode="In" Type="Int32" />
-      <Parameter Name="pifiTipoRequerimiento" Mode="In" Type="Byte" />
-      <Parameter Name="piIDApp" Mode="In" Type="Int32" />
-      <Parameter Name="piIdAreaAsignada" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="sp_Requerimiento_Documentos_ObtenerPorIdRequerimiento" ReturnType="Collection(SARISModel.sp_Requerimiento_Documentos_ObtenerPorIdRequerimiento_Result)">
       <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
@@ -201,8 +160,49 @@
       <Parameter Name="piIDCategoriaDesarrollo" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="sp_Indicadores_Lista" ReturnType="Collection(SARISModel.sp_Indicadores_Lista_Result)" />
+    <FunctionImport Name="sp_Requerimientos_Bandeja">
+      <Parameter Name="piIDSesion" Mode="In" Type="Int32" />
+      <Parameter Name="piIDApp" Mode="In" Type="Int32" />
+      <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
+    </FunctionImport>
     <FunctionImport Name="sp_DatosTicket_Correo" ReturnType="Collection(SARISModel.sp_DatosTicket_Correo_Result)">
       <Parameter Name="piTicket" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Requerimientos_Bandeja_ByID" ReturnType="Collection(SARISModel.sp_Requerimientos_Bandeja_ByID_Result)">
+      <Parameter Name="piIDSesion" Mode="In" Type="Int32" />
+      <Parameter Name="piIDApp" Mode="In" Type="Int32" />
+      <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
+      <Parameter Name="piIDRequerimientos" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Requerimiento_Maestro_Detalle" ReturnType="Collection(SARISModel.sp_Requerimiento_Maestro_Detalle_Result)">
+      <Parameter Name="piIDSesion" Mode="In" Type="Int32" />
+      <Parameter Name="piIDApp" Mode="In" Type="Int16" />
+      <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
+      <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Requerimiento_Alta" ReturnType="Collection(SARISModel.sp_Requerimiento_Alta_Result)">
+      <Parameter Name="piIDSesion" Mode="In" Type="Int32" />
+      <Parameter Name="piIDApp" Mode="In" Type="Int16" />
+      <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
+      <Parameter Name="pcTituloRequerimiento" Mode="In" Type="String" />
+      <Parameter Name="pcDetalleRequerimiento" Mode="In" Type="String" />
+      <Parameter Name="piEstadoRequerimiento" Mode="In" Type="Byte" />
+      <Parameter Name="piTipoRequerimiento" Mode="In" Type="Int32" />
+      <Parameter Name="piIdArea" Mode="In" Type="Int32" />
+      <Parameter Name="pcComentario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Requerimiento_Maestro_Actualizar">
+      <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
+      <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
+      <Parameter Name="pcTituloRequerimiento" Mode="In" Type="String" />
+      <Parameter Name="pcDescripcionRequerimiento" Mode="In" Type="String" />
+      <Parameter Name="piIDEstadoRequerimiento" Mode="In" Type="Byte" />
+      <Parameter Name="fdFechaAsignacion" Mode="In" Type="DateTime" />
+      <Parameter Name="pifiIDUsuarioAsignado" Mode="In" Type="Int32" />
+      <Parameter Name="piTiempodeDesarrollo" Mode="In" Type="Int32" />
+      <Parameter Name="pifiTipoRequerimiento" Mode="In" Type="Int32" />
+      <Parameter Name="piIDApp" Mode="In" Type="Int32" />
+      <Parameter Name="piIdAreaAsignada" Mode="In" Type="Int32" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_Requerimiento_Areas_Result">
@@ -402,51 +402,6 @@
     <Property Type="String" Name="fcDescripcionLlave" Nullable="true" MaxLength="250" />
     <Property Type="String" Name="fcValorLlave" Nullable="true" MaxLength="250" />
   </ComplexType>
-  <ComplexType Name="sp_Requerimientos_Bandeja_ByID_Result">
-    <Property Type="Int32" Name="fiIDRequerimiento" Nullable="false" />
-    <Property Type="DateTime" Name="fdFechaCreacion" Nullable="false" Precision="23" />
-    <Property Type="Int32" Name="fiIDUsuarioSolicitante" Nullable="false" />
-    <Property Type="String" Name="fcNombreSolicitante" Nullable="true" MaxLength="30" />
-    <Property Type="String" Name="fcTituloRequerimiento" Nullable="false" MaxLength="1000" />
-    <Property Type="String" Name="fcDescripcionRequerimiento" Nullable="false" MaxLength="Max" />
-    <Property Type="Byte" Name="fiIDEstadoRequerimiento" Nullable="false" />
-    <Property Type="String" Name="fcDescripcionEstado" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="fcClaseColor" Nullable="true" MaxLength="50" />
-    <Property Type="DateTime" Name="fdFechaAsignacion" Nullable="false" Precision="23" />
-    <Property Type="Int32" Name="fiIDUsuarioAsignado" Nullable="false" />
-    <Property Type="String" Name="fcNombreAsignado" Nullable="false" MaxLength="30" />
-    <Property Type="DateTime" Name="fdFechadeCierre" Nullable="false" Precision="23" />
-    <Property Type="Int32" Name="fiTiempodeDesarrollo" Nullable="false" />
-    <Property Type="Byte" Name="fiCategoriadeDesarrollo" Nullable="false" />
-    <Property Type="Byte" Name="fiTipoRequerimiento" Nullable="false" />
-    <Property Type="Byte" Name="fiIDAreaSolicitante" Nullable="false" />
-    <Property Type="String" Name="fcNombreAreaSolicitante" Nullable="true" MaxLength="40" />
-    <Property Type="Int32" Name="fiAreaAsignada" Nullable="true" />
-    <Property Type="String" Name="fcNombreAreaAsignada" Nullable="true" MaxLength="40" />
-    <Property Type="Decimal" Name="fnValoracionRequerimiento" Nullable="false" Precision="13" Scale="2" />
-    <Property Type="DateTime" Name="fdFechaUltimaModificacion" Nullable="false" Precision="23" />
-    <Property Type="Int32" Name="fiIDUsuarioUltimaModificacion" Nullable="false" />
-    <Property Type="Int32" Name="fiPuedeModificarlo" Nullable="false" />
-  </ComplexType>
-  <ComplexType Name="sp_Requerimiento_Alta_Result">
-    <Property Type="String" Name="fiMensaje" Nullable="true" MaxLength="1" />
-    <Property Type="String" Name="fcMensaje" Nullable="true" MaxLength="255" />
-    <Property Type="Int32" Name="IdIngresado" Nullable="true" />
-  </ComplexType>
-  <ComplexType Name="sp_Requerimiento_Maestro_Detalle_Result">
-    <Property Type="String" Name="fcDescripcionRequerimiento" Nullable="false" MaxLength="Max" />
-    <Property Type="Int32" Name="fiIDRequerimiento" Nullable="false" />
-    <Property Type="DateTime" Name="fdFechaCreacion" Nullable="false" Precision="23" />
-    <Property Type="String" Name="fcTituloRequerimiento" Nullable="false" MaxLength="1000" />
-    <Property Type="Byte" Name="fiIDAreaSolicitante" Nullable="false" />
-    <Property Type="Byte" Name="fiIDEstadoRequerimiento" Nullable="false" />
-    <Property Type="Int32" Name="fiIDUsuarioAsignado" Nullable="false" />
-    <Property Type="Int32" Name="fiIDUsuarioSolicitante" Nullable="false" />
-    <Property Type="DateTime" Name="fdFechaAsignacion" Nullable="false" Precision="23" />
-    <Property Type="DateTime" Name="fdFechadeCierre" Nullable="false" Precision="23" />
-    <Property Type="String" Name="fcBuzondeCorreo" Nullable="true" MaxLength="100" />
-    <Property Type="Int32" Name="fiTiempodeDesarrollo" Nullable="false" />
-  </ComplexType>
   <ComplexType Name="sp_Eliminar_Requerimiento_Result">
     <Property Type="String" Name="fiMensaje" Nullable="true" MaxLength="1" />
     <Property Type="String" Name="fcMensaje" Nullable="true" MaxLength="255" />
@@ -495,5 +450,58 @@
     <Property Type="Byte" Name="fiIDEstadoRequerimiento" Nullable="false" />
     <Property Type="String" Name="fcDescripcionEstado" Nullable="true" MaxLength="50" />
     <Property Type="String" Name="fcCorreoElectronico" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="fcDescripcionCategoria" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="fcTipoRequerimiento" Nullable="true" MaxLength="30" />
+  </ComplexType>
+  <ComplexType Name="sp_Requerimientos_Bandeja_ByID_Result">
+    <Property Type="Int32" Name="fiIDRequerimiento" Nullable="false" />
+    <Property Type="DateTime" Name="fdFechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="Int32" Name="fiIDUsuarioSolicitante" Nullable="false" />
+    <Property Type="String" Name="fcNombreSolicitante" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="fcTituloRequerimiento" Nullable="false" MaxLength="1000" />
+    <Property Type="String" Name="fcDescripcionRequerimiento" Nullable="false" MaxLength="Max" />
+    <Property Type="Byte" Name="fiIDEstadoRequerimiento" Nullable="false" />
+    <Property Type="String" Name="fcDescripcionEstado" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="fcClaseColor" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="fdFechaAsignacion" Nullable="false" Precision="23" />
+    <Property Type="Int32" Name="fiIDUsuarioAsignado" Nullable="false" />
+    <Property Type="String" Name="fcNombreAsignado" Nullable="false" MaxLength="30" />
+    <Property Type="DateTime" Name="fdFechadeCierre" Nullable="false" Precision="23" />
+    <Property Type="Int32" Name="fiTiempodeDesarrollo" Nullable="false" />
+    <Property Type="Byte" Name="fiCategoriadeDesarrollo" Nullable="false" />
+    <Property Type="String" Name="fcDescripcionCategoria" Nullable="true" MaxLength="30" />
+    <Property Type="Byte" Name="fiTipoRequerimiento" Nullable="false" />
+    <Property Type="String" Name="fcTipoRequerimiento" Nullable="true" MaxLength="30" />
+    <Property Type="Byte" Name="fiIDAreaSolicitante" Nullable="false" />
+    <Property Type="String" Name="fcNombreAreaSolicitante" Nullable="true" MaxLength="40" />
+    <Property Type="Int32" Name="fiAreaAsignada" Nullable="true" />
+    <Property Type="String" Name="fcNombreAreaAsignada" Nullable="true" MaxLength="40" />
+    <Property Type="Decimal" Name="fnValoracionRequerimiento" Nullable="false" Precision="13" Scale="2" />
+    <Property Type="DateTime" Name="fdFechaUltimaModificacion" Nullable="false" Precision="23" />
+    <Property Type="Int32" Name="fiIDUsuarioUltimaModificacion" Nullable="false" />
+    <Property Type="Int32" Name="fiPuedeModificarlo" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sp_Requerimiento_Maestro_Detalle_Result">
+    <Property Type="String" Name="fcDescripcionRequerimiento" Nullable="false" MaxLength="Max" />
+    <Property Type="Int32" Name="fiIDRequerimiento" Nullable="false" />
+    <Property Type="DateTime" Name="fdFechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="fcTituloRequerimiento" Nullable="false" MaxLength="1000" />
+    <Property Type="Byte" Name="fiIDAreaSolicitante" Nullable="false" />
+    <Property Type="Byte" Name="fiIDEstadoRequerimiento" Nullable="false" />
+    <Property Type="Int32" Name="fiIDUsuarioAsignado" Nullable="false" />
+    <Property Type="Int32" Name="fiIDUsuarioSolicitante" Nullable="false" />
+    <Property Type="DateTime" Name="fdFechaAsignacion" Nullable="false" Precision="23" />
+    <Property Type="DateTime" Name="fdFechadeCierre" Nullable="false" Precision="23" />
+    <Property Type="String" Name="fcBuzondeCorreo" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="fcDescripcionCategoria" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="fcTipoRequerimiento" Nullable="true" MaxLength="30" />
+    <Property Type="Byte" Name="fiTipoRequerimiento" Nullable="false" />
+    <Property Type="Byte" Name="fiCategoriadeDesarrollo" Nullable="false" />
+    <Property Type="Int32" Name="fiTiempodeDesarrollo" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sp_Requerimiento_Alta_Result">
+    <Property Type="String" Name="fiMensaje" Nullable="true" MaxLength="1" />
+    <Property Type="String" Name="fcMensaje" Nullable="true" MaxLength="255" />
+    <Property Type="Int32" Name="IdIngresado" Nullable="true" />
   </ComplexType>
 </Schema>

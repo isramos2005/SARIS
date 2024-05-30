@@ -155,7 +155,8 @@ namespace OrionCoreCableColor.Controllers
                     tick.fiIDUsuarioAsignado = cont.fiIDUsuarioAsignado;
                     tick.fdFechaAsignacion = cont.fdFechaAsignacion;
                     tick.fdFechadeCierre = cont.fdFechadeCierre;
-
+                    tick.fiTipoRequerimiento = cont.fiTipoRequerimiento;
+                    tick.fiCategoriadeDesarrollo = cont.fiCategoriadeDesarrollo;
 
                     var estadosquenovan = contexto.sp_Configuraciones("NoMostrarEstados").FirstOrDefault().fcValorLlave.Split(',').Select(a => Convert.ToInt32(a)).ToList();
                     ViewBag.ListarArea = contexto.sp_Areas_Lista().Select(x => new SelectListItem { Value = x.fiIDArea.ToString(), Text = x.fcDescripcion}).ToList();

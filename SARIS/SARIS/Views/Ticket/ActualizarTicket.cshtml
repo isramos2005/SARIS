@@ -19,14 +19,14 @@
                 <div class="col-sm-12">
                     <div class="form-group">
                         <label class="col-form-label">Titulo</label>
-                        @Html.EditorFor(model => model.fcTituloRequerimiento, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.fcTituloRequerimiento, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                     </div>
                 </div>
 
                 <div class="col-sm-12">
                     <div class="form-group">
                         <label class="col-form-label">Descripcion</label>
-                        @Html.EditorFor(model => model.fcDescripcionRequerimiento, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.fcDescripcionRequerimiento, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                     </div>
                 </div>
 
@@ -150,7 +150,9 @@
     $(`#fiCategoriadeDesarrollo`).on('change', function () {
         cambiodecategoria(0);
     })
+    console.log(idtiporequerimiento);
     cambiodecategoria(idtiporequerimiento);
+
     function cambiodecategoria(tipore) {
         var textcategorias = $("#fiCategoriadeDesarrollo option:selected").text();
 
@@ -174,7 +176,7 @@
                         text: item.fcTipoRequerimiento
                     }));
                 });
-
+                console.log(`esto trae el tipo incidencia: ${tipore}`);
                 if (tipore != 0) {
                     selectIncidencia.val(tipore).trigger("change");
                 }
@@ -216,10 +218,11 @@
                 fcDescripcionRequerimiento: $("#fcDescripcionRequerimiento").val(),//hola,
                 fiIDEstadoRequerimiento: $("#fiIDEstadoRequerimiento option:selected").val(),
                 fcDescripcionEstado: $("#fiIDEstadoRequerimiento :selected").text(),
-
+                fiCategoriadeDesarrollo: $(`#fiCategoriadeDesarrollo`).val(),
+                fiTipoRequerimiento: $(`#selectincidencia`).val()
                 //fiIDUsuarioAsignado: $("#fiIDUsuarioAsignado option:selected").val() == "" ? 1 : parseInt($("#fiIDUsuarioAsignado option:selected").val()),
 
-                fiTipoRequerimiento: 1,//$("#txtComentario").val(),
+                //$("#txtComentario").val(),
                 //fiIDAreaSolicitante: $("#fiIDAreaSolicitante option:selected").val() == null ? 0 : parseInt($("#fiIDAreaSolicitante option:selected").val()),//$("#txtComentario").val(),
                 //fcNombreAreaSolicitante: $("#fiIDAreaSolicitante :selected").text(),
                 //fiAreaAsignada: $(`#fiAreaAsignada`).val() == null ? 0 : parseInt($("#fiAreaAsignada option:selected").val()),
@@ -234,7 +237,7 @@
                     AlertaAjax(dataerror)
                 },
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
 
                     let resultado = data.d;
                     if (data.Estado == true) {
@@ -292,8 +295,8 @@
             });
 
             myDropzone.on('addedfile', function (file) {
-                console.log("entro aquí el base64");
-                console.log("file.type:", file.type);
+                //console.log("entro aquí el base64");
+                //console.log("file.type:", file.type);
 
                 var tipoarchivo = file.type;
                 if (tipoarchivo === "application/pdf" ||
@@ -308,7 +311,7 @@
 
                         //console.log('Base64 String:', base64String);
                         fotosredimencionadas.push({ base: base64String, nombreArchivo: file.name, tipoarchivo: file.type.split('/')[1], pbEsImagen: false });
-                        console.log(fotosredimencionadas);
+                        //console.log(fotosredimencionadas);
 
                         // Aquí puedes manejar el Base64 string, por ejemplo enviarlo a un servidor
                     };
@@ -356,7 +359,7 @@
             //console.log(canvas.toDataURL('image/jpeg', 0.7)); // tira el base 64
 
             var urlbase64 = getBase64Image(img); // tira el base 64
-            console.log(canvas.toDataURL('image/jpeg', 0.7)); // aqui para saber el base64 de la imagen
+            //console.log(canvas.toDataURL('image/jpeg', 0.7)); // aqui para saber el base64 de la imagen
             fotosredimencionadas.push({ base: canvas.toDataURL('image/jpeg', 0.7), nombreArchivo: NombreArchivo, tipoarchivo: tipoimagen, pbEsImagen: true });
             return ctx;
             //document.getElementById(idimg).src = canvas.toDataURL('image/jpeg', 0.7); // el 07 es la calidad de la imagen si no estoy mal eso decia en la documentacion

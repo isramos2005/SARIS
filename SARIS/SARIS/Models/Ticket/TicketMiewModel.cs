@@ -21,8 +21,8 @@ namespace OrionCoreCableColor.Models.Ticket
         public string fcNombreAsignado { get; set; }
         public DateTime fdFechadeCierre { get; set; }
         public int fiTiempodeDesarrollo { get; set; }
-        public byte fiCategoriadeDesarrollo { get; set; }
-        public byte fiTipoRequerimiento { get; set; }
+        public int fiCategoriadeDesarrollo { get; set; }
+        public int fiTipoRequerimiento { get; set; }
         public byte fiIDAreaSolicitante { get; set; }
         public string fcNombreAreaSolicitante { get; set; }
         public string fcTipoRequerimiento { get; set; }
