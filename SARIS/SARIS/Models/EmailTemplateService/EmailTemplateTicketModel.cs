@@ -18,5 +18,7 @@ namespace OrionCoreCableColor.Models.EmailTemplateService
         public int fiIDEstadoRequerimiento { get; set; }
         public string fcDescripcionEstado { get; set; }
         public string fcCorreoElectronico { get; set; }
+        public string fcDescripcionCategoria { get; set; }
+        public string fcTipoRequerimiento { get; set; }
     }
 }

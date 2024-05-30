@@ -229,47 +229,92 @@ namespace OrionCoreCableColor.App_Services.EmailService
             try
             {
 
-                var contenidoCorreo = "<table style=\"width: 500px; border-collapse: collapse; border-width: 0; border-style: none; border-spacing: 0; padding: 0;\">" +
-                                       "<tr><th style='text-align:left;'>Numero de Ticket:</th> <td>" + model.fiIDRequerimiento + "</td></tr>" +
-                                       "<tr><th style='text-align:left;'>Titulo Ticket:</th> <td>" + model.fcTituloRequerimiento + "</td></tr>" +
-                                       "<tr><th style='text-align:left;'>Fecha de Creacion:</th> <td>" + model.fdFechaCreacion.ToString("MM/dd/yyyy hh:mm tt") + "</td></tr>" +
-                                       "<tr><th style='text-align:left;'>Area Solicitante:</th> <td>" + model.fcAreaSolicitante + "</td></tr>" +
-                                       "<tr><th style='text-align:left;'>Usuario Solicitante:</th> <td>" + model.fcNombreCorto + "</td></tr>" +
-                                       "<tr><th style='text-align:left;'>Descripcion:</th> <td>" + model.fcDescripcionRequerimiento + "</td></tr>" +
-                                       "<tr><th style='text-align:left;'>Estado: </th> <td>" + model.fcDescripcionEstado + "</td></tr>" +
+                
+                
+                
+                var htmlString = $@"
+                                    <!DOCTYPE html>
+                                    <html lang=""es"">
+                                    <head>
+                                        <meta charset=""UTF-8"">
+                                        <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+                                        <title>Ticket</title>
+                                        <style>
+                                            body {{
+                                                font-family: Arial, sans-serif;
+                                                margin: 0;
+                                                padding: 0;
+                                                background-color: ##d3e5e2;
+                                            }}
+                                            table {{
+                                                width: 80%;
+                                                max-width: 600px;
+                                                margin: 20px auto;
+                                                background-color: #fff;
+                                                border-radius: 8px;
+                                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                                            }}
+                                            h1 {{
+                                                color: #333;
+                                                padding: 20px;
+                                                margin: 0;
+                                            }}
+                                            p {{
+                                                color: #666;
+                                                margin: 5px;
+                                            }}
+                                            th, td {{
+                                                padding: 10px;
+                                                border-bottom: 1px solid #ddd;
+                                            }}
+                                        </style>
+                                    </head>
+                                    <body>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th colspan=""2""><h1>Ticket Numero {model.fiIDRequerimiento}</h1></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><strong>Usuario Solicitante:</strong></td>
+                                                    <td>{model.fcNombreCorto}</td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td><strong>Titulo:</strong></td>
+                                                    <td>{model.fcTituloRequerimiento}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Descripción:</strong></td>
+                                                    <td>{model.fcDescripcionRequerimiento}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Categoria:</strong></td>
+                                                    <td>{model.fcDescripcionCategoria}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Incidencia:</strong></td>
+                                                    <td>{model.fcTipoRequerimiento}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Fecha de Creaciom:</strong></td>
+                                                    <td>{model.fdFechaCreacion.ToString("MM/dd/yyyy hh:mm tt")}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan=""2"">
+                                                        <p>Por favor, tome nota del número de ticket: <strong>#</strong>. Por favor no Contestar este Coreo.</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </body>
+                                    </html>
 
-                                  "</table>";
+                                    ";
 
-                string htmlString = @"<!DOCTYPE html> " +
-                                    "<html>" +
-                                    "<body>" +
-                                    " <div style=\"width: 500px;\">" +
-                                    " <table style=\"width: 500px; border-collapse: collapse; border-width: 0; border-style: none; border-spacing: 0; padding: 0;\">" +
-                                    " <tr style=\"height: 30px; background-color:#56396b; font-family: 'Microsoft Tai Le'; font-size: 14px; font-weight: bold; color: white;\">" +
-                                    " <td style=\"vertical-align: central; text-align:center;\">Ticket</td>" +
-                                    " </tr>" +
-                                    " <tr style=\"height: 24px; font-family: 'Microsoft Tai Le'; font-size: 12px; font-weight: bold;\">" +
-                                    " <td>&nbsp;</td>" +
-                                    " </tr>" +
-                                    " <tr style=\"height: 24px; font-family: 'Microsoft Tai Le'; font-size: 12px; font-weight: bold;\">" +
-                                    " <td style=\"background-color:whitesmoke; text-align:center;\">Datos</td>" +
-                                    " </tr>" +
-                                    " <tr style=\"height: 24px; font-family: 'Microsoft Tai Le'; font-size: 12px; font-weight: bold;\">" +
-                                    " <td>&nbsp;</td>" +
-                                    " </tr>" +
-                                    " <tr style=\"height: 24px; font-family: 'Microsoft Tai Le'; font-size: 12px; font-weight: bold;\">" +
-                                    " <td style=\"vertical-align: central;\">" + contenidoCorreo + "</td>" +
-                                    " </tr>" +
-                                    " <tr style=\"height: 24px; font-family: 'Microsoft Tai Le'; font-size: 12px; font-weight: bold;\">" +
-                                    " <td>&nbsp;</td>" +
-                                    " </tr>" +
-                                    " <tr style=\"height: 20px; font-family: 'Microsoft Tai Le'; font-size: 12px; text-align:center;\">" +
-                                    " <td>System Bot Prestadito</td>" +
-                                    " </tr>" +
-                                    " </table>" +
-                                    " </div>" +
-                                    "</body> " +
-                                    "</html> ";
+
 
                 var emailGeneratedToSend = new SendEmailViewModel
                 {
