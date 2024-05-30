@@ -225,7 +225,9 @@ namespace OrionCoreCableColor.Controllers
                             fcNombreCorto = correo.fcNombreCorto,
                             fiIDEstadoRequerimiento = correo.fiIDEstadoRequerimiento,
                             fcDescripcionEstado = correo.fcDescripcionEstado,
-                            fcCorreoElectronico = correo.fcCorreoElectronico
+                            fcCorreoElectronico = correo.fcCorreoElectronico,
+                            fcDescripcionCategoria = correo.fcDescripcionCategoria,
+                            fcTipoRequerimiento = correo.fcTipoRequerimiento
                         });
                         //MensajeDeTexto.EnviarLinkGeoLocation(model.Nombre, model.IdCliente, model.Telefono, "");
                         return EnviarListaJson(save);
@@ -256,7 +258,7 @@ namespace OrionCoreCableColor.Controllers
             return PartialView();
         }
 
-        public JsonResult ActualizarDatos(TicketMiewModel ticket,string comentario)
+        public async Task<JsonResult> ActualizarDatos(TicketMiewModel ticket,string comentario)
         {
             //var resultado = new Resultado_ViewModel() { ResultadoExitoso = false };
             //var mensajeError = string.Empty;
@@ -278,6 +280,24 @@ namespace OrionCoreCableColor.Controllers
                     {
                         ObtenerDataTicket(ticket.fiIDRequerimiento); //Esto es el SignalR
                     }
+                    var correo = contexto.sp_DatosTicket_Correo(ticket.fiIDRequerimiento).FirstOrDefault();
+                    var _emailTemplateService = new EmailTemplateService();
+                    await _emailTemplateService.SendEmailToSolicitud(new EmailTemplateTicketModel
+                    {
+                        fiIDRequerimiento = correo.fiIDRequerimiento,
+                        fcTituloRequerimiento = correo.fcTituloRequerimiento,
+                        fcDescripcionRequerimiento = correo.fcDescripcionRequerimiento,
+                        fdFechaCreacion = correo.fdFechaCreacion,
+                        fiIDAreaSolicitante = correo.fiIDAreaSolicitante,
+                        fcAreaSolicitante = correo.fcAreaSolicitante,
+                        fiIDUsuarioSolicitante = correo.fiIDUsuarioSolicitante,
+                        fcNombreCorto = correo.fcNombreCorto,
+                        fiIDEstadoRequerimiento = correo.fiIDEstadoRequerimiento,
+                        fcDescripcionEstado = correo.fcDescripcionEstado,
+                        fcCorreoElectronico = correo.fcCorreoElectronico,
+                        fcDescripcionCategoria = correo.fcDescripcionCategoria,
+                        fcTipoRequerimiento = correo.fcTipoRequerimiento
+                    });
                     return EnviarResultado(true, "", "Ticket Actualizado exitosamente");
                 }
             }
@@ -346,7 +366,7 @@ namespace OrionCoreCableColor.Controllers
             return PartialView();
         }
 
-        public JsonResult ActualizarArea(int idticket, int idArea,int estadoTicket, string comenta)
+        public async Task<JsonResult> ActualizarArea(int idticket, int idArea,int estadoTicket, string comenta)
         {
             try
             {
@@ -365,7 +385,24 @@ namespace OrionCoreCableColor.Controllers
                     {
                         eliminarTicketAbierto(datosticket.fiIDRequerimiento);
                     }
-                    
+                    var correo = contexto.sp_DatosTicket_Correo(datosticket.fiIDRequerimiento).FirstOrDefault();
+                    var _emailTemplateService = new EmailTemplateService();
+                    await _emailTemplateService.SendEmailToSolicitud(new EmailTemplateTicketModel
+                    {
+                        fiIDRequerimiento = correo.fiIDRequerimiento,
+                        fcTituloRequerimiento = correo.fcTituloRequerimiento,
+                        fcDescripcionRequerimiento = correo.fcDescripcionRequerimiento,
+                        fdFechaCreacion = correo.fdFechaCreacion,
+                        fiIDAreaSolicitante = correo.fiIDAreaSolicitante,
+                        fcAreaSolicitante = correo.fcAreaSolicitante,
+                        fiIDUsuarioSolicitante = correo.fiIDUsuarioSolicitante,
+                        fcNombreCorto = correo.fcNombreCorto,
+                        fiIDEstadoRequerimiento = correo.fiIDEstadoRequerimiento,
+                        fcDescripcionEstado = correo.fcDescripcionEstado,
+                        fcCorreoElectronico = correo.fcCorreoElectronico,
+                        fcDescripcionCategoria = correo.fcDescripcionCategoria,
+                        fcTipoRequerimiento = correo.fcTipoRequerimiento
+                    });
 
                     return EnviarResultado(true, "", "Ticket Actualizado exitosamente");
                 }
@@ -391,7 +428,7 @@ namespace OrionCoreCableColor.Controllers
             return PartialView();
         }
 
-        public JsonResult ActualizarUsuario(int idticket, int usuario, int estadoTicket, string comenta)
+        public async Task<JsonResult> ActualizarUsuario(int idticket, int usuario, int estadoTicket, string comenta)
         {
             try
             {
@@ -411,6 +448,26 @@ namespace OrionCoreCableColor.Controllers
                     {
                         eliminarTicketAbierto(datosticket.fiIDRequerimiento);
                     }
+
+                    var correo = contexto.sp_DatosTicket_Correo(datosticket.fiIDRequerimiento).FirstOrDefault();
+                    var _emailTemplateService = new EmailTemplateService();
+                    await _emailTemplateService.SendEmailToSolicitud(new EmailTemplateTicketModel
+                    {
+                        fiIDRequerimiento = correo.fiIDRequerimiento,
+                        fcTituloRequerimiento = correo.fcTituloRequerimiento,
+                        fcDescripcionRequerimiento = correo.fcDescripcionRequerimiento,
+                        fdFechaCreacion = correo.fdFechaCreacion,
+                        fiIDAreaSolicitante = correo.fiIDAreaSolicitante,
+                        fcAreaSolicitante = correo.fcAreaSolicitante,
+                        fiIDUsuarioSolicitante = correo.fiIDUsuarioSolicitante,
+                        fcNombreCorto = correo.fcNombreCorto,
+                        fiIDEstadoRequerimiento = correo.fiIDEstadoRequerimiento,
+                        fcDescripcionEstado = correo.fcDescripcionEstado,
+                        fcCorreoElectronico = correo.fcCorreoElectronico,
+                        fcDescripcionCategoria = correo.fcDescripcionCategoria,
+                        fcTipoRequerimiento = correo.fcTipoRequerimiento
+                    });
+
                     return EnviarResultado(true, "", "Ticket Usuario Actualizado exitosamente");
                 }
             }
