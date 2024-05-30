@@ -11,6 +11,7 @@ using OrionCoreCableColor.App_Helper;
 using System.Threading.Tasks;
 using OrionCoreCableColor.App_Services.EmailService;
 using OrionCoreCableColor.Models.EmailTemplateService;
+using OrionCoreCableColor.Models.Indicadores;
 
 namespace OrionCoreCableColor.Controllers
 {
@@ -158,17 +159,24 @@ namespace OrionCoreCableColor.Controllers
 
                     var estadosquenovan = contexto.sp_Configuraciones("NoMostrarEstados").FirstOrDefault().fcValorLlave.Split(',').Select(a => Convert.ToInt32(a)).ToList();
                     ViewBag.ListarArea = contexto.sp_Areas_Lista().Select(x => new SelectListItem { Value = x.fiIDArea.ToString(), Text = x.fcDescripcion}).ToList();
+                    ViewBag.ListaCategorias = contexto.sp_Categorias_Indicidencias_Listado().Select(a => new SelectListItem { Value = a.fiIDCategoriaDesarrollo.ToString(), Text = a.fcDescripcionCategoria}).ToList();
+                    ViewBag.IdIncidencia = tick.fiTipoRequerimiento;
+                    var puede = false;
+                    
                     var idrolestodopoderosos = contexto.sp_Configuraciones("RolesquePuedenverTodo").FirstOrDefault().fcValorLlave.Split(',').Select(a => Convert.ToInt32(a)).ToList();
 
                     var user = GetUser();
                     if (GetIdUser() == cont.fiIDUsuarioSolicitante  || idrolestodopoderosos.Contains(user.IdRol) )
                     {
                         ViewBag.Estados = contexto.sp_Estados_Lista().Where(a => !estadosquenovan.Any(b => b == a.fiIDEstado)).Select(x => new SelectListItem { Value = x.fiIDEstado.ToString(), Text = x.fcDescripcionEstado }).ToList();
+                        puede = true;
                     }
                     else
                     {
                         ViewBag.Estados = contexto.sp_Estados_Lista().Where(a => a.fiIDEstado != 5 && !estadosquenovan.Any(b => b == a.fiIDEstado)).Select(x => new SelectListItem { Value = x.fiIDEstado.ToString(), Text = x.fcDescripcionEstado }).ToList();
+                        puede = false;
                     }
+                    ViewBag.PuedeEditarCategoria = puede;
                     ViewBag.Usuario = contexto.sp_Usuarios_Maestro_PorIdUsuarioSupervisor(1).Select(x => new SelectListItem { Value = x.fiIDUsuario.ToString(), Text = x.fcPrimerNombre + " " + x.fcPrimerApellido }).ToList();
                     ViewBag.idticket = idticket;
                     ViewBag.UsuarioLogueado = GetIdUser();
@@ -466,6 +474,26 @@ namespace OrionCoreCableColor.Controllers
         {
             return PartialView();
         }
+
+
+        ///////////////////////////// LLenar campos
+        public JsonResult SelectCategorias()
+        {
+            using (var contexto = new SARISEntities1())
+            {
+                var jsonResult = Json(contexto.sp_Categorias_Indicidencias_Listado().Where(a => a.fiEstado == 1).Select(x => new ListaIndicadoresViewModel
+                {
+                    fiIDTipoRequerimiento = x.fiIDCategoriaDesarrollo,
+                    fcTipoRequerimiento = x.fcDescripcionCategoria,
+                    fcToken = x.fcToken
+
+
+                }).ToList(), JsonRequestBehavior.AllowGet);
+                jsonResult.MaxJsonLength = Int32.MaxValue;
+                return jsonResult;
+            }
+        }
+
 
     }
 }
