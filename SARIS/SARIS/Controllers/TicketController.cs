@@ -8,6 +8,10 @@ using OrionCoreCableColor.DbConnection;
 using OrionCoreCableColor.Models.Ticket;
 using System.IO;
 using OrionCoreCableColor.App_Helper;
+using System.Threading.Tasks;
+using OrionCoreCableColor.App_Services.EmailService;
+using OrionCoreCableColor.Models.EmailTemplateService;
+using OrionCoreCableColor.Models.Indicadores;
 
 namespace OrionCoreCableColor.Controllers
 {
@@ -95,6 +99,11 @@ namespace OrionCoreCableColor.Controllers
 
         }
 
+        public ActionResult ModalBitacoraMejora(int id)
+        {
+            return PartialView(id);
+        }
+
         [HttpGet]
         public JsonResult BitacoraEstado(int Ticket)
         {
@@ -146,18 +155,29 @@ namespace OrionCoreCableColor.Controllers
                     tick.fiIDUsuarioAsignado = cont.fiIDUsuarioAsignado;
                     tick.fdFechaAsignacion = cont.fdFechaAsignacion;
                     tick.fdFechadeCierre = cont.fdFechadeCierre;
-
+                    tick.fiTipoRequerimiento = cont.fiTipoRequerimiento;
+                    tick.fiCategoriadeDesarrollo = cont.fiCategoriadeDesarrollo;
 
                     var estadosquenovan = contexto.sp_Configuraciones("NoMostrarEstados").FirstOrDefault().fcValorLlave.Split(',').Select(a => Convert.ToInt32(a)).ToList();
                     ViewBag.ListarArea = contexto.sp_Areas_Lista().Select(x => new SelectListItem { Value = x.fiIDArea.ToString(), Text = x.fcDescripcion}).ToList();
-                    if (GetIdUser() == cont.fiIDUsuarioSolicitante)
+                    ViewBag.ListaCategorias = contexto.sp_Categorias_Indicidencias_Listado().Select(a => new SelectListItem { Value = a.fiIDCategoriaDesarrollo.ToString(), Text = a.fcDescripcionCategoria}).ToList();
+                    ViewBag.IdIncidencia = tick.fiTipoRequerimiento;
+                    var puede = false;
+                    
+                    var idrolestodopoderosos = contexto.sp_Configuraciones("RolesquePuedenverTodo").FirstOrDefault().fcValorLlave.Split(',').Select(a => Convert.ToInt32(a)).ToList();
+
+                    var user = GetUser();
+                    if (GetIdUser() == cont.fiIDUsuarioSolicitante  || idrolestodopoderosos.Contains(user.IdRol) )
                     {
                         ViewBag.Estados = contexto.sp_Estados_Lista().Where(a => !estadosquenovan.Any(b => b == a.fiIDEstado)).Select(x => new SelectListItem { Value = x.fiIDEstado.ToString(), Text = x.fcDescripcionEstado }).ToList();
+                        puede = true;
                     }
                     else
                     {
                         ViewBag.Estados = contexto.sp_Estados_Lista().Where(a => a.fiIDEstado != 5 && !estadosquenovan.Any(b => b == a.fiIDEstado)).Select(x => new SelectListItem { Value = x.fiIDEstado.ToString(), Text = x.fcDescripcionEstado }).ToList();
+                        puede = false;
                     }
+                    ViewBag.PuedeEditarCategoria = puede;
                     ViewBag.Usuario = contexto.sp_Usuarios_Maestro_PorIdUsuarioSupervisor(1).Select(x => new SelectListItem { Value = x.fiIDUsuario.ToString(), Text = x.fcPrimerNombre + " " + x.fcPrimerApellido }).ToList();
                     ViewBag.idticket = idticket;
                     ViewBag.UsuarioLogueado = GetIdUser();
@@ -174,7 +194,7 @@ namespace OrionCoreCableColor.Controllers
         }
 
         [HttpPost]
-        public JsonResult GuardarTicket(TicketMiewModel ticket,string comentarioticket)
+        public async Task<JsonResult> GuardarTicket(TicketMiewModel ticket,string comentarioticket)
         {
             try
             {
@@ -186,13 +206,33 @@ namespace OrionCoreCableColor.Controllers
                         //cambiar despues Los datos que se envian en duro para que sea mas dinamico las cosas 
                         var usuarioLogueado = contexto.sp_Usuarios_Maestro_PorIdUsuario(GetIdUser()).FirstOrDefault();
 
-                        var save = contexto.sp_Requerimiento_Alta(1, 1, GetIdUser(), ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento, 1, idarea, $"El usuario {usuarioLogueado.fcPrimerNombre} {usuarioLogueado.fcPrimerApellido} a Creado El Ticket").FirstOrDefault();
+                        var save = contexto.sp_Requerimiento_Alta(1, 1, GetIdUser(), ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento, ticket.fiTipoRequerimiento, idarea, $"El usuario {usuarioLogueado.fcPrimerNombre} {usuarioLogueado.fcPrimerApellido} a Creado El Ticket").FirstOrDefault();
                         var datosticket = Datosticket((int)save.IdIngresado);
                         //GuardarBitacoraGeneralhistorial(GetIdUser(),datosticket.fiIDRequerimiento,datosticket.fiIDUsuarioSolicitante, comentarioticket,1,datosticket.fiIDEstadoRequerimiento,datosticket.fiIDUsuarioAsignado);
 
-
+                        
                         agregarCreacionTicket((int)save.IdIngresado);//esto es SignalR
+                        var correo = contexto.sp_DatosTicket_Correo(datosticket.fiIDRequerimiento).FirstOrDefault();
+                        var _emailTemplateService = new EmailTemplateService();
+                        await _emailTemplateService.SendEmailToSolicitud(new EmailTemplateTicketModel
+                        {
+                            fiIDRequerimiento = correo.fiIDRequerimiento,
+                            fcTituloRequerimiento = correo.fcTituloRequerimiento,
+                            fcDescripcionRequerimiento = correo.fcDescripcionRequerimiento,
+                            fdFechaCreacion = correo.fdFechaCreacion,
+                            fiIDAreaSolicitante = correo.fiIDAreaSolicitante,
+                            fcAreaSolicitante = correo.fcAreaSolicitante,
+                            fiIDUsuarioSolicitante = correo.fiIDUsuarioSolicitante,
+                            fcNombreCorto = correo.fcNombreCorto,
+                            fiIDEstadoRequerimiento = correo.fiIDEstadoRequerimiento,
+                            fcDescripcionEstado = correo.fcDescripcionEstado,
+                            fcCorreoElectronico = correo.fcCorreoElectronico,
+                            fcDescripcionCategoria = correo.fcDescripcionCategoria,
+                            fcTipoRequerimiento = correo.fcTipoRequerimiento
+                        });
+                        //MensajeDeTexto.EnviarLinkGeoLocation(model.Nombre, model.IdCliente, model.Telefono, "");
                         return EnviarListaJson(save);
+
 
                     }
                     catch (Exception ex)
@@ -219,7 +259,7 @@ namespace OrionCoreCableColor.Controllers
             return PartialView();
         }
 
-        public JsonResult ActualizarDatos(TicketMiewModel ticket,string comentario)
+        public async Task<JsonResult> ActualizarDatos(TicketMiewModel ticket,string comentario)
         {
             //var resultado = new Resultado_ViewModel() { ResultadoExitoso = false };
             //var mensajeError = string.Empty;
@@ -230,9 +270,35 @@ namespace OrionCoreCableColor.Controllers
                 {
                     var datosticket = Datosticket(ticket.fiIDRequerimiento);//contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), ticket.fiIDRequerimiento).FirstOrDefault();
 
-                    GuardarBitacoraGeneralhistorial(GetIdUser(), ticket.fiIDRequerimiento, GetIdUser(), comentario, 1, ticket.fiIDEstadoRequerimiento, ticket.fiIDUsuarioAsignado);
-                    var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), ticket.fiIDRequerimiento, ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento, DateTime.Now, ticket.fiIDUsuarioAsignado, 0, ticket.fiTipoRequerimiento, 1, datosticket.fiAreaAsignada);
-                    ObtenerDataTicket(ticket.fiIDRequerimiento); //Esto es el signalR
+                    GuardarBitacoraGeneralhistorial(GetIdUser(), ticket.fiIDRequerimiento, GetIdUser(), comentario, 1, ticket.fiIDEstadoRequerimiento, datosticket.fiIDUsuarioAsignado);
+                    var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), ticket.fiIDRequerimiento, ticket.fcTituloRequerimiento, ticket.fcDescripcionRequerimiento, ticket.fiIDEstadoRequerimiento, DateTime.Now, datosticket.fiIDUsuarioAsignado, 0, ticket.fiTipoRequerimiento, 1, datosticket.fiAreaAsignada);
+                    if (ticket.fiIDEstadoRequerimiento == 5)
+                    {
+                        eliminarTicketAbierto(ticket.fiIDRequerimiento);
+                        agregarDatosTicketCerrados(ticket.fiIDRequerimiento);
+                    }
+                    else
+                    {
+                        ObtenerDataTicket(ticket.fiIDRequerimiento); //Esto es el SignalR
+                    }
+                    var correo = contexto.sp_DatosTicket_Correo(ticket.fiIDRequerimiento).FirstOrDefault();
+                    var _emailTemplateService = new EmailTemplateService();
+                    await _emailTemplateService.SendEmailToSolicitud(new EmailTemplateTicketModel
+                    {
+                        fiIDRequerimiento = correo.fiIDRequerimiento,
+                        fcTituloRequerimiento = correo.fcTituloRequerimiento,
+                        fcDescripcionRequerimiento = correo.fcDescripcionRequerimiento,
+                        fdFechaCreacion = correo.fdFechaCreacion,
+                        fiIDAreaSolicitante = correo.fiIDAreaSolicitante,
+                        fcAreaSolicitante = correo.fcAreaSolicitante,
+                        fiIDUsuarioSolicitante = correo.fiIDUsuarioSolicitante,
+                        fcNombreCorto = correo.fcNombreCorto,
+                        fiIDEstadoRequerimiento = correo.fiIDEstadoRequerimiento,
+                        fcDescripcionEstado = correo.fcDescripcionEstado,
+                        fcCorreoElectronico = correo.fcCorreoElectronico,
+                        fcDescripcionCategoria = correo.fcDescripcionCategoria,
+                        fcTipoRequerimiento = correo.fcTipoRequerimiento
+                    });
                     return EnviarResultado(true, "", "Ticket Actualizado exitosamente");
                 }
             }
@@ -301,7 +367,7 @@ namespace OrionCoreCableColor.Controllers
             return PartialView();
         }
 
-        public JsonResult ActualizarArea(int idticket, int idArea,int estadoTicket, string comenta)
+        public async Task<JsonResult> ActualizarArea(int idticket, int idArea,int estadoTicket, string comenta)
         {
             try
             {
@@ -311,11 +377,34 @@ namespace OrionCoreCableColor.Controllers
                     var usuarioLogueado = contexto.sp_Usuarios_Maestro_PorIdUsuario(GetIdUser()).FirstOrDefault();
 
                     var datosticket = Datosticket(idticket);//contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), idticket).FirstOrDefault();
-                    
-                    GuardarBitacoraGeneralhistorial(GetIdUser(), idticket, GetIdUser(), $"El Usuario {usuarioLogueado.fcPrimerNombre} {usuarioLogueado.fcPrimerApellido} reasigna por: " + comenta, 1, 7,0);//se manda 0 por que se asigno una nueva area y por lo tanto el usuario asignado no puede ser otro
-                    
                     var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), datosticket.fiIDRequerimiento, datosticket.fcTituloRequerimiento, datosticket.fcDescripcionRequerimiento, Convert.ToByte(7), DateTime.Now, 0, 0, datosticket.fiTipoRequerimiento, 1, idArea);
                     ObtenerDataTicket(idticket); // aqui va el signalR
+                    
+                    GuardarBitacoraGeneralhistorial(GetIdUser(), idticket, GetIdUser(), $"El Usuario {usuarioLogueado.fcPrimerNombre} {usuarioLogueado.fcPrimerApellido} reasigna por: " + comenta, 1, 7,0);//se manda 0 por que se asigno una nueva area y por lo tanto el usuario asignado no puede ser otro
+
+                    if (datosticket.fiAreaAsignada != idArea)
+                    {
+                        eliminarTicketAbierto(datosticket.fiIDRequerimiento);
+                    }
+                    var correo = contexto.sp_DatosTicket_Correo(datosticket.fiIDRequerimiento).FirstOrDefault();
+                    var _emailTemplateService = new EmailTemplateService();
+                    await _emailTemplateService.SendEmailToSolicitud(new EmailTemplateTicketModel
+                    {
+                        fiIDRequerimiento = correo.fiIDRequerimiento,
+                        fcTituloRequerimiento = correo.fcTituloRequerimiento,
+                        fcDescripcionRequerimiento = correo.fcDescripcionRequerimiento,
+                        fdFechaCreacion = correo.fdFechaCreacion,
+                        fiIDAreaSolicitante = correo.fiIDAreaSolicitante,
+                        fcAreaSolicitante = correo.fcAreaSolicitante,
+                        fiIDUsuarioSolicitante = correo.fiIDUsuarioSolicitante,
+                        fcNombreCorto = correo.fcNombreCorto,
+                        fiIDEstadoRequerimiento = correo.fiIDEstadoRequerimiento,
+                        fcDescripcionEstado = correo.fcDescripcionEstado,
+                        fcCorreoElectronico = correo.fcCorreoElectronico,
+                        fcDescripcionCategoria = correo.fcDescripcionCategoria,
+                        fcTipoRequerimiento = correo.fcTipoRequerimiento
+                    });
+
                     return EnviarResultado(true, "", "Ticket Actualizado exitosamente");
                 }
             }
@@ -340,7 +429,7 @@ namespace OrionCoreCableColor.Controllers
             return PartialView();
         }
 
-        public JsonResult ActualizarUsuario(int idticket, int usuario, int estadoTicket, string comenta)
+        public async Task<JsonResult> ActualizarUsuario(int idticket, int usuario, int estadoTicket, string comenta)
         {
             try
             {
@@ -356,6 +445,30 @@ namespace OrionCoreCableColor.Controllers
 
                     var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), datosticket.fiIDRequerimiento, datosticket.fcTituloRequerimiento, datosticket.fcDescripcionRequerimiento, 7, DateTime.Now, usuario, 0, datosticket.fiTipoRequerimiento, 1, datosticket.fiAreaAsignada);//el estado de ticket esta en 7 para que pueda guardar la bitacora
                     ObtenerDataTicket(idticket);//aqui esta el signalR
+                    if (GetIdUser() != usuario) //aqui el signalR por si al reasignar un usuario se le quite de la bandeja de el 
+                    {
+                        eliminarTicketAbierto(datosticket.fiIDRequerimiento);
+                    }
+
+                    var correo = contexto.sp_DatosTicket_Correo(datosticket.fiIDRequerimiento).FirstOrDefault();
+                    var _emailTemplateService = new EmailTemplateService();
+                    await _emailTemplateService.SendEmailToSolicitud(new EmailTemplateTicketModel
+                    {
+                        fiIDRequerimiento = correo.fiIDRequerimiento,
+                        fcTituloRequerimiento = correo.fcTituloRequerimiento,
+                        fcDescripcionRequerimiento = correo.fcDescripcionRequerimiento,
+                        fdFechaCreacion = correo.fdFechaCreacion,
+                        fiIDAreaSolicitante = correo.fiIDAreaSolicitante,
+                        fcAreaSolicitante = correo.fcAreaSolicitante,
+                        fiIDUsuarioSolicitante = correo.fiIDUsuarioSolicitante,
+                        fcNombreCorto = correo.fcNombreCorto,
+                        fiIDEstadoRequerimiento = correo.fiIDEstadoRequerimiento,
+                        fcDescripcionEstado = correo.fcDescripcionEstado,
+                        fcCorreoElectronico = correo.fcCorreoElectronico,
+                        fcDescripcionCategoria = correo.fcDescripcionCategoria,
+                        fcTipoRequerimiento = correo.fcTipoRequerimiento
+                    });
+
                     return EnviarResultado(true, "", "Ticket Usuario Actualizado exitosamente");
                 }
             }
@@ -389,7 +502,7 @@ namespace OrionCoreCableColor.Controllers
             {
                 using (var contexto = new SARISEntities1())
                 {
-                    var result = contexto.sp_Requerimiento_Bitacoras_Agregar(idusuario, idticket, idusuariosolicitante, comentario, idapp, idestado, idusuarioasignado);
+                    var result = contexto.sp_Requerimiento_Bitacoras_Agregar(GetIdUser(), idticket, idusuariosolicitante, comentario, idapp, idestado, idusuarioasignado);
                     return EnviarListaJson(result);
                 }
             }
@@ -419,6 +532,26 @@ namespace OrionCoreCableColor.Controllers
         {
             return PartialView();
         }
+
+
+        ///////////////////////////// LLenar campos
+        public JsonResult SelectCategorias()
+        {
+            using (var contexto = new SARISEntities1())
+            {
+                var jsonResult = Json(contexto.sp_Categorias_Indicidencias_Listado().Where(a => a.fiEstado == 1).Select(x => new ListaIndicadoresViewModel
+                {
+                    fiIDTipoRequerimiento = x.fiIDCategoriaDesarrollo,
+                    fcTipoRequerimiento = x.fcDescripcionCategoria,
+                    fcToken = x.fcToken
+
+
+                }).ToList(), JsonRequestBehavior.AllowGet);
+                jsonResult.MaxJsonLength = Int32.MaxValue;
+                return jsonResult;
+            }
+        }
+
 
     }
 }

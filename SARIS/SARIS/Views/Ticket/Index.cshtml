@@ -25,6 +25,10 @@
                         <th style="width:80px">Area Solicitante</th>
                         <th style="width:80px">Usuario Asignado</th>
                         <th style="width:80px">Area Asignada</th>
+
+                        <th style="width:80px">Categoria</th>
+                        <th style="width:80px">Incidencia</th>
+
                         <th style="width:150px">Fecha Creacion Solicitud</th>
                         <th style="width:150px">Tiempo Transcurrido</th>
                         <th style="width:80px">Estado</th>
@@ -52,6 +56,10 @@
                         <th style="width:80px">Area Solicitante</th>
                         <th style="width:80px">Usuario Asignado</th>
                         <th style="width:80px">Area Asignada</th>
+
+                        <th style="width:80px">Categoria</th>
+                        <th style="width:80px">Incidencia</th>
+
                         <th style="width:150px">Fecha Creacion Solicitud</th>
                         <th style="width:150px">Fecha Cierre</th>
                         <th style="width:150px">Tiempo Transcurrido</th>
@@ -180,6 +188,14 @@
                         }
                     }
                 },
+                {
+                    data: "fcDescripcionCategoria",
+                    className: "td-responsive",
+                },
+                {
+                    data: "fcTipoRequerimiento",
+                    className: "td-responsive",
+                },
 
                 {
                     data: null,
@@ -230,7 +246,7 @@
         });
 
         chat.client.agregarrow = function (modelo) {
-            console.log(modelo);
+            //console.log(modelo);
             var tabla = $.fn.dataTable.Api("#TablaPrincipalTicket");
             tabla.row.add(modelo).draw(false);
         }
@@ -252,6 +268,12 @@
 
             tabla.row(node).remove().draw(false);
         }
+
+        chat.client.agregarrowTicketCerrado = function (modelo) {
+            var tabla = $.fn.dataTable.Api("#TablaPrincipalTicketCerrados");
+            tabla.row.add(modelo).draw(false);
+        }
+
 
 
         var tablaPrincipalcerrados = $('#TablaPrincipalTicketCerrados').DataTable({
@@ -341,6 +363,23 @@
                     data: null,
                     className: "td-responsive",
                     render: function (data) {
+                        return data.fcDescripcionCategoria;
+
+                    }
+                },
+
+                {
+                    data: null,
+                    className: "td-responsive",
+                    render: function (data) {
+                        return data.fcTipoRequerimiento;
+
+                    }
+                },
+                {
+                    data: null,
+                    className: "td-responsive",
+                    render: function (data) {
                         return moment(data.fdFechaCreacion).locale('es').format('YYYY/MM/DD hh:mm a')
                     }
                 },
@@ -372,7 +411,22 @@
                         var horas = Math.floor(minutos / 60);
                         var dias = Math.floor(horas / 24);
 
-                        return `${dias} <b>Di.</b>, ${horas % 24} <b>Ho.</b>, ${minutos % 60} <b>Mi.</b>, ${segundos % 60} <b>Seg.</b>`;
+                        var tiempototal = '';
+                        if (dias > 0) {
+                            tiempototal += `${dias} <b>Di.</b>, `;
+                        }
+                        console.log((horas % 24))
+                        if ((horas % 24) > 0) {
+                            tiempototal += `${horas % 24} <b>Ho.</b>, `;
+                        }
+                        if ((minutos % 60) > 0) {
+                            tiempototal += `${minutos % 60} <b>Mi.</b>, `;
+                        }
+                        // Realizar cualquier operación o cálculo necesario para actualizar el valor
+                        var nuevoValor = `${tiempototal} ${segundos % 60} <b>Seg.</b>`; // Por ejemplo, aumentar el valor actual en 1
+
+
+                        return nuevoValor;//`${dias} <b>Di.</b>, ${horas % 24} <b>Ho.</b>, ${minutos % 60} <b>Mi.</b>, ${segundos % 60} <b>Seg.</b>`;
                         //return "Han transcurrido " + dias + " días, " + horas % 24 + " horas, " + minutos % 60 + " minutos, " + segundos % 60 + " segundos.";
                     }
                 },
@@ -468,12 +522,25 @@
 
         function ProcesosEstados(Ticket) {
             debugger;
-            $.ajax({
+            //ShowLeftModal('3○', 'titulo');
+
+            @*$.ajax({
                 url: "@Url.Action("ModalBitacora", "Ticket")",
                 method: "get",
                 data: { id: Ticket },
                 success: function (resp) {
                     ShowModalBig(resp);
+                },
+                error: function (resp) {
+                    AlertaError();
+                }
+            });*@
+            $.ajax({
+                url: "@Url.Action("ModalBitacoraMejora", "Ticket")",
+                method: "get",
+                data: { id: Ticket },
+                success: function (resp) {
+                    ShowLeftModal(resp,"Recorrido Ticket");
                 },
                 error: function (resp) {
                     AlertaError();
@@ -560,10 +627,19 @@
                 var dias = Math.floor(horas / 24);
 
 //                return `${dias} <b>Di.</b>, ${horas % 24} <b>Ho.</b>, ${minutos % 60} <b>Mi.</b>, ${segundos % 60} <b>Seg.</b>`;
-
-
+                var tiempototal = '';
+                if (dias > 0) {
+                    tiempototal += `${dias} <b>Di.</b>, `;
+                }
+                console.log((horas % 24))
+                if ((horas % 24) > 0 ) {
+                    tiempototal += `${horas % 24} <b>Ho.</b>, `;
+                }
+                if ((minutos % 60) > 0) {
+                    tiempototal += `${minutos % 60} <b>Mi.</b>, `;
+                }
                 // Realizar cualquier operación o cálculo necesario para actualizar el valor
-                var nuevoValor = `${dias} <b>Di.</b>, ${horas % 24} <b>Ho.</b>, ${minutos % 60} <b>Mi.</b>, ${segundos % 60} <b>Seg.</b>`; // Por ejemplo, aumentar el valor actual en 1
+                var nuevoValor = `${tiempototal} ${segundos % 60} <b>Seg.</b>`; // Por ejemplo, aumentar el valor actual en 1
 
                 // Actualizar el valor en la columna
                 tabla.cell({ row: indice, column: 7 }).data(nuevoValor);
@@ -571,7 +647,7 @@
 
             // Redibujar la tabla para reflejar los cambios
             tabla.draw(false); // Puedes pasar false para evitar que la tabla se redibuje con animación
-        }, 1000); // Ejecutar cada 5 segundos
+        }, 100000); // Ejecutar cada minuto segundos
 
         setInterval(function () {
             location.reload();

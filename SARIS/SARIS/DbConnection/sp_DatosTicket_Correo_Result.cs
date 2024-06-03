@@ -11,23 +11,20 @@ namespace OrionCoreCableColor.DbConnection
 {
     using System;
     
-    public partial class sp_Requerimiento_Maestro_Detalle_Result
+    public partial class sp_DatosTicket_Correo_Result
     {
-        public string fcDescripcionRequerimiento { get; set; }
         public int fiIDRequerimiento { get; set; }
-        public System.DateTime fdFechaCreacion { get; set; }
         public string fcTituloRequerimiento { get; set; }
+        public string fcDescripcionRequerimiento { get; set; }
+        public System.DateTime fdFechaCreacion { get; set; }
         public byte fiIDAreaSolicitante { get; set; }
-        public byte fiIDEstadoRequerimiento { get; set; }
-        public int fiIDUsuarioAsignado { get; set; }
+        public string fcAreaSolicitante { get; set; }
         public int fiIDUsuarioSolicitante { get; set; }
-        public System.DateTime fdFechaAsignacion { get; set; }
-        public System.DateTime fdFechadeCierre { get; set; }
-        public string fcBuzondeCorreo { get; set; }
+        public string fcNombreCorto { get; set; }
+        public byte fiIDEstadoRequerimiento { get; set; }
+        public string fcDescripcionEstado { get; set; }
+        public string fcCorreoElectronico { get; set; }
         public string fcDescripcionCategoria { get; set; }
         public string fcTipoRequerimiento { get; set; }
-        public byte fiTipoRequerimiento { get; set; }
-        public byte fiCategoriadeDesarrollo { get; set; }
-        public int fiTiempodeDesarrollo { get; set; }
     }
 }

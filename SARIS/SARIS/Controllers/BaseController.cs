@@ -278,7 +278,7 @@ namespace OrionCoreCableColor.Controllers
             return lista;
         }
 
-        public void agregarCreacionTicket(int idticket)
+        public void agregarCreacionTicket(int idticket)// para cuendo se crea el ticket
         {
             //var model = contexto.sp_Solicitudes_Bandeja_ObtenerPorIDSolicitud(fiIDSolicitud).FirstOrDefault();
             //var model = _connection.SarisContext.sp_Requerimientos_Bandeja_ByID(1,1,idequifax).FirstOrDefault();
@@ -311,6 +311,19 @@ namespace OrionCoreCableColor.Controllers
 
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificacionesHub>();
             hubContext.Clients.All.agregarrow(listaTicket.FirstOrDefault());
+
+        }
+
+        public void agregarDatosTicketCerrados(int idticket)//para cuando el ticket pasa a estado de cerrado
+        {
+            using (var contexto = new SARISEntities1())
+            {
+                var model = contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), idticket).ToList();
+                var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificacionesHub>();
+                hubContext.Clients.All.agregarrowTicketCerrado(model.FirstOrDefault());
+            }
+
+            //hubContext.Clients.All.agregarrowTicketCerrado(listaTicket.FirstOrDefault());
 
         }
 

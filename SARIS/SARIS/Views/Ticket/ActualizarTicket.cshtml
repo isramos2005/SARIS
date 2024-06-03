@@ -19,16 +19,35 @@
                 <div class="col-sm-12">
                     <div class="form-group">
                         <label class="col-form-label">Titulo</label>
-                        @Html.EditorFor(model => model.fcTituloRequerimiento, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.fcTituloRequerimiento, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                     </div>
                 </div>
 
                 <div class="col-sm-12">
                     <div class="form-group">
                         <label class="col-form-label">Descripcion</label>
-                        @Html.EditorFor(model => model.fcDescripcionRequerimiento, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.fcDescripcionRequerimiento, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                     </div>
                 </div>
+
+                @if (ViewBag.PuedeEditarCategoria)
+                {
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="col-form-label">Categoria</label>
+                            @Html.DropDownListFor(model => model.fiCategoriadeDesarrollo, new SelectList(ViewBag.ListaCategorias, "Value", "Text"), null, new { @class = "form-control input-lg", @style = "width:100%;" })
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label class="col-form-label">Tipo Incidencia</label>
+                            <select id="selectincidencia" class="form-select form-control">
+                            </select>
+                        </div>
+
+                    </div>
+                }
 
 
                 <div class="col-sm-12">
@@ -53,7 +72,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="form-group">
-                        <label class="control-label">DOCUMENTO (Solo se pueden subir imagenes) </label>
+                        <label class="control-label">DOCUMENTO (Suba imagenes,Word,Excel,Pdf para este ticket) </label>
 
                         <form id="Imagen-dropzone" action="@Url.Action("FormFileResponse","Base")" method="post" enctype="multipart/form-data" class="dropzone needsclick">
                             <div class="dz-message needsclick">
@@ -125,9 +144,49 @@
     var estadoRequerimiento = 0;
     var ID_REQUERIMIENTO = @ViewBag.idticket;
     var ID_USUARIO = @ViewBag.UsuarioLogueado;
-
+    var idtiporequerimiento = @ViewBag.IdIncidencia;
     var fotosredimencionadas = [];
 
+    $(`#fiCategoriadeDesarrollo`).on('change', function () {
+        cambiodecategoria(0);
+    })
+    console.log(idtiporequerimiento);
+    cambiodecategoria(idtiporequerimiento);
+
+    function cambiodecategoria(tipore) {
+        var textcategorias = $("#fiCategoriadeDesarrollo option:selected").text();
+
+        $.ajax({
+            url: "@Url.Action("SelectIncidenciasByCategorias", "LlenarCampos")",
+            type: "GET",
+            data: { fccategoria: textcategorias},
+            success: function (respuesta) {
+
+                var selectIncidencia = $("#selectincidencia");
+
+                selectIncidencia.empty();
+                selectIncidencia.append($('<option>', {
+                    value: 0,
+                    text: 'Defina un Tipo Incidencia'
+                }));
+                $("#selectincidencia").select2({ dropdownParent: $("#MyModalBig") }).val(null).trigger("change");
+                $.each(respuesta, function(index, item) {
+                    selectIncidencia.append($('<option>', {
+                        value: item.fiIDTipoRequerimiento,
+                        text: item.fcTipoRequerimiento
+                    }));
+                });
+                console.log(`esto trae el tipo incidencia: ${tipore}`);
+                if (tipore != 0) {
+                    selectIncidencia.val(tipore).trigger("change");
+                }
+            },
+            error: function (respuesta) {
+                console.log(respuesta);
+            }
+        });
+    }
+    $("#fiIDEstadoRequerimiento").select2({ dropdownParent: $("#MyModalBig") }).val(null).trigger("change");
 
     $(document).ready(function () {
         estadoRequerimiento = $("#dllEstadoRequerimiento option:selected").val();
@@ -146,17 +205,24 @@
                 //idRequerimiento: ID_REQUERIMIENTO,
                 Observaciones: $("#txtComentario").val(),
             }
-            
+            if ($("#fiIDEstadoRequerimiento option:selected").val() == 11 || $("#fiIDEstadoRequerimiento option:selected").val() == "11") {
+                if (fotosredimencionadas.length < 1) {
+                    ToastrError("Documento/Imagen", "Suba un documento o imagen para comprobar");
+                    return 0;
+                }
+            }
+
             var requerimiento = {
                 fiIDRequerimiento: ID_REQUERIMIENTO,
                 fcTituloRequerimiento: $("#fcTituloRequerimiento").val(),
                 fcDescripcionRequerimiento: $("#fcDescripcionRequerimiento").val(),//hola,
                 fiIDEstadoRequerimiento: $("#fiIDEstadoRequerimiento option:selected").val(),
                 fcDescripcionEstado: $("#fiIDEstadoRequerimiento :selected").text(),
-
+                fiCategoriadeDesarrollo: $(`#fiCategoriadeDesarrollo`).val(),
+                fiTipoRequerimiento: $(`#selectincidencia`).val()
                 //fiIDUsuarioAsignado: $("#fiIDUsuarioAsignado option:selected").val() == "" ? 1 : parseInt($("#fiIDUsuarioAsignado option:selected").val()),
 
-                fiTipoRequerimiento: 1,//$("#txtComentario").val(),
+                //$("#txtComentario").val(),
                 //fiIDAreaSolicitante: $("#fiIDAreaSolicitante option:selected").val() == null ? 0 : parseInt($("#fiIDAreaSolicitante option:selected").val()),//$("#txtComentario").val(),
                 //fcNombreAreaSolicitante: $("#fiIDAreaSolicitante :selected").text(),
                 //fiAreaAsignada: $(`#fiAreaAsignada`).val() == null ? 0 : parseInt($("#fiAreaAsignada option:selected").val()),
@@ -171,22 +237,19 @@
                     AlertaAjax(dataerror)
                 },
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
 
                     let resultado = data.d;
                     if (data.Estado == true) {
-                        var dataerror = { Titulo: "Exito", Mensaje: "Se Actualizo el Ticket Correctamente", Estado: true }
-                        AlertaAjax(dataerror)
+
                         $("#txtComentario").val(""),
-                          //  MensajeExitoModal('los datos se Actualizaron correctamente.');
+
                         $("#modalConfirmarDatos").modal('hide');
-                        //window.location = "BandejaRequerimientoDesarrollo.aspx?" + window.location.href.split('?')[1];
+
                         GuardarDocumentos(data.IdIngresado);
                         CerrarModal();
                         return ToastrSuccess("Exito", "Ticket Actualizado Correctamente");
-                        //window.location.href ="@Url.Action("Index", "Ticket")"
-                        //CargarDetalleBitacora();
-                        //location.reload();
+
                     }
                     else {
                         var dataerror = { Titulo: "Error", Mensaje: "Error Al Actualizar el Ticket", Estado: false }
@@ -232,8 +295,8 @@
             });
 
             myDropzone.on('addedfile', function (file) {
-                console.log("entro aquí el base64");
-                console.log("file.type:", file.type);
+                //console.log("entro aquí el base64");
+                //console.log("file.type:", file.type);
 
                 var tipoarchivo = file.type;
                 if (tipoarchivo === "application/pdf" ||
@@ -248,7 +311,7 @@
 
                         //console.log('Base64 String:', base64String);
                         fotosredimencionadas.push({ base: base64String, nombreArchivo: file.name, tipoarchivo: file.type.split('/')[1], pbEsImagen: false });
-                        console.log(fotosredimencionadas);
+                        //console.log(fotosredimencionadas);
 
                         // Aquí puedes manejar el Base64 string, por ejemplo enviarlo a un servidor
                     };
@@ -296,7 +359,7 @@
             //console.log(canvas.toDataURL('image/jpeg', 0.7)); // tira el base 64
 
             var urlbase64 = getBase64Image(img); // tira el base 64
-            console.log(canvas.toDataURL('image/jpeg', 0.7)); // aqui para saber el base64 de la imagen
+            //console.log(canvas.toDataURL('image/jpeg', 0.7)); // aqui para saber el base64 de la imagen
             fotosredimencionadas.push({ base: canvas.toDataURL('image/jpeg', 0.7), nombreArchivo: NombreArchivo, tipoarchivo: tipoimagen, pbEsImagen: true });
             return ctx;
             //document.getElementById(idimg).src = canvas.toDataURL('image/jpeg', 0.7); // el 07 es la calidad de la imagen si no estoy mal eso decia en la documentacion
@@ -323,8 +386,8 @@
 
         var cont = 0;
         if (fotosredimencionadas.length < 1) {
-            var datasus = { Titulo: "Exito", Mensaje: "Imagenes", Estado: true }
-            AlertaAjax(datasus)
+            //var datasus = { Titulo: "Exito", Mensaje: "Imagenes", Estado: true }
+            //AlertaAjax(datasus)
             return 0;
         }
 
@@ -351,8 +414,9 @@
 
                 timeout: 800000,
                 success: function (data) {
-                    var datasus = { Titulo: "Exito", Mensaje: "Documentos guardados correctamente", Estado: true }
-                    AlertaAjax(datasus)
+
+                    //var datasus = { Titulo: "Exito", Mensaje: "Documentos guardados correctamente", Estado: true }
+                    //AlertaAjax(datasus)
 
                     //location.reload();
 

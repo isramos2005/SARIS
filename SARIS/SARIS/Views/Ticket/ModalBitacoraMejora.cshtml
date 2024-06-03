@@ -1,0 +1,85 @@
+﻿@model int
+
+<style>
+    .task-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+        background-color: #f9f9f9;
+    }
+
+    .arrow {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="container" id="informacion">
+
+</div>
+
+<script>
+    LlenarDatos();
+    function LlenarDatos() {
+         $.ajax({
+            url: '@Url.Action("BitacoraEstado", "Ticket")',
+                  data: { Ticket: @Model },
+                  method: "Get",
+            success: function (resp) {
+                var opt = ``;
+                for (const item of resp) {
+                    if (item.fcNombreCorto == "Total") {
+
+                    } else {
+                        opt += `
+                            <table class="table table-sm" style="margin-bottom: 0px;">
+                                <tbody>
+                                    <tr>
+                                        <td><span class="font-weight-bold text-muted">Usuario Asignado</span></td>
+                                        <td>${item.fcNombreCorto}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="font-weight-bold text-muted">Area</span></td>
+                                        <td>${item.fcDescripcion}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="font-weight-bold text-muted">Fecha Inicio</span></td>
+                                        <td>${moment(item.fdFechaInicioEstado).locale('es').format('YYYY/MM/DD hh:mm a')}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="font-weight-bold text-muted">Fecha Final</span></td>
+                                        <td>${moment(item.fdFechaFinEstado).locale('es').format('YYYY/MM/DD hh:mm a')}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="font-weight-bold text-muted">Tiempo Total</span></td>
+                                        <td>${item.fiHorasTrabajadas} : ${item.fiMinutios}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="font-weight-bold text-muted">Comentario</span></td>
+                                        <td>${item.fcComentario}.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="font-weight-bold text-muted">Estado</span></td>
+                                        <td><span class="btn-sm btn-block badge badge-${item.fcClaseColor}">${item.fcDescripcionEstado}</span></td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                           
+                            <div class="arrow">&#8593;</div>`;
+                    }
+                    
+                }
+                opt += `<h1 class="text-center my-4">Inicio</h1>`
+
+                $(`#informacion`).html(opt);
+
+            },
+            error: function (resp) {
+                AlertaError();
+            }
+        });
+    }
+</script>

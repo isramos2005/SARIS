@@ -13,15 +13,19 @@ namespace OrionCoreCableColor.App_Services.EmailService
         //public string From_Email = "notifications@miprestadito.com";// "no-responder@miprestadito.com";
         //private string From_Password = "P@ssword155";
 
-        public string From_Email = "systembot@miprestadito.com";// "no-responder@miprestadito.com";
-        private string From_Password = "iPwf@p3q";
-        private string Host = "mail.miprestadito.com";
-        private int Port = 587;
 
+        //public string From_Email = "systembot@miprestadito.com";// "no-responder@miprestadito.com";
+        //private string From_Password = "iPwf@p3q";
+        //private string Host = "mail.miprestadito.com";
+
+        public string From_Email = "saristicket@cablecolor.net";// "no-responder@miprestadito.com";
+        private string From_Password = "Saris2024";
+        private string Host = "mail.cablecolor.net";
+
+        private int Port = 587;
         //public string From_Email = "systembot@novanetgroup.com";
         //private string From_Password = "SystemBot2024#";
         //private string Host = "mail.novanetgroup.com";
-        //private int Port = 587;
 
         // private string From_User = "sac@miprestadito.com";
         public async Task<bool> SendEmailAsync(SendEmailViewModel model)
@@ -37,7 +41,7 @@ namespace OrionCoreCableColor.App_Services.EmailService
 
                 // Settings.  
                 message.To.Add(new MailAddress(model.DestinationEmail));
-                message.From = new MailAddress(From_Email, string.IsNullOrEmpty(model.EmailName) ? "Prestadito" : model.EmailName);
+                message.From = new MailAddress(From_Email, string.IsNullOrEmpty(model.EmailName) ? "SarisTicket" : model.EmailName);
                 message.Subject = !string.IsNullOrEmpty(model.Subject) ? model.Subject : "Notification";
                 message.IsBodyHtml = true;
                 message.Body = body;
@@ -53,12 +57,15 @@ namespace OrionCoreCableColor.App_Services.EmailService
                 {
                     smtp.Credentials = new System.Net.NetworkCredential(From_Email, From_Password);
 
-                    smtp.EnableSsl = false;
+                    smtp.EnableSsl = true;//para CC
+                    //smtp.EnableSsl = false;//para Orion el mejor internet de honduras de momento :D
+
+
                     //   smtp.ClientCertificates.Add(new X509Certificate());
                     //smtp.ConnectionProtocols = ConnectionProtocols.Ssl;
 
                     // var certificate = ServicePointManager.ServerCertificateValidationCallback = delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) { return true; };
-                    //  ServicePointManager.ServerCertificateValidationCallback = delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) { return true; };
+                    // ServicePointManager.ServerCertificateValidationCallback = delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) { return true; };
 
                     await smtp.SendMailAsync(message);
                     isSend = true;
