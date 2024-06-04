@@ -1,12 +1,13 @@
-﻿@model OrionCoreCableColor.Models.Areas.AreasCrearViewModel
+﻿
+@model OrionCoreCableColor.Models.Gerencias.GerenciasViewModel
 
 <!--Modal header-->
 <div class="modal-header bg-primary-600 bg-primary-gradient">
 
     @if (Model.EsEditar)
-    {<h2 class="modal-title text-white">Editar Area</h2> }
+    {<h2 class="modal-title text-white">Editar Gerencia</h2> }
     else
-    {<h2 class="modal-title text-white">Crear Area</h2>}
+    {<h2 class="modal-title text-white">Crear Gerencia</h2>}
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true"><i class="fal fa-times"></i></span>
     </button>
@@ -15,29 +16,20 @@
 <!--Modal body-->
 <div class="modal-body">
     <form id="MyFormModal">
-        @Html.HiddenFor(model => model.fiIDArea)
+        @Html.HiddenFor(model => model.fiIDGerencia)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.fcDescripcion, htmlAttributes: new { @class = "control-label" })
+            @Html.LabelFor(model => model.fcNombreGenerencia, htmlAttributes: new { @class = "control-label" })
             <div class="input-group mar-btm">
                 <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fal fa-pencil  fa-fw"></i></span>
                 </div>
 
-                @Html.EditorFor(model => model.fcDescripcion, new { htmlAttributes = new { @class = "form-control input-lg" } })
+                @Html.EditorFor(model => model.fcNombreGenerencia, new { htmlAttributes = new { @class = "form-control input-lg" } })
             </div>
-            @Html.ValidationMessageFor(model => model.fcDescripcion, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => model.fcNombreGenerencia, "", new { @class = "text-danger" })
         </div>
 
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.fiIDGerencia, htmlAttributes: new { @class = "control-label" })
-            <div class="input-group mar-btm" style="width:100%;">
-
-                @Html.DropDownListFor(model => model.fiIDGerencia, new SelectList(ViewBag.ListaGerencias, "Value", "Text"), null, new { @class = "form-control input-lg", @style = "width:100%;" })
-            </div>
-            @Html.ValidationMessageFor(model => model.fiIDGerencia, "", new { @class = "text-danger" })
-        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.fiIDUsuarioResponsable, htmlAttributes: new { @class = "control-label" })
@@ -47,20 +39,6 @@
             </div>
             @Html.ValidationMessageFor(model => model.fiIDUsuarioResponsable, "", new { @class = "text-danger" })
         </div>
-
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.fcCorreoElectronico, htmlAttributes: new { @class = "control-label" })
-            <div class="input-group mar-btm">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fal fa-pencil  fa-fw"></i></span>
-                </div>
-
-                @Html.EditorFor(model => model.fcCorreoElectronico, new { htmlAttributes = new { @class = "form-control input-lg" } })
-            </div>
-            @Html.ValidationMessageFor(model => model.fcCorreoElectronico, "", new { @class = "text-danger" })
-        </div>
-
 
         <div class="modal-footer">
             <div class="clearfix" style="width:100%;">
@@ -78,23 +56,20 @@
 
 <script>
     $("#fiIDUsuarioResponsable").select2({ dropdownParent: $("#MyModalSm") });
-    $("#fiIDGerencia").select2({ dropdownParent: $("#MyModalSm") });
-
     $("#MyFormModal").submit(function (event) {
         event.preventDefault();
         if (!$("#MyFormModal").valid()) {
             return false;
         }
+        
         var model = @Html.Raw(Json.Encode(Model));
-        model.fcDescripcion = $("#fcDescripcion").val();
         model.fiIDUsuarioResponsable = $("#fiIDUsuarioResponsable").val();
-        model.fcCorreoElectronico = $("#fcCorreoElectronico").val();
+        model.fcNombreGenerencia = $("#fcNombreGenerencia").val();
         model.fiIDGerencia = $("#fiIDGerencia").val();
 
-
-        var url = "@Url.Action("Crear", "Area")";
+        var url = "@Url.Action("Crear", "Gerencias")";
         if (str2bool('@Model.EsEditar')) {
-            url = "@Url.Action("Editar", "Area")";
+            url = "@Url.Action("Editar", "Gerencias")";
         }
 
         $.ajax({
