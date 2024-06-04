@@ -26,8 +26,8 @@ namespace OrionCoreCableColor.DbConnection
         public string fcBuzondeCorreo { get; set; }
         public string fcDescripcionCategoria { get; set; }
         public string fcTipoRequerimiento { get; set; }
-        public byte fiTipoRequerimiento { get; set; }
-        public byte fiCategoriadeDesarrollo { get; set; }
+        public Nullable<int> fiTipoRequerimiento { get; set; }
+        public Nullable<int> fiCategoriadeDesarrollo { get; set; }
         public int fiTiempodeDesarrollo { get; set; }
     }
 }

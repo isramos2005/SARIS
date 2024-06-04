@@ -1855,6 +1855,7 @@
     <Content Include="Views\CategoriaIndicadores\Crear.cshtml" />
     <Content Include="Views\Usuario\EditarInfoUsuarioLaboral.cshtml" />
     <Content Include="Views\Ticket\ModalBitacoraMejora.cshtml" />
+    <Content Include="Views\Ticket\DetalleTicket.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

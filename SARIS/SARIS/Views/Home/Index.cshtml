@@ -235,6 +235,7 @@
                      graficaTicketArea(resp.AreasIncidentes);
                      graficaHoras(resp.AreasTiempo);
                      graficaConteo(resp.ConteoIncidentes);
+                     nuevagrafica(resp.AreasIncidentes);
                 },
                 error: function (resp) {
 
@@ -253,7 +254,7 @@
 
         function graficaTicketArea(datos)
         {
-            debugger;
+            //debugger;
             //Grafica para Incidentes por area Conteo
             var labels = [];
             for (var i = 0; i < datos.length; i++)
@@ -266,7 +267,7 @@
                 valores.push(datos[i].fiIDIncidentes)
             }
             console.log(valores);
-            debugger;
+            //debugger;
             var optionsTicketArea = {
                 labels: labels,
                 series: valores,
@@ -301,7 +302,7 @@
         {
             //Grafica Conteo Horas por Area
 
-            debugger;
+            //debugger;
             //Grafica para Incidentes por area Conteo
             var labels = [];
             for (var i = 0; i < datos.length; i++) {
@@ -346,7 +347,7 @@
         function graficaConteo(datos)
         {
             //Grafica para Conteo por incidentes
-            debugger;
+            //debugger;
             //Grafica para Incidentes por area Conteo
             var labels = [];
             for (var i = 0; i < datos.length; i++) {
@@ -387,7 +388,7 @@
             chartConteo.render();
             //fin
         }
-
+        
         function nuevagrafica(datos) {
 
             var dataSetPie = []
@@ -396,13 +397,35 @@
                 dataSetPie.push({
                     label: item.fcAreaAsignada,
                     data: item.fiIDIncidentes,
-                    color: color.primary._500
-                }
-                )
+                    color: ['#fff']
+                })
             }
 
+            console.log(dataSetPie);
+            var plot = $.plot($("#updating-chart"), [getRandomData()], options);
 
-           
+            var getRandomData = function () {
+                if (data.length > 0)
+                    data = data.slice(1);
+
+                // do a random walk
+                while (data.length < totalPoints) {
+                    var prev = data.length > 0 ? data[data.length - 1] : 50;
+                    var y = prev + Math.random() * 10 - 5;
+                    if (y < 0)
+                        y = 0;
+                    if (y > 100)
+                        y = 100;
+                    data.push(y);
+                }
+
+                // zip the generated y values with the x values
+                var res = [];
+                for (var i = 0; i < data.length; ++i)
+                    res.push([i, data[i]])
+                return res;
+            }
+
             $.plot($("#flotPie"), dataSetPie,
             {
                 series:

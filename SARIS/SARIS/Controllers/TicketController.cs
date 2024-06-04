@@ -155,8 +155,8 @@ namespace OrionCoreCableColor.Controllers
                     tick.fiIDUsuarioAsignado = cont.fiIDUsuarioAsignado;
                     tick.fdFechaAsignacion = cont.fdFechaAsignacion;
                     tick.fdFechadeCierre = cont.fdFechadeCierre;
-                    tick.fiTipoRequerimiento = cont.fiTipoRequerimiento;
-                    tick.fiCategoriadeDesarrollo = cont.fiCategoriadeDesarrollo;
+                    tick.fiTipoRequerimiento = (int)cont.fiTipoRequerimiento;
+                    tick.fiCategoriadeDesarrollo = (int)cont.fiCategoriadeDesarrollo;
 
                     var estadosquenovan = contexto.sp_Configuraciones("NoMostrarEstados").FirstOrDefault().fcValorLlave.Split(',').Select(a => Convert.ToInt32(a)).ToList();
                     ViewBag.ListarArea = contexto.sp_Areas_Lista().Select(x => new SelectListItem { Value = x.fiIDArea.ToString(), Text = x.fcDescripcion}).ToList();
@@ -528,8 +528,9 @@ namespace OrionCoreCableColor.Controllers
                 throw;
             }
         }
-        public ActionResult DetalleTicket()
+        public ActionResult DetalleTicket(int idticket)
         {
+            var cont = contexto.sp_Requerimiento_Maestro_Detalle(1, 1, GetIdUser(), idticket).FirstOrDefault();
             return PartialView();
         }
 

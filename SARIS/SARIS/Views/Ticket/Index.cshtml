@@ -116,7 +116,7 @@
                         //console.log(data);
                         var opt = ``;
                         //console.log(data)
-                       
+
                         if (idusuariologueado == data.fiIDUsuarioSolicitante && data.fiIDEstadoRequerimiento == 1) {
                             opt += `<a href='javascript:void(0);' onclick="EliminarTicket(${data.fiIDRequerimiento})" class='btn btn-sm btn-icon btn-outline-danger rounded-circle mr-1' title='Eliminar Ticket'><i class=\"fal fa-times\"></i></a>`;
                         }
@@ -126,7 +126,7 @@
                                         <div class='dropdown-menu'>
                                             <a class='dropdown-item' href='javascript:void(0);' onclick="ActualizarTicket(${data.fiIDRequerimiento})">Actualizar Ticket</a>
                                     `;
-
+                        opt += `  <a class='dropdown-item' href='javascript:void(0);' onclick="VerDetalleTicket(${data.fiIDRequerimiento})">Ver Detalle Ticket</a>`;
                         if (data.fiAreaAsignada == 6)//es 6 por que es pendiente, se deberia de cambiar a un viewbac para traerlo directamente desde al base de datos
                         {
                             opt += `  <a class='dropdown-item' href='javascript:void(0);' onclick="AsignarArea(${data.fiIDRequerimiento},${data.fiIDEstadoRequerimiento})">Asignar Area</a>`;
@@ -220,7 +220,21 @@
                         var horas = Math.floor(minutos / 60);
                         var dias = Math.floor(horas / 24);
 
-                        return `${dias} <b>Di.</b>, ${horas % 24} <b>Ho.</b>, ${minutos % 60} <b>Mi.</b>, ${segundos % 60} <b>Seg.</b>`;
+                        var tiempototal = '';
+                        if (dias > 0) {
+                            tiempototal += `${dias} <b>Di.</b>, `;
+                        }
+                        console.log((horas % 24))
+                        if ((horas % 24) > 0) {
+                            tiempototal += `${horas % 24} <b>Ho.</b>, `;
+                        }
+                        if ((minutos % 60) > 0) {
+                            tiempototal += `${minutos % 60} <b>Mi.</b>, `;
+                        }
+                        // Realizar cualquier operación o cálculo necesario para actualizar el valor
+                        var nuevoValor = `${tiempototal} ${segundos % 60} <b>Seg.</b>`; // Por ejemplo, aumentar el valor actual en 1
+
+                        return nuevoValor;
                         //return "Han transcurrido " + dias + " días, " + horas % 24 + " horas, " + minutos % 60 + " minutos, " + segundos % 60 + " segundos.";
                     }
                 },
@@ -383,7 +397,7 @@
                         return moment(data.fdFechaCreacion).locale('es').format('YYYY/MM/DD hh:mm a')
                     }
                 },
-                
+
                 {
                     data: null,
                     className: "td-responsive",
@@ -487,7 +501,7 @@
                             if (datas.Estado) {
                                 tablaPrincipalticket.ajax.reload().draw(false);
                                 return ToastrSuccess("Exito!", "Ticket Eliminado Exitosamente");
-                                
+
                                 @*$.ajax({
                                     url: "@Url.Action("GuardarBitacorahistorial", "Ticket")",
                                     type: "POST",
@@ -649,9 +663,26 @@
             tabla.draw(false); // Puedes pasar false para evitar que la tabla se redibuje con animación
         }, 100000); // Ejecutar cada minuto segundos
 
-        setInterval(function () {
-            location.reload();
-        }, 300000);
+        //setInterval(function () {
+        //    location.reload();
+        //}, 300000);
+
+        function VerDetalleTicket(idticket) {
+
+            $.ajax({
+                url: "@Url.Action("DetalleTicket", "Ticket")",
+                type: 'Get',
+                data: { idticket: idtickets},
+                success: function (data) {
+                    ShowModalBigScroll(data)
+                }, error: function (data) {
+
+                    var dataerror = { Titulo: "Error", Mensaje: "Error Al querer Actualizar el Ticket", Estado: false }
+                    AlertaAjax(dataerror)
+                }
+            });
+        }
+
 
     </script>
     
