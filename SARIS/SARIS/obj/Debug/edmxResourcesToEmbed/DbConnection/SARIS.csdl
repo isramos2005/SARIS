@@ -57,23 +57,6 @@
       <Parameter Name="numero1" Mode="In" Type="Int32" />
       <Parameter Name="numero2" Mode="In" Type="Int32" />
     </FunctionImport>
-    <FunctionImport Name="sp_Areas_Desactivar">
-      <Parameter Name="fiIDArea" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_Areas_Editar">
-      <Parameter Name="piIDArea" Mode="In" Type="Int32" />
-      <Parameter Name="pcDescripcion" Mode="In" Type="String" />
-      <Parameter Name="pcCorreoElectronico" Mode="In" Type="String" />
-      <Parameter Name="piIDUsuarioResponsable" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_Areas_Find" ReturnType="Collection(SARISModel.sp_Areas_Find_Result)">
-      <Parameter Name="fiIDArea" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_Areas_Insertar">
-      <Parameter Name="pcDescripcion" Mode="In" Type="String" />
-      <Parameter Name="pcCorreoElectronico" Mode="In" Type="String" />
-      <Parameter Name="piIDUsuarioResponsable" Mode="In" Type="Int32" />
-    </FunctionImport>
     <FunctionImport Name="sp_Estados_Editar">
       <Parameter Name="piIDEstado" Mode="In" Type="Int32" />
       <Parameter Name="pcDescripcionEstado" Mode="In" Type="String" />
@@ -101,7 +84,6 @@
     <FunctionImport Name="sp_Usuarios_Maestros_ObtenerIdUsuario" ReturnType="Collection(Int32)">
       <Parameter Name="pcNombreCorto" Mode="In" Type="String" />
     </FunctionImport>
-    <FunctionImport Name="sp_Areas_Lista" ReturnType="Collection(SARISModel.sp_Areas_Lista_Result)" />
     <FunctionImport Name="sp_Requerimientos_Adjuntos_Guardar" ReturnType="Collection(String)">
       <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
       <Parameter Name="pcNombreArchivo" Mode="In" Type="String" />
@@ -204,6 +186,45 @@
       <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
       <Parameter Name="piIDRequerimientos" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="sp_Requerimientos_Catalogo_Generencias_Editar" ReturnType="Collection(Int32)">
+      <Parameter Name="piIDGerencia" Mode="In" Type="Int32" />
+      <Parameter Name="pcNombreGenerencia" Mode="In" Type="String" />
+      <Parameter Name="piIDUsuarioResponsable" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Requerimientos_Catalogo_Generencias_Eliminar" ReturnType="Collection(Int32)">
+      <Parameter Name="piIDGerencia" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Requerimientos_Catalogo_Generencias_Insertar" ReturnType="Collection(Int32)">
+      <Parameter Name="pcNombreGenerencia" Mode="In" Type="String" />
+      <Parameter Name="piIDUsuarioResponsable" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Requerimientos_Catalogo_Generencias_Listado" ReturnType="Collection(SARISModel.sp_Requerimientos_Catalogo_Generencias_Listado_Result)" />
+    <FunctionImport Name="sp_Usuario_EditarInfoUsuarioLaboral" ReturnType="Collection(Int32)">
+      <Parameter Name="piIdUsuario" Mode="In" Type="Int32" />
+      <Parameter Name="piIDJefeInmediato" Mode="In" Type="Int32" />
+      <Parameter Name="piAreaAsignada" Mode="In" Type="Int32" />
+      <Parameter Name="piIDPuesto" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Areas_Desactivar" ReturnType="Collection(Int32)">
+      <Parameter Name="fiIDArea" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Areas_Editar" ReturnType="Collection(Int32)">
+      <Parameter Name="piIDArea" Mode="In" Type="Int32" />
+      <Parameter Name="pcDescripcion" Mode="In" Type="String" />
+      <Parameter Name="pcCorreoElectronico" Mode="In" Type="String" />
+      <Parameter Name="piIDUsuarioResponsable" Mode="In" Type="Int32" />
+      <Parameter Name="PiIDGerencia" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Areas_Find" ReturnType="Collection(SARISModel.sp_Areas_Find_Result)">
+      <Parameter Name="fiIDArea" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Areas_Insertar" ReturnType="Collection(Int32)">
+      <Parameter Name="pcDescripcion" Mode="In" Type="String" />
+      <Parameter Name="pcCorreoElectronico" Mode="In" Type="String" />
+      <Parameter Name="piIDUsuarioResponsable" Mode="In" Type="Int32" />
+      <Parameter Name="PiIDGerencia" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Areas_Lista" ReturnType="Collection(SARISModel.sp_Areas_Lista_Result)" />
   </EntityContainer>
   <ComplexType Name="sp_Requerimiento_Areas_Result">
     <Property Type="Int16" Name="fiIDArea" Nullable="false" />
@@ -246,13 +267,6 @@
   <ComplexType Name="sp_Requerimiento_Tipo_Adjuntos_Result">
     <Property Type="Int32" Name="fiIDTipoDocumento" Nullable="false" />
     <Property Type="String" Name="fcDescripcionTipoDocumnto" Nullable="false" MaxLength="100" />
-  </ComplexType>
-  <ComplexType Name="sp_Areas_Find_Result">
-    <Property Type="Int16" Name="fiIDArea" Nullable="false" />
-    <Property Type="String" Name="fcDescripcion" Nullable="false" MaxLength="40" />
-    <Property Type="String" Name="fcCorreoElectronico" Nullable="false" MaxLength="100" />
-    <Property Type="Int32" Name="fiIDUsuarioResponsable" Nullable="false" />
-    <Property Type="String" Name="fcNombreCorto" Nullable="true" MaxLength="30" />
   </ComplexType>
   <ComplexType Name="sp_Estados_Lista_Result">
     <Property Type="Int32" Name="fiIDEstado" Nullable="false" />
@@ -391,13 +405,6 @@
     <Property Type="Int32" Name="fiAreaAsignada" Nullable="true" />
     <Property Type="String" Name="fcDescripcion" Nullable="true" MaxLength="40" />
   </ComplexType>
-  <ComplexType Name="sp_Areas_Lista_Result">
-    <Property Type="Int16" Name="fiIDArea" Nullable="false" />
-    <Property Type="String" Name="fcDescripcion" Nullable="false" MaxLength="40" />
-    <Property Type="String" Name="fcCorreoElectronico" Nullable="false" MaxLength="100" />
-    <Property Type="Int32" Name="fiIDUsuarioResponsable" Nullable="false" />
-    <Property Type="String" Name="fcNombreCorto" Nullable="true" MaxLength="30" />
-  </ComplexType>
   <ComplexType Name="sp_Configuraciones_Result">
     <Property Type="String" Name="fcDescripcionLlave" Nullable="true" MaxLength="250" />
     <Property Type="String" Name="fcValorLlave" Nullable="true" MaxLength="250" />
@@ -503,5 +510,32 @@
     <Property Type="DateTime" Name="fdFechaUltimaModificacion" Nullable="false" Precision="23" />
     <Property Type="Int32" Name="fiIDUsuarioUltimaModificacion" Nullable="false" />
     <Property Type="Int32" Name="fiPuedeModificarlo" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sp_Requerimientos_Catalogo_Generencias_Listado_Result">
+    <Property Type="Int32" Name="fiIDGerencia" Nullable="false" />
+    <Property Type="String" Name="fcNombreGenerencia" Nullable="false" MaxLength="300" />
+    <Property Type="String" Name="fcToken" Nullable="true" MaxLength="512" />
+    <Property Type="Int32" Name="fiIDUsuarioResponsable" Nullable="false" />
+    <Property Type="String" Name="fcNombreCorto" Nullable="true" MaxLength="30" />
+    <Property Type="Boolean" Name="fiEstado" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sp_Areas_Find_Result">
+    <Property Type="Int16" Name="fiIDArea" Nullable="false" />
+    <Property Type="String" Name="fcDescripcion" Nullable="false" MaxLength="40" />
+    <Property Type="String" Name="fcCorreoElectronico" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="fiIDUsuarioResponsable" Nullable="false" />
+    <Property Type="String" Name="fcNombreCorto" Nullable="true" MaxLength="30" />
+    <Property Type="Int32" Name="fiIDGerencia" Nullable="true" />
+    <Property Type="String" Name="fcNombreGenerencia" Nullable="false" MaxLength="300" />
+  </ComplexType>
+  <ComplexType Name="sp_Areas_Lista_Result">
+    <Property Type="Int16" Name="fiIDArea" Nullable="false" />
+    <Property Type="String" Name="fcDescripcion" Nullable="false" MaxLength="40" />
+    <Property Type="String" Name="fcCorreoElectronico" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="fiIDUsuarioResponsable" Nullable="false" />
+    <Property Type="String" Name="fcNombreCorto" Nullable="true" MaxLength="30" />
+    <Property Type="Int32" Name="fiIDGerencia" Nullable="true" />
+    <Property Type="Int32" Name="fiActivo" Nullable="false" />
+    <Property Type="String" Name="fcNombreGenerencia" Nullable="false" MaxLength="300" />
   </ComplexType>
 </Schema>

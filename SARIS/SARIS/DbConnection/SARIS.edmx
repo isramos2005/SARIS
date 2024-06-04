@@ -21,6 +21,7 @@
           <Parameter Name="pcDescripcion" Type="varchar" Mode="In" />
           <Parameter Name="pcCorreoElectronico" Type="varchar" Mode="In" />
           <Parameter Name="piIDUsuarioResponsable" Type="int" Mode="In" />
+          <Parameter Name="PiIDGerencia" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_Areas_Find" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fiIDArea" Type="int" Mode="In" />
@@ -29,6 +30,7 @@
           <Parameter Name="pcDescripcion" Type="varchar" Mode="In" />
           <Parameter Name="pcCorreoElectronico" Type="varchar" Mode="In" />
           <Parameter Name="piIDUsuarioResponsable" Type="int" Mode="In" />
+          <Parameter Name="PiIDGerencia" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_Areas_Lista" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_Categorias_Indicidencias_Desactivar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -192,6 +194,25 @@
         <Function Name="sp_Requerimientos_Bitacoras_Estados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="piIDRequerimiento" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_Requerimientos_Catalogo_Generencias_Editar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="piIDGerencia" Type="int" Mode="In" />
+          <Parameter Name="pcNombreGenerencia" Type="varchar" Mode="In" />
+          <Parameter Name="piIDUsuarioResponsable" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_Requerimientos_Catalogo_Generencias_Eliminar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="piIDGerencia" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_Requerimientos_Catalogo_Generencias_Insertar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pcNombreGenerencia" Type="varchar" Mode="In" />
+          <Parameter Name="piIDUsuarioResponsable" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_Requerimientos_Catalogo_Generencias_Listado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_Usuario_EditarInfoUsuarioLaboral" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="piIdUsuario" Type="int" Mode="In" />
+          <Parameter Name="piIDJefeInmediato" Type="int" Mode="In" />
+          <Parameter Name="piAreaAsignada" Type="int" Mode="In" />
+          <Parameter Name="piIDPuesto" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_UsuarioMaestro_ObtenerIdAreaAsignada" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="piIDusuario" Type="int" Mode="In" />
         </Function>
@@ -270,23 +291,6 @@
             <Parameter Name="numero1" Mode="In" Type="Int32" />
             <Parameter Name="numero2" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="sp_Areas_Desactivar">
-          <Parameter Name="fiIDArea" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_Areas_Editar">
-            <Parameter Name="piIDArea" Mode="In" Type="Int32" />
-            <Parameter Name="pcDescripcion" Mode="In" Type="String" />
-            <Parameter Name="pcCorreoElectronico" Mode="In" Type="String" />
-            <Parameter Name="piIDUsuarioResponsable" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_Areas_Find" ReturnType="Collection(SARISModel.sp_Areas_Find_Result)">
-          <Parameter Name="fiIDArea" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_Areas_Insertar">
-            <Parameter Name="pcDescripcion" Mode="In" Type="String" />
-            <Parameter Name="pcCorreoElectronico" Mode="In" Type="String" />
-            <Parameter Name="piIDUsuarioResponsable" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="sp_Estados_Editar">
             <Parameter Name="piIDEstado" Mode="In" Type="Int32" />
             <Parameter Name="pcDescripcionEstado" Mode="In" Type="String" />
@@ -314,7 +318,6 @@
           <FunctionImport Name="sp_Usuarios_Maestros_ObtenerIdUsuario" ReturnType="Collection(Int32)">
           <Parameter Name="pcNombreCorto" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_Areas_Lista" ReturnType="Collection(SARISModel.sp_Areas_Lista_Result)" />
           <FunctionImport Name="sp_Requerimientos_Adjuntos_Guardar" ReturnType="Collection(String)">
             <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
             <Parameter Name="pcNombreArchivo" Mode="In" Type="String" />
@@ -417,6 +420,45 @@
             <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
             <Parameter Name="piIDRequerimientos" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="sp_Requerimientos_Catalogo_Generencias_Editar" ReturnType="Collection(Int32)">
+            <Parameter Name="piIDGerencia" Mode="In" Type="Int32" />
+            <Parameter Name="pcNombreGenerencia" Mode="In" Type="String" />
+            <Parameter Name="piIDUsuarioResponsable" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Requerimientos_Catalogo_Generencias_Eliminar" ReturnType="Collection(Int32)">
+          <Parameter Name="piIDGerencia" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Requerimientos_Catalogo_Generencias_Insertar" ReturnType="Collection(Int32)">
+            <Parameter Name="pcNombreGenerencia" Mode="In" Type="String" />
+            <Parameter Name="piIDUsuarioResponsable" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Requerimientos_Catalogo_Generencias_Listado" ReturnType="Collection(SARISModel.sp_Requerimientos_Catalogo_Generencias_Listado_Result)" />
+          <FunctionImport Name="sp_Usuario_EditarInfoUsuarioLaboral" ReturnType="Collection(Int32)">
+            <Parameter Name="piIdUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="piIDJefeInmediato" Mode="In" Type="Int32" />
+            <Parameter Name="piAreaAsignada" Mode="In" Type="Int32" />
+            <Parameter Name="piIDPuesto" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Areas_Desactivar" ReturnType="Collection(Int32)">
+            <Parameter Name="fiIDArea" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Areas_Editar" ReturnType="Collection(Int32)">
+            <Parameter Name="piIDArea" Mode="In" Type="Int32" />
+            <Parameter Name="pcDescripcion" Mode="In" Type="String" />
+            <Parameter Name="pcCorreoElectronico" Mode="In" Type="String" />
+            <Parameter Name="piIDUsuarioResponsable" Mode="In" Type="Int32" />
+            <Parameter Name="PiIDGerencia" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Areas_Find" ReturnType="Collection(SARISModel.sp_Areas_Find_Result)">
+            <Parameter Name="fiIDArea" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Areas_Insertar" ReturnType="Collection(Int32)">
+            <Parameter Name="pcDescripcion" Mode="In" Type="String" />
+            <Parameter Name="pcCorreoElectronico" Mode="In" Type="String" />
+            <Parameter Name="piIDUsuarioResponsable" Mode="In" Type="Int32" />
+            <Parameter Name="PiIDGerencia" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Areas_Lista" ReturnType="Collection(SARISModel.sp_Areas_Lista_Result)" />
         </EntityContainer>
         <ComplexType Name="sp_Requerimiento_Areas_Result">
           <Property Type="Int16" Name="fiIDArea" Nullable="false" />
@@ -459,13 +501,6 @@
         <ComplexType Name="sp_Requerimiento_Tipo_Adjuntos_Result">
           <Property Type="Int32" Name="fiIDTipoDocumento" Nullable="false" />
           <Property Type="String" Name="fcDescripcionTipoDocumnto" Nullable="false" MaxLength="100" />
-        </ComplexType>
-        <ComplexType Name="sp_Areas_Find_Result">
-          <Property Type="Int16" Name="fiIDArea" Nullable="false" />
-          <Property Type="String" Name="fcDescripcion" Nullable="false" MaxLength="40" />
-          <Property Type="String" Name="fcCorreoElectronico" Nullable="false" MaxLength="100" />
-          <Property Type="Int32" Name="fiIDUsuarioResponsable" Nullable="false" />
-          <Property Type="String" Name="fcNombreCorto" Nullable="true" MaxLength="30" />
         </ComplexType>
         <ComplexType Name="sp_Estados_Lista_Result">
           <Property Type="Int32" Name="fiIDEstado" Nullable="false" />
@@ -604,13 +639,6 @@
           <Property Type="Int32" Name="fiAreaAsignada" Nullable="true" />
           <Property Type="String" Name="fcDescripcion" Nullable="true" MaxLength="40" />
         </ComplexType>
-        <ComplexType Name="sp_Areas_Lista_Result">
-          <Property Type="Int16" Name="fiIDArea" Nullable="false" />
-          <Property Type="String" Name="fcDescripcion" Nullable="false" MaxLength="40" />
-          <Property Type="String" Name="fcCorreoElectronico" Nullable="false" MaxLength="100" />
-          <Property Type="Int32" Name="fiIDUsuarioResponsable" Nullable="false" />
-          <Property Type="String" Name="fcNombreCorto" Nullable="true" MaxLength="30" />
-        </ComplexType>
         <ComplexType Name="sp_Configuraciones_Result">
           <Property Type="String" Name="fcDescripcionLlave" Nullable="true" MaxLength="250" />
           <Property Type="String" Name="fcValorLlave" Nullable="true" MaxLength="250" />
@@ -717,6 +745,33 @@
           <Property Type="Int32" Name="fiIDUsuarioUltimaModificacion" Nullable="false" />
           <Property Type="Int32" Name="fiPuedeModificarlo" Nullable="false" />
         </ComplexType>
+        <ComplexType Name="sp_Requerimientos_Catalogo_Generencias_Listado_Result">
+          <Property Type="Int32" Name="fiIDGerencia" Nullable="false" />
+          <Property Type="String" Name="fcNombreGenerencia" Nullable="false" MaxLength="300" />
+          <Property Type="String" Name="fcToken" Nullable="true" MaxLength="512" />
+          <Property Type="Int32" Name="fiIDUsuarioResponsable" Nullable="false" />
+          <Property Type="String" Name="fcNombreCorto" Nullable="true" MaxLength="30" />
+          <Property Type="Boolean" Name="fiEstado" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_Areas_Find_Result">
+          <Property Type="Int16" Name="fiIDArea" Nullable="false" />
+          <Property Type="String" Name="fcDescripcion" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="fcCorreoElectronico" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="fiIDUsuarioResponsable" Nullable="false" />
+          <Property Type="String" Name="fcNombreCorto" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="fiIDGerencia" Nullable="true" />
+          <Property Type="String" Name="fcNombreGenerencia" Nullable="false" MaxLength="300" />
+        </ComplexType>
+        <ComplexType Name="sp_Areas_Lista_Result">
+          <Property Type="Int16" Name="fiIDArea" Nullable="false" />
+          <Property Type="String" Name="fcDescripcion" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="fcCorreoElectronico" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="fiIDUsuarioResponsable" Nullable="false" />
+          <Property Type="String" Name="fcNombreCorto" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="fiIDGerencia" Nullable="true" />
+          <Property Type="Int32" Name="fiActivo" Nullable="false" />
+          <Property Type="String" Name="fcNombreGenerencia" Nullable="false" MaxLength="300" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -791,20 +846,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_Requerimientos_Bitacoras_Estados" FunctionName="SARISModel.Store.sp_Requerimientos_Bitacoras_Estados" />
-          <FunctionImportMapping FunctionImportName="sp_Areas_Desactivar" FunctionName="SARISModel.Store.sp_Areas_Desactivar" />
-          <FunctionImportMapping FunctionImportName="sp_Areas_Editar" FunctionName="SARISModel.Store.sp_Areas_Editar" />
-          <FunctionImportMapping FunctionImportName="sp_Areas_Find" FunctionName="SARISModel.Store.sp_Areas_Find">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SARISModel.sp_Areas_Find_Result">
-                <ScalarProperty Name="fiIDArea" ColumnName="fiIDArea" />
-                <ScalarProperty Name="fcDescripcion" ColumnName="fcDescripcion" />
-                <ScalarProperty Name="fcCorreoElectronico" ColumnName="fcCorreoElectronico" />
-                <ScalarProperty Name="fiIDUsuarioResponsable" ColumnName="fiIDUsuarioResponsable" />
-                <ScalarProperty Name="fcNombreCorto" ColumnName="fcNombreCorto" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_Areas_Insertar" FunctionName="SARISModel.Store.sp_Areas_Insertar" />
           <FunctionImportMapping FunctionImportName="sp_Estados_Editar" FunctionName="SARISModel.Store.sp_Estados_Editar" />
           <FunctionImportMapping FunctionImportName="sp_Estados_Insertar" FunctionName="SARISModel.Store.sp_Estados_Insertar" />
           <FunctionImportMapping FunctionImportName="sp_Estados_Lista" FunctionName="SARISModel.Store.sp_Estados_Lista">
@@ -967,17 +1008,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_Usuarios_Maestros_ObtenerIdUsuario" FunctionName="SARISModel.Store.sp_Usuarios_Maestros_ObtenerIdUsuario" />
-          <FunctionImportMapping FunctionImportName="sp_Areas_Lista" FunctionName="SARISModel.Store.sp_Areas_Lista">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SARISModel.sp_Areas_Lista_Result">
-                <ScalarProperty Name="fiIDArea" ColumnName="fiIDArea" />
-                <ScalarProperty Name="fcDescripcion" ColumnName="fcDescripcion" />
-                <ScalarProperty Name="fcCorreoElectronico" ColumnName="fcCorreoElectronico" />
-                <ScalarProperty Name="fiIDUsuarioResponsable" ColumnName="fiIDUsuarioResponsable" />
-                <ScalarProperty Name="fcNombreCorto" ColumnName="fcNombreCorto" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_Requerimientos_Adjuntos_Guardar" FunctionName="SARISModel.Store.sp_Requerimientos_Adjuntos_Guardar" />
           <FunctionImportMapping FunctionImportName="sp_Configuraciones" FunctionName="SARISModel.Store.sp_Configuraciones">
             <ResultMapping>
@@ -1131,6 +1161,52 @@
                 <ScalarProperty Name="fdFechaUltimaModificacion" ColumnName="fdFechaUltimaModificacion" />
                 <ScalarProperty Name="fiIDUsuarioUltimaModificacion" ColumnName="fiIDUsuarioUltimaModificacion" />
                 <ScalarProperty Name="fiPuedeModificarlo" ColumnName="fiPuedeModificarlo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Requerimientos_Catalogo_Generencias_Editar" FunctionName="SARISModel.Store.sp_Requerimientos_Catalogo_Generencias_Editar" />
+          <FunctionImportMapping FunctionImportName="sp_Requerimientos_Catalogo_Generencias_Eliminar" FunctionName="SARISModel.Store.sp_Requerimientos_Catalogo_Generencias_Eliminar" />
+          <FunctionImportMapping FunctionImportName="sp_Requerimientos_Catalogo_Generencias_Insertar" FunctionName="SARISModel.Store.sp_Requerimientos_Catalogo_Generencias_Insertar" />
+          <FunctionImportMapping FunctionImportName="sp_Requerimientos_Catalogo_Generencias_Listado" FunctionName="SARISModel.Store.sp_Requerimientos_Catalogo_Generencias_Listado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SARISModel.sp_Requerimientos_Catalogo_Generencias_Listado_Result">
+                <ScalarProperty Name="fiIDGerencia" ColumnName="fiIDGerencia" />
+                <ScalarProperty Name="fcNombreGenerencia" ColumnName="fcNombreGenerencia" />
+                <ScalarProperty Name="fcToken" ColumnName="fcToken" />
+                <ScalarProperty Name="fiIDUsuarioResponsable" ColumnName="fiIDUsuarioResponsable" />
+                <ScalarProperty Name="fcNombreCorto" ColumnName="fcNombreCorto" />
+                <ScalarProperty Name="fiEstado" ColumnName="fiEstado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Usuario_EditarInfoUsuarioLaboral" FunctionName="SARISModel.Store.sp_Usuario_EditarInfoUsuarioLaboral" />
+          <FunctionImportMapping FunctionImportName="sp_Areas_Desactivar" FunctionName="SARISModel.Store.sp_Areas_Desactivar" />
+          <FunctionImportMapping FunctionImportName="sp_Areas_Editar" FunctionName="SARISModel.Store.sp_Areas_Editar" />
+          <FunctionImportMapping FunctionImportName="sp_Areas_Find" FunctionName="SARISModel.Store.sp_Areas_Find">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SARISModel.sp_Areas_Find_Result">
+                <ScalarProperty Name="fiIDArea" ColumnName="fiIDArea" />
+                <ScalarProperty Name="fcDescripcion" ColumnName="fcDescripcion" />
+                <ScalarProperty Name="fcCorreoElectronico" ColumnName="fcCorreoElectronico" />
+                <ScalarProperty Name="fiIDUsuarioResponsable" ColumnName="fiIDUsuarioResponsable" />
+                <ScalarProperty Name="fcNombreCorto" ColumnName="fcNombreCorto" />
+                <ScalarProperty Name="fiIDGerencia" ColumnName="fiIDGerencia" />
+                <ScalarProperty Name="fcNombreGenerencia" ColumnName="fcNombreGenerencia" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Areas_Insertar" FunctionName="SARISModel.Store.sp_Areas_Insertar" />
+          <FunctionImportMapping FunctionImportName="sp_Areas_Lista" FunctionName="SARISModel.Store.sp_Areas_Lista">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SARISModel.sp_Areas_Lista_Result">
+                <ScalarProperty Name="fiIDArea" ColumnName="fiIDArea" />
+                <ScalarProperty Name="fcDescripcion" ColumnName="fcDescripcion" />
+                <ScalarProperty Name="fcCorreoElectronico" ColumnName="fcCorreoElectronico" />
+                <ScalarProperty Name="fiIDUsuarioResponsable" ColumnName="fiIDUsuarioResponsable" />
+                <ScalarProperty Name="fcNombreCorto" ColumnName="fcNombreCorto" />
+                <ScalarProperty Name="fiIDGerencia" ColumnName="fiIDGerencia" />
+                <ScalarProperty Name="fiActivo" ColumnName="fiActivo" />
+                <ScalarProperty Name="fcNombreGenerencia" ColumnName="fcNombreGenerencia" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

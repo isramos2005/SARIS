@@ -530,7 +530,8 @@ namespace OrionCoreCableColor.Controllers
         }
         public ActionResult DetalleTicket(int idticket)
         {
-            var cont = contexto.sp_Requerimiento_Maestro_Detalle(1, 1, GetIdUser(), idticket).FirstOrDefault();
+
+            //var cont = contexto.sp_Requerimiento_Maestro_Detalle(1, 1, GetIdUser(), idticket).FirstOrDefault();
             return PartialView();
         }
 

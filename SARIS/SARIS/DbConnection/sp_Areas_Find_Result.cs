@@ -18,5 +18,7 @@ namespace OrionCoreCableColor.DbConnection
         public string fcCorreoElectronico { get; set; }
         public int fiIDUsuarioResponsable { get; set; }
         public string fcNombreCorto { get; set; }
+        public Nullable<int> fiIDGerencia { get; set; }
+        public string fcNombreGenerencia { get; set; }
     }
 }
