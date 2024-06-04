@@ -21,9 +21,14 @@ namespace OrionCoreCableColor.Models.Areas
         [Required]
         public string fcCorreoElectronico { get; set; }
 
+        
+        [Display(Name = "Responsable de Area")]
         [Required]
         public int fiIDUsuarioResponsable { get; set; }
 
+        [Display(Name = "Gerencia")]
+        [Required]
+        public int fiIDGerencia { get; set; }
 
         [Display(Name = "Estado")]
 
@@ -31,6 +36,12 @@ namespace OrionCoreCableColor.Models.Areas
 
         public bool EsEditar { get; set; }
 
+        [Display(Name = "Gerencia")]
+        public string fcNombreGenerencia { get; set; }
+
+
+        [Display(Name = "Activo")]
+        public int fiActivo { get; set; }
 
     }
 }

@@ -24,6 +24,9 @@ namespace OrionCoreCableColor.Models.Areas
         [Required]
         public int fiIDUsuarioResponsable { get; set; }
 
+        [Display(Name = "Gerencia")]
+        [Required]
+        public int fiIDGerencia { get; set; }
 
         [Display(Name = "Estado")]
 

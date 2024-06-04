@@ -352,30 +352,15 @@ namespace OrionCoreCableColor.Controllers
         [HttpPost]
         public ActionResult EditarInfoUsuarioLaboral(CrearUsuarioViewModel model)
         {
-            try
+            using (var context = new SARISEntities1())
             {
-                using (var context = new OrionSecurityEntities())
-                {
-                    var usuario = context.Usuarios.Find(model.fiIdUsuario);
+                var result = context.sp_Usuario_EditarInfoUsuarioLaboral(model.fiIdUsuario, model.fiIDJefeInmediato, model.fiAreaAsignada, model.IdRol).FirstOrDefault();
 
+                var success = result > 0;
 
-                    usuario.fiIDJefeInmediato = model.fiIDJefeInmediato;
-                    usuario.fiAreaAsignada = model.fiAreaAsignada;
-                    usuario.fiIDPuesto = model.fiIDPuesto;
-
-                    context.Entry(usuario).State = System.Data.Entity.EntityState.Modified;
-
-                    var result = context.SaveChanges() > 0;
-                    return EnviarResultado(result, "Editar Información Laboral", result /*&& result2.Succeeded*/ ? "Se edito Satisfactoriamente" : "Error al Información Laboral");
-
-                }
-            }
-            catch (Exception e)
-            {
-                return EnviarException(e, "Editar Información Laboral");
+                return EnviarResultado(success, "Editar Información Laboral", success ? "Se Editó Satisfactoriamente" : "Error al editar ");
 
             }
-
         }
 
         [HttpGet]

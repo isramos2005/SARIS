@@ -35,6 +35,8 @@ namespace OrionCoreCableColor.Controllers
                        fcDescripcion  = x.fcDescripcion,
                        fcCorreoElectronico = x.fcCorreoElectronico,
                        fcNombreCorto = x.fcNombreCorto,
+                       fiActivo = x.fiActivo,
+                       fcNombreGenerencia = x.fcNombreGenerencia,
                        fiIDUsuarioResponsable = x.fiIDUsuarioResponsable
 
 
@@ -56,6 +58,7 @@ namespace OrionCoreCableColor.Controllers
 
             using (var contextSaris = new SARISEntities1())
             {
+                ViewBag.ListaGerencias = contextSaris.sp_Requerimientos_Catalogo_Generencias_Listado().Where(x => x.fiEstado).ToList().Select(x => new SelectListItem { Value = x.fiIDGerencia.ToString(), Text = $"{x.fcNombreGenerencia} - {x.fcNombreCorto}" }).ToList();
 
                 ViewBag.ListaUsuarios = contextSaris.sp_Usuarios_Maestro_Lista().ToList().Select(x => new SelectListItem { Value = x.fiIDUsuario.ToString(), Text = $"{x.fcNombreCorto} - {x.fcPuesto}"}).ToList();
                 return PartialView(new AreasCrearViewModel());
@@ -69,10 +72,11 @@ namespace OrionCoreCableColor.Controllers
         {
             using (var context = new SARISEntities1())
             {
-                var newModel = context.sp_Areas_Insertar(model.fcDescripcion.Trim(), model.fcCorreoElectronico.Trim(), model.fiIDUsuarioResponsable);
+                var newModel = context.sp_Areas_Insertar(model.fcDescripcion.Trim(), model.fcCorreoElectronico.Trim(), model.fiIDUsuarioResponsable, model.fiIDGerencia);
+                var result = newModel.FirstOrDefault();
+                var success = result > 0;
 
-                return EnviarResultado(true, "Editar Rol", "Se Creó Satisfactoriamente");
-
+                return EnviarResultado(success, "Crear Rol", success ? "Se Creo Satisfactoriamente" : "Error al Crear");
             }
 
 
@@ -84,16 +88,13 @@ namespace OrionCoreCableColor.Controllers
             using (var context = new SARISEntities1())
             {
                 var area = context.sp_Areas_Lista().FirstOrDefault(x => x.fiIDArea == id);
-                if (area != null)
-                {
-                    ViewBag.ListaUsuarios = context.sp_Usuarios_Maestro_Lista().ToList().Select(x => new SelectListItem { Value = x.fiIDUsuario.ToString(), Text = $"{x.fcNombreCorto}  {x.fcPuesto}" }).ToList();
 
-                    return PartialView("Crear", new AreasCrearViewModel { fiIDArea = area.fiIDArea, fcDescripcion = area.fcDescripcion.Trim(), fcCorreoElectronico = area.fcCorreoElectronico.Trim(), fcNombreCorto = area.fcNombreCorto.Trim(), fiIDUsuarioResponsable = area.fiIDUsuarioResponsable, EsEditar = true });
-                }
-                else
-                {
-                    return HttpNotFound();
-                }
+                ViewBag.ListaGerencias = context.sp_Requerimientos_Catalogo_Generencias_Listado().Where(x => x.fiEstado).ToList().Select(x => new SelectListItem { Value = x.fiIDGerencia.ToString(), Text = $"{x.fcNombreGenerencia} - {x.fcNombreCorto}" }).ToList();
+
+                ViewBag.ListaUsuarios = context.sp_Usuarios_Maestro_Lista().ToList().Select(x => new SelectListItem { Value = x.fiIDUsuario.ToString(), Text = $"{x.fcNombreCorto}  {x.fcPuesto}" }).ToList();
+
+                    return PartialView("Crear", new AreasCrearViewModel { fiIDArea = area.fiIDArea, fcDescripcion = area.fcDescripcion.Trim(), fiIDGerencia = area.fiIDGerencia?? 0 , fcCorreoElectronico = area.fcCorreoElectronico.Trim(), fcNombreCorto = area.fcNombreCorto.Trim(), fiIDUsuarioResponsable = area.fiIDUsuarioResponsable, EsEditar = true});
+               
             }
         }
 
@@ -102,11 +103,11 @@ namespace OrionCoreCableColor.Controllers
         {
             using (var context = new SARISEntities1())
             {
-                var newModel = context.sp_Areas_Editar(model.fiIDArea, model.fcDescripcion.Trim(), model.fcCorreoElectronico.Trim(), model.fiIDUsuarioResponsable);
-                var result = context.SaveChanges() > 0;
+                var newModel = context.sp_Areas_Editar(model.fiIDArea, model.fcDescripcion.Trim(), model.fcCorreoElectronico.Trim(), model.fiIDUsuarioResponsable, model.fiIDGerencia);
+                var result = newModel.FirstOrDefault();
+                var success = result > 0;
 
-                return EnviarResultado(true, "Editar Rol", "Se edito Satisfactoriamente" );
-
+                return EnviarResultado(success, "Editar Área", success ? "Se Edito Satisfactoriamente" : "Error al Editar");
             }
 
         }
@@ -117,7 +118,9 @@ namespace OrionCoreCableColor.Controllers
             using (var context = new SARISEntities1())
             {
                 var area = context.sp_Areas_Desactivar(id);
-                return EnviarResultado(true, "Eliminar Rol");
+                var result = area > 0 ;
+               
+                return EnviarResultado(result, "Eliminar Área", result ? "Se Eliminó Satisfactoriamente" : "Error al eliminar");
             }
         }
 
