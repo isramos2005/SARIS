@@ -225,6 +225,9 @@
       <Parameter Name="PiIDGerencia" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="sp_Areas_Lista" ReturnType="Collection(SARISModel.sp_Areas_Lista_Result)" />
+    <FunctionImport Name="sp_Requerimientos_Bitacoras_Historial_ByID" ReturnType="Collection(SARISModel.sp_Requerimientos_Bitacoras_Historial_ByID_Result)">
+      <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_Requerimiento_Areas_Result">
     <Property Type="Int16" Name="fiIDArea" Nullable="false" />
@@ -537,5 +540,22 @@
     <Property Type="Int32" Name="fiIDGerencia" Nullable="true" />
     <Property Type="Int32" Name="fiActivo" Nullable="false" />
     <Property Type="String" Name="fcNombreGenerencia" Nullable="false" MaxLength="300" />
+  </ComplexType>
+  <ComplexType Name="sp_Requerimientos_Bitacoras_Historial_ByID_Result">
+    <Property Type="Int64" Name="fiIDFila" Nullable="true" />
+    <Property Type="Int32" Name="fiIDRequerimiento" Nullable="false" />
+    <Property Type="Int32" Name="fIDIUsuario" Nullable="false" />
+    <Property Type="String" Name="fcUsuarioPricipal" Nullable="true" MaxLength="30" />
+    <Property Type="DateTime" Name="fdFechaInicioEstado" Nullable="false" Precision="23" />
+    <Property Type="DateTime" Name="fdFechaFinEstado" Nullable="false" Precision="23" />
+    <Property Type="Int32" Name="fiIDEstado" Nullable="false" />
+    <Property Type="Int32" Name="fiIDApp" Nullable="false" />
+    <Property Type="String" Name="fcDescripcionEstado" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="fcClaseColor" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="fcUsuarioSecundario" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="fcDescripcion" Nullable="true" MaxLength="40" />
+    <Property Type="Int32" Name="fiHorasTrabajadas" Nullable="true" />
+    <Property Type="Int32" Name="fiMinutios" Nullable="true" />
+    <Property Type="String" Name="fcComentario" Nullable="true" MaxLength="Max" />
   </ComplexType>
 </Schema>

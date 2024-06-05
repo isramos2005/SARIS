@@ -31,39 +31,31 @@
 
 <div class="modal-body">
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-12">
             <div class="row">
 
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                     <div class="form-group">
                         <label class="col-form-label">Titulo</label>
                         @Html.EditorFor(model => model.fcTituloRequerimiento, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                     </div>
                 </div>
 
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                     <div class="form-group">
                         <label class="col-form-label">Descripcion</label>
                         @Html.EditorFor(model => model.fcDescripcionRequerimiento, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                     </div>
                 </div>
-                <!--<div class="col-sm-12">-->
-                <!--esto debe de ser un select -->
-                <!--<div class="form-group">
-                <label class="col-form-label">Area</label>
-                <input id="txtNombreTitulo" class="form-control" type="text" placeholder="Defina un Area" />
-                    </div>
-                </div>-->
-
-                <div class="col-lg-12">
+                
+                <div class="col-lg-6">
                     <div class="form-group">
                         <label class="col-form-label">Tipo Categoria</label>
                         @Html.EditorFor(model => model.fcDescripcionRequerimiento, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                     </div>
-
                 </div>
 
-                <div class="col-lg-12">
+                <div class="col-lg-6">
                     <div class="form-group">
                         <label class="col-form-label">Tipo Incidencia</label>
                         @Html.EditorFor(model => model.fcDescripcionRequerimiento, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -71,28 +63,14 @@
 
                 </div>
 
-                <div class="col-lg-12" style="display:none">
+                <div class="col-lg-6" style="display:none">
                     <div class="form-group">
                         <label class="col-form-label">Asignar a</label>
                         @Html.EditorFor(model => model.fcDescripcionRequerimiento, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                     </div>
                 </div>
-
             </div>
         </div>
-    </div>
-
-    <div class="row">
-        <!--<div class="col-lg-6">-->
-        <!--esto debe de ser un select -->
-        <!--<div class="form-group">
-
-                <label class="col-form-label">Estado</label>
-                <input id="txtNombreTitulo" class="form-control" type="text" placeholder="Defina un Estado" />
-            </div>
-        </div>-->
-
-
     </div>
 
 </div>

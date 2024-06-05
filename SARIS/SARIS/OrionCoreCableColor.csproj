@@ -459,6 +459,9 @@
     <Compile Include="DbConnection\sp_Requerimientos_Bandeja_ByID_Result.cs">
       <DependentUpon>SARIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="DbConnection\sp_Requerimientos_Bitacoras_Historial_ByID_Result.cs">
+      <DependentUpon>SARIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="DbConnection\sp_Requerimientos_Catalogo_Generencias_Listado_Result.cs">
       <DependentUpon>SARIS.tt</DependentUpon>
     </Compile>

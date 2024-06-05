@@ -224,7 +224,7 @@
                         if (dias > 0) {
                             tiempototal += `${dias} <b>Di.</b>, `;
                         }
-                        console.log((horas % 24))
+                        //console.log((horas % 24))
                         if ((horas % 24) > 0) {
                             tiempototal += `${horas % 24} <b>Ho.</b>, `;
                         }
@@ -266,7 +266,7 @@
         }
 
         chat.client.actualizarBandeja = function (ticket) {
-            console.log(ticket);
+            //console.log(ticket);
 
             var tabla = $.fn.dataTable.Api("#TablaPrincipalTicket");
             var nodes = tabla.rows().nodes().toArray();
@@ -429,7 +429,7 @@
                         if (dias > 0) {
                             tiempototal += `${dias} <b>Di.</b>, `;
                         }
-                        console.log((horas % 24))
+                        //console.log((horas % 24))
                         if ((horas % 24) > 0) {
                             tiempototal += `${horas % 24} <b>Ho.</b>, `;
                         }
@@ -495,7 +495,7 @@
                         type: "POST",
                         data: { idticket: idticket },
                         success: function (datas) {
-                            console.log(datas);
+                            //console.log(datas);
                             var resultado = datas[0];
 
                             if (datas.Estado) {
@@ -645,7 +645,7 @@
                 if (dias > 0) {
                     tiempototal += `${dias} <b>Di.</b>, `;
                 }
-                console.log((horas % 24))
+                //console.log((horas % 24))
                 if ((horas % 24) > 0 ) {
                     tiempototal += `${horas % 24} <b>Ho.</b>, `;
                 }
@@ -656,7 +656,7 @@
                 var nuevoValor = `${tiempototal} ${segundos % 60} <b>Seg.</b>`; // Por ejemplo, aumentar el valor actual en 1
 
                 // Actualizar el valor en la columna
-                tabla.cell({ row: indice, column: 7 }).data(nuevoValor);
+                tabla.cell({ row: indice, column: 9 }).data(nuevoValor);
             });
 
             // Redibujar la tabla para reflejar los cambios
@@ -672,12 +672,12 @@
             $.ajax({
                 url: "@Url.Action("DetalleTicket", "Ticket")",
                 type: 'Get',
-                data: { idticket: idtickets},
+                data: { idticket: idticket},
                 success: function (data) {
                     ShowModalBigScroll(data)
                 }, error: function (data) {
 
-                    var dataerror = { Titulo: "Error", Mensaje: "Error Al querer Actualizar el Ticket", Estado: false }
+                    var dataerror = { Titulo: "Error", Mensaje: "Error Al querer Ver el Detalle del Ticket", Estado: false }
                     AlertaAjax(dataerror)
                 }
             });

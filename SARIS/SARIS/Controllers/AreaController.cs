@@ -109,7 +109,6 @@ namespace OrionCoreCableColor.Controllers
 
                 return EnviarResultado(success, "Editar Área", success ? "Se Edito Satisfactoriamente" : "Error al Editar");
             }
-
         }
 
 
@@ -117,7 +116,7 @@ namespace OrionCoreCableColor.Controllers
         {
             using (var context = new SARISEntities1())
             {
-                var area = context.sp_Areas_Desactivar(id);
+                var area = context.sp_Areas_Desactivar(id).FirstOrDefault();
                 var result = area > 0 ;
                
                 return EnviarResultado(result, "Eliminar Área", result ? "Se Eliminó Satisfactoriamente" : "Error al eliminar");

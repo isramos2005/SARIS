@@ -111,22 +111,27 @@ namespace OrionCoreCableColor.Controllers
 
             try
             {
-                using (var connection = (new SARISEntities1()).Database.Connection)
+                using (var connection = new SARISEntities1())
                 {
-
-                    connection.Open();
-                    var command = connection.CreateCommand();
-                    command.CommandText = $"EXEC sp_Requerimientos_Bitacoras_Estados {Ticket}";
-                    using (var reader = command.ExecuteReader())
-                    {
-                        var db = ((IObjectContextAdapter)new SoporteOPEntities());
-                        listaEquifaxGarantia = db.ObjectContext.Translate<Estado_RequerimientoViewModal>(reader).ToList();
-                    }
-
-                    connection.Close();
-
-                    return EnviarListaJson(listaEquifaxGarantia);
+                    var cont = connection.sp_Requerimientos_Bitacoras_Historial_ByID(Ticket).ToList();
+                    return EnviarListaJson(cont);
                 }
+                //using (var connection = (new SARISEntities1()).Database.Connection)
+                //{
+                //    //var cont =
+                //    connection.Open();
+                //    var command = connection.CreateCommand();
+                //    command.CommandText = $"EXEC sp_Requerimientos_Bitacoras_Estados {Ticket}";
+                //    using (var reader = command.ExecuteReader())
+                //    {
+                //        var db = ((IObjectContextAdapter)new SoporteOPEntities());
+                //        listaEquifaxGarantia = db.ObjectContext.Translate<Estado_RequerimientoViewModal>(reader).ToList();
+                //    }
+
+                //    connection.Close();
+
+                //    return EnviarListaJson(listaEquifaxGarantia);
+                //}
             }
             catch (Exception e)
             {
@@ -530,9 +535,26 @@ namespace OrionCoreCableColor.Controllers
         }
         public ActionResult DetalleTicket(int idticket)
         {
+            using (var contexto = new SARISEntities1())
+            {
+                var cont = contexto.sp_Requerimiento_Maestro_Detalle(1, 1, GetIdUser(), idticket).FirstOrDefault();
+                var tick = new TicketMiewModel();
+                tick.fcDescripcionRequerimiento = cont.fcDescripcionRequerimiento;
+                tick.fiIDRequerimiento = cont.fiIDRequerimiento;
+                tick.fdFechaCreacion = cont.fdFechaCreacion;
+                tick.fcTituloRequerimiento = cont.fcTituloRequerimiento;
+                tick.fiIDAreaSolicitante = cont.fiIDAreaSolicitante;
+                tick.fiIDEstadoRequerimiento = cont.fiIDEstadoRequerimiento;
+                tick.fiIDUsuarioAsignado = cont.fiIDUsuarioAsignado;
+                tick.fdFechaAsignacion = cont.fdFechaAsignacion;
+                tick.fdFechadeCierre = cont.fdFechadeCierre;
+                tick.fiTipoRequerimiento = (int)cont.fiTipoRequerimiento;
+                tick.fiCategoriadeDesarrollo = (int)cont.fiCategoriadeDesarrollo;
+                ViewBag.DatosDocumentoListado = contexto.sp_Requerimiento_Documentos_ObtenerPorIdRequerimiento(idticket, 1, 1, GetIdUser()).ToList();
 
-            //var cont = contexto.sp_Requerimiento_Maestro_Detalle(1, 1, GetIdUser(), idticket).FirstOrDefault();
-            return PartialView();
+
+                return PartialView(tick);
+            }
         }
 
 

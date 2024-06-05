@@ -189,6 +189,9 @@
   <Function Name="sp_Requerimientos_Bitacoras_Estados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="piIDRequerimiento" Type="int" Mode="In" />
   </Function>
+  <Function Name="sp_Requerimientos_Bitacoras_Historial_ByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="piIDRequerimiento" Type="int" Mode="In" />
+  </Function>
   <Function Name="sp_Requerimientos_Catalogo_Generencias_Editar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="piIDGerencia" Type="int" Mode="In" />
     <Parameter Name="pcNombreGenerencia" Type="varchar" Mode="In" />

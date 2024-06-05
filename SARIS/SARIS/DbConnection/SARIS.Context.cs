@@ -718,16 +718,16 @@ namespace OrionCoreCableColor.DbConnection
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_Usuario_EditarInfoUsuarioLaboral", piIdUsuarioParameter, piIDJefeInmediatoParameter, piAreaAsignadaParameter, piIDPuestoParameter);
         }
-
-        public virtual int sp_Areas_Desactivar(Nullable<int> fiIDArea)
+    
+        public virtual ObjectResult<Nullable<int>> sp_Areas_Desactivar(Nullable<int> fiIDArea)
         {
             var fiIDAreaParameter = fiIDArea.HasValue ?
                 new ObjectParameter("fiIDArea", fiIDArea) :
                 new ObjectParameter("fiIDArea", typeof(int));
-
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Areas_Desactivar", fiIDAreaParameter);
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_Areas_Desactivar", fiIDAreaParameter);
         }
-
+    
         public virtual ObjectResult<Nullable<int>> sp_Areas_Editar(Nullable<int> piIDArea, string pcDescripcion, string pcCorreoElectronico, Nullable<int> piIDUsuarioResponsable, Nullable<int> piIDGerencia)
         {
             var piIDAreaParameter = piIDArea.HasValue ?
@@ -786,6 +786,15 @@ namespace OrionCoreCableColor.DbConnection
         public virtual ObjectResult<sp_Areas_Lista_Result> sp_Areas_Lista()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Areas_Lista_Result>("sp_Areas_Lista");
+        }
+    
+        public virtual ObjectResult<sp_Requerimientos_Bitacoras_Historial_ByID_Result> sp_Requerimientos_Bitacoras_Historial_ByID(Nullable<int> piIDRequerimiento)
+        {
+            var piIDRequerimientoParameter = piIDRequerimiento.HasValue ?
+                new ObjectParameter("piIDRequerimiento", piIDRequerimiento) :
+                new ObjectParameter("piIDRequerimiento", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Requerimientos_Bitacoras_Historial_ByID_Result>("sp_Requerimientos_Bitacoras_Historial_ByID", piIDRequerimientoParameter);
         }
     }
 }
