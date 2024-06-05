@@ -826,6 +826,7 @@
     <Content Include="Content\img\favicon\mstile-150x150.png" />
     <Content Include="Content\img\favicon\safari-pinned-tab.svg" />
     <Content Include="Content\img\fondo.png" />
+    <Content Include="Content\img\fondocardhome.jpg" />
     <Content Include="Content\img\fondo_aside.jpg" />
     <Content Include="Content\img\HOJAS_NOVANET.png" />
     <Content Include="Content\img\IconUbicacion.png" />
