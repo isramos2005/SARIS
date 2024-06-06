@@ -537,21 +537,20 @@ namespace OrionCoreCableColor.Controllers
         {
             using (var contexto = new SARISEntities1())
             {
-                var cont = contexto.sp_Requerimiento_Maestro_Detalle(1, 1, GetIdUser(), idticket).FirstOrDefault();
-                var tick = new TicketMiewModel();
+                var cont = contexto.sp_DetalleBitacoraInformacion(GetIdUser(), idticket).FirstOrDefault();
+                var tick = new TicketInformacionViewModel();
+                tick.fcClaseColor = cont.fcClaseColor;
+                tick.fcDescripcionCategoria= cont.fcDescripcionCategoria;
+                tick.fcDescripcionEstado = cont.fcDescripcionEstado;
                 tick.fcDescripcionRequerimiento = cont.fcDescripcionRequerimiento;
-                tick.fiIDRequerimiento = cont.fiIDRequerimiento;
+                tick.fcNombreUsuarioSolicitante = cont.fcNombreUsuarioSolicitante;
+                tick.fcTipoRequerimiento = cont.fcTipoRequerimiento;
                 tick.fdFechaCreacion = cont.fdFechaCreacion;
+                tick.fiIDRequerimiento = cont.fiIDRequerimiento;
                 tick.fcTituloRequerimiento = cont.fcTituloRequerimiento;
-                tick.fiIDAreaSolicitante = cont.fiIDAreaSolicitante;
-                tick.fiIDEstadoRequerimiento = cont.fiIDEstadoRequerimiento;
-                tick.fiIDUsuarioAsignado = cont.fiIDUsuarioAsignado;
-                tick.fdFechaAsignacion = cont.fdFechaAsignacion;
-                tick.fdFechadeCierre = cont.fdFechadeCierre;
-                tick.fiTipoRequerimiento = (int)cont.fiTipoRequerimiento;
-                tick.fiCategoriadeDesarrollo = (int)cont.fiCategoriadeDesarrollo;
-                ViewBag.DatosDocumentoListado = contexto.sp_Requerimiento_Documentos_ObtenerPorIdRequerimiento(idticket, 1, 1, GetIdUser()).ToList();
 
+
+                ViewBag.DatosDocumentoListado = contexto.sp_DetalleBitacoraInformacionArchivos(GetIdUser(),idticket).ToList();
 
                 return PartialView(tick);
             }

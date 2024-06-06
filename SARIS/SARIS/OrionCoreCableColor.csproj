@@ -432,6 +432,12 @@
     <Compile Include="DbConnection\sp_DatosTicket_Correo_Result.cs">
       <DependentUpon>SARIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="DbConnection\sp_DetalleBitacoraInformacionArchivos_Result.cs">
+      <DependentUpon>SARIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbConnection\sp_DetalleBitacoraInformacion_Result.cs">
+      <DependentUpon>SARIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="DbConnection\sp_Eliminar_Requerimiento_Result.cs">
       <DependentUpon>SARIS.tt</DependentUpon>
     </Compile>
@@ -541,6 +547,7 @@
     <Compile Include="Models\Roles\ListaPermisosPorRolViewModel.cs" />
     <Compile Include="Models\Ticket\Estado_RequerimientoViewModal.cs" />
     <Compile Include="Models\Ticket\TicketAdjuntarImagenViewModel.cs" />
+    <Compile Include="Models\Ticket\TicketInformacionViewModel.cs" />
     <Compile Include="Models\Ticket\TicketMiewModel.cs" />
     <Compile Include="Models\Usuario\CambiarContraseñaUsuarioViewModel.cs" />
     <Compile Include="Models\Usuario\CrearUsuarioViewModel.cs" />

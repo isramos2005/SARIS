@@ -228,6 +228,14 @@
     <FunctionImport Name="sp_Requerimientos_Bitacoras_Historial_ByID" ReturnType="Collection(SARISModel.sp_Requerimientos_Bitacoras_Historial_ByID_Result)">
       <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="sp_DetalleBitacoraInformacion" ReturnType="Collection(SARISModel.sp_DetalleBitacoraInformacion_Result)">
+      <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
+      <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_DetalleBitacoraInformacionArchivos" ReturnType="Collection(SARISModel.sp_DetalleBitacoraInformacionArchivos_Result)">
+      <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
+      <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_Requerimiento_Areas_Result">
     <Property Type="Int16" Name="fiIDArea" Nullable="false" />
@@ -557,5 +565,25 @@
     <Property Type="Int32" Name="fiHorasTrabajadas" Nullable="true" />
     <Property Type="Int32" Name="fiMinutios" Nullable="true" />
     <Property Type="String" Name="fcComentario" Nullable="true" MaxLength="Max" />
+  </ComplexType>
+  <ComplexType Name="sp_DetalleBitacoraInformacion_Result">
+    <Property Type="Int32" Name="fiIDRequerimiento" Nullable="false" />
+    <Property Type="String" Name="fcTituloRequerimiento" Nullable="false" MaxLength="1000" />
+    <Property Type="String" Name="fcDescripcionRequerimiento" Nullable="false" MaxLength="Max" />
+    <Property Type="String" Name="fcTipoRequerimiento" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="fcDescripcionCategoria" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="fcNombreUsuarioSolicitante" Nullable="true" MaxLength="83" />
+    <Property Type="String" Name="fcDescripcionEstado" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="fcClaseColor" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="fdFechaCreacion" Nullable="false" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="sp_DetalleBitacoraInformacionArchivos_Result">
+    <Property Type="Int32" Name="fiIDRequerimiento" Nullable="false" />
+    <Property Type="Int32" Name="fIDIUsuario" Nullable="false" />
+    <Property Type="String" Name="fcNombreCorto" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="fcNombreArchivo" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="fcTipoArchivo" Nullable="false" MaxLength="4" />
+    <Property Type="String" Name="fcRutaArchivo" Nullable="true" />
+    <Property Type="String" Name="fcURL" Nullable="false" MaxLength="2000" />
   </ComplexType>
 </Schema>

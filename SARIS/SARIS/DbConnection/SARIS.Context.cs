@@ -796,5 +796,31 @@ namespace OrionCoreCableColor.DbConnection
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Requerimientos_Bitacoras_Historial_ByID_Result>("sp_Requerimientos_Bitacoras_Historial_ByID", piIDRequerimientoParameter);
         }
+    
+        public virtual ObjectResult<sp_DetalleBitacoraInformacion_Result> sp_DetalleBitacoraInformacion(Nullable<int> piIDUsuario, Nullable<int> piIDRequerimiento)
+        {
+            var piIDUsuarioParameter = piIDUsuario.HasValue ?
+                new ObjectParameter("piIDUsuario", piIDUsuario) :
+                new ObjectParameter("piIDUsuario", typeof(int));
+    
+            var piIDRequerimientoParameter = piIDRequerimiento.HasValue ?
+                new ObjectParameter("piIDRequerimiento", piIDRequerimiento) :
+                new ObjectParameter("piIDRequerimiento", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_DetalleBitacoraInformacion_Result>("sp_DetalleBitacoraInformacion", piIDUsuarioParameter, piIDRequerimientoParameter);
+        }
+    
+        public virtual ObjectResult<sp_DetalleBitacoraInformacionArchivos_Result> sp_DetalleBitacoraInformacionArchivos(Nullable<int> piIDUsuario, Nullable<int> piIDRequerimiento)
+        {
+            var piIDUsuarioParameter = piIDUsuario.HasValue ?
+                new ObjectParameter("piIDUsuario", piIDUsuario) :
+                new ObjectParameter("piIDUsuario", typeof(int));
+    
+            var piIDRequerimientoParameter = piIDRequerimiento.HasValue ?
+                new ObjectParameter("piIDRequerimiento", piIDRequerimiento) :
+                new ObjectParameter("piIDRequerimiento", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_DetalleBitacoraInformacionArchivos_Result>("sp_DetalleBitacoraInformacionArchivos", piIDUsuarioParameter, piIDRequerimientoParameter);
+        }
     }
 }
