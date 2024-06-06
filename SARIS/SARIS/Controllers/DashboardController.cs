@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Data.Entity.Infrastructure;
 using OrionCoreCableColor.DbConnection;
 using OrionCoreCableColor.Models.DashBoard;
+using System.Data.SqlClient;
 
 namespace OrionCoreCableColor.Controllers
 {
@@ -56,8 +57,25 @@ namespace OrionCoreCableColor.Controllers
 
         }
 
+        [HttpPost]
+        public JsonResult Tabs(int mes)
+        {
+            try
+            {
+                using (var context = new SARISEntities1())
+                {
+                    var pcNombreCorto = User.Identity.Name.ToString();
 
-        
+                    var result = context.sp_DashboardTabsHora(pcNombreCorto, mes).ToList();
+
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new { error = e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
 
     }
