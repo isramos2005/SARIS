@@ -42,7 +42,7 @@
     <div class="row">
         <div class="col-12 mb-3">
             <div class="pt-5 pb-5 rounded overflow-hidden position-relative text-white card-container-header"
-                  style="background-position: center; background-repeat: no-repeat; background-size: cover; background-image: url(/Content/img/fondocardhome.jpg); position: relative;">
+                 style="background-position: center; background-repeat: no-repeat; background-size: cover; background-image: url(/Content/img/fondocardhome.jpg); position: relative;">
                 <div class="overlay-header" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);"></div>
                 <i class="fal fa-clock position-absolute pos-top pos-right opacity-50 mt-5" style="font-size: 8rem; bottom: 0; right: 0;"></i>
                 <div class="row">
@@ -69,7 +69,7 @@
                             <div class="tab-content text-white display-4 d-block l-h-n m-0 fw-500 text-center mt-3" id="myTabContent">
                                 0
                             </div>
-                            <div class="tab-content text-white display-4 d-block l-h-n m-0 fw-500 text-center">
+                            <div class="tab-content text-white display-4 d-block l-h-n m-0 fw-500 text-center" style="text-transform:capitalize" id="myTabContenthoras">
                                 Horas
                             </div>
                         </div>
@@ -228,62 +228,96 @@
             dataheader();
             setInterval(actualizarHora, 60000);
             generarTabsUltimosMeses();
-            
+
              });
 
-function dataheader() {
-    var nombreUsuario = "@User.Identity.Name";
-    var nuevoNombre = nombreUsuario.replace(/\./g, " ");
-    $("#bienvenida").text("Bienvenido " + nuevoNombre);
+        function dataheader() {
+            var nombreUsuario = "@User.Identity.Name";
+            var nuevoNombre = nombreUsuario.replace(/\./g, " ");
+            $("#bienvenida").text("Bienvenido " + nuevoNombre);
 
-    actualizarHora();
-}
+            actualizarHora();
+        }
 
-function actualizarHora() {
-    var ahora = new Date();
-    var opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    var fechaActual = ahora.toLocaleDateString('es-ES', opcionesFecha);
+        function actualizarHora() {
+            var ahora = new Date();
+            var opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            var fechaActual = ahora.toLocaleDateString('es-ES', opcionesFecha);
 
-    var opcionesHora = { hour: '2-digit', minute: '2-digit', hour12: true };
-    var horaActual = ahora.toLocaleTimeString('es-ES', opcionesHora);
+            var opcionesHora = { hour: '2-digit', minute: '2-digit', hour12: true };
+            var horaActual = ahora.toLocaleTimeString('es-ES', opcionesHora);
 
-    $("#fecha").text(fechaActual);
-    $("#hora").text(horaActual);
-}
+            $("#fecha").text(fechaActual);
+            $("#hora").text(horaActual);
+        }
 
-function generarTabsUltimosMeses() {
-    var hoy = new Date();
-    var tabList = $("#myTab");
+        function generarTabsUltimosMeses() {
+            var hoy = new Date();
+            var tabList = $("#myTab");
 
-    for (var i = 0; i < 6; i++) {
-        var mes = new Date(hoy.getFullYear(), hoy.getMonth() - i, 1);
-        var mesNombre = mes.toLocaleString('es-ES', { month: 'long', year: 'numeric' });
-        var tabId = `tab${i + 1}`;
+            for (var i = 0; i < 6; i++) {
+                var mes = new Date(hoy.getFullYear(), hoy.getMonth() - i, 1);
+                var mesNombre = mes.toLocaleString('es-ES', { month: 'long', year: 'numeric' });
+                var mesId = mes.getMonth() + 1;
 
-        tabList.append(`
+                var tabId = `tab${mesId}`;
+
+                tabList.append(`
             <li class="nav-item" role="presentation">
-                <button id="${tabId}-btn" class="nav-link m-1" data-tab-id="${tabId}" type="button"  style="background-color:transparent; color:white; border-radius:10px; border :1px solid #ffffff47" class="p1 h5" >${mesNombre}</button>
+                <button id="${tabId}-btn" value="${mesId}" class="nav-link m-1" type="button" style="background-color: transparent; color: white; border-radius: 10px; border: 1px solid #ffffff47;">${mesNombre}</button>
             </li>
         `);
+            }
+
+            // Manejar el evento de clic usando delegación de eventos
+            tabList.on('click', '.nav-link', function () {
+                var tabId = $(this).attr('value');
+                cambiotab(tabId);
+            });
+
+            // Llamar a cambiotab para el mes actual después de agregar las pestañas
+            var mesActual = hoy.getMonth() + 1;
+            cambiotab(mesActual);
+        }
+
+
+      function cambiotab(tabId) {
+        $.ajax({
+            url: "@Url.Action("Tabs", "Dashboard")",
+            method: "post",
+            data: { mes: tabId },
+            success: function (response) {
+                console.log(response);
+
+                var tabContent = $("#myTabContent");
+                var tabContenthoras = $("#myTabContenthoras");
+
+                var mesNombre = new Date(new Date().getFullYear(), tabId - 1, 1).toLocaleString('es-ES', { month: 'long'});
+
+                var tiempoAcumulado = response.length > 0 ? response[0].fiTiempoAcumulado : 0;
+                var mes = response.length > 0 ? response[0].fcMes : mesNombre;
+
+                tabContent.empty();
+                tabContenthoras.empty();
+
+                tabContent.append(`
+                        <label class="tab-pane fade show active" id="${tabId} content" role="tabpanel">
+                           ${tiempoAcumulado}
+                        </label>
+                    `);
+
+                tabContenthoras.append(`
+                        <label class="tab-pane fade show active" id="${tabId} contenthora" role="tabpanel">
+                          Horas en ${mes}
+                        </label>
+                    `);
+            },
+            error: function (resp) {
+                console.error("Error:", resp);
+            }
+        });
     }
 
-    tabList.on('click', '.nav-link', function () {
-        var tabId = $(this).attr('data-tab-id');
-        cambiotab(tabId);
-    });
-}
-
-function cambiotab(tabId) {
-    var tabContent = $("#myTabContent");
-    tabContent.empty();
-
-    var mesNombre = $(`#${tabId}-btn`).text();
-    tabContent.append(`
-        <label class="tab-pane fade show active" id="${tabId}" role="tabpanel">
-           0 
-        </label>
-    `);
-}
 
 
         function datos()
