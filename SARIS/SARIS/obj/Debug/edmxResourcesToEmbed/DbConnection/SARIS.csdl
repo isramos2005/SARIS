@@ -147,9 +147,6 @@
       <Parameter Name="piIDApp" Mode="In" Type="Int32" />
       <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
     </FunctionImport>
-    <FunctionImport Name="sp_DatosTicket_Correo" ReturnType="Collection(SARISModel.sp_DatosTicket_Correo_Result)">
-      <Parameter Name="piTicket" Mode="In" Type="Int32" />
-    </FunctionImport>
     <FunctionImport Name="sp_Requerimiento_Alta" ReturnType="Collection(SARISModel.sp_Requerimiento_Alta_Result)">
       <Parameter Name="piIDSesion" Mode="In" Type="Int32" />
       <Parameter Name="piIDApp" Mode="In" Type="Int16" />
@@ -236,6 +233,15 @@
       <Parameter Name="piIDUsuario" Mode="In" Type="Int32" />
       <Parameter Name="piIDRequerimiento" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="sp_DashboardTabsHora" ReturnType="Collection(SARISModel.sp_DashboardTabsHora_Result)">
+      <Parameter Name="pcNombreCorto" Mode="In" Type="String" />
+      <Parameter Name="mes" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_DatosTicket_Correo" ReturnType="Collection(SARISModel.sp_DatosTicket_Correo_Result)">
+      <Parameter Name="piTicket" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_ListarPrioridad" ReturnType="Collection(SARISModel.sp_ListarPrioridad_Result)" />
+    <FunctionImport Name="sp_ListarImpacto" ReturnType="Collection(SARISModel.sp_ListarImpacto_Result)" />
   </EntityContainer>
   <ComplexType Name="sp_Requerimiento_Areas_Result">
     <Property Type="Int16" Name="fiIDArea" Nullable="false" />
@@ -456,21 +462,6 @@
     <Property Type="String" Name="fcDescripcionCategoria" Nullable="true" MaxLength="30" />
     <Property Type="String" Name="fcToken" Nullable="true" MaxLength="512" />
   </ComplexType>
-  <ComplexType Name="sp_DatosTicket_Correo_Result">
-    <Property Type="Int32" Name="fiIDRequerimiento" Nullable="false" />
-    <Property Type="String" Name="fcTituloRequerimiento" Nullable="false" MaxLength="1000" />
-    <Property Type="String" Name="fcDescripcionRequerimiento" Nullable="false" MaxLength="Max" />
-    <Property Type="DateTime" Name="fdFechaCreacion" Nullable="false" Precision="23" />
-    <Property Type="Byte" Name="fiIDAreaSolicitante" Nullable="false" />
-    <Property Type="String" Name="fcAreaSolicitante" Nullable="true" MaxLength="40" />
-    <Property Type="Int32" Name="fiIDUsuarioSolicitante" Nullable="false" />
-    <Property Type="String" Name="fcNombreCorto" Nullable="true" MaxLength="30" />
-    <Property Type="Byte" Name="fiIDEstadoRequerimiento" Nullable="false" />
-    <Property Type="String" Name="fcDescripcionEstado" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="fcCorreoElectronico" Nullable="true" MaxLength="100" />
-    <Property Type="String" Name="fcDescripcionCategoria" Nullable="true" MaxLength="30" />
-    <Property Type="String" Name="fcTipoRequerimiento" Nullable="true" MaxLength="30" />
-  </ComplexType>
   <ComplexType Name="sp_Requerimiento_Alta_Result">
     <Property Type="String" Name="fiMensaje" Nullable="true" MaxLength="1" />
     <Property Type="String" Name="fcMensaje" Nullable="true" MaxLength="255" />
@@ -585,5 +576,39 @@
     <Property Type="String" Name="fcTipoArchivo" Nullable="false" MaxLength="4" />
     <Property Type="String" Name="fcRutaArchivo" Nullable="true" />
     <Property Type="String" Name="fcURL" Nullable="false" MaxLength="2000" />
+  </ComplexType>
+  <ComplexType Name="sp_DashboardTabsHora_Result">
+    <Property Type="String" Name="fcMes" Nullable="true" MaxLength="30" />
+    <Property Type="Int32" Name="fiTiempoAcumulado" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_DatosTicket_Correo_Result">
+    <Property Type="Int32" Name="fiIDRequerimiento" Nullable="false" />
+    <Property Type="String" Name="fcTituloRequerimiento" Nullable="false" MaxLength="1000" />
+    <Property Type="String" Name="fcDescripcionRequerimiento" Nullable="false" MaxLength="Max" />
+    <Property Type="DateTime" Name="fdFechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="Byte" Name="fiIDAreaSolicitante" Nullable="false" />
+    <Property Type="String" Name="fcAreaSolicitante" Nullable="true" MaxLength="40" />
+    <Property Type="Int32" Name="fiIDUsuarioSolicitante" Nullable="false" />
+    <Property Type="String" Name="fcNombreCorto" Nullable="true" MaxLength="30" />
+    <Property Type="Byte" Name="fiIDEstadoRequerimiento" Nullable="false" />
+    <Property Type="String" Name="fcDescripcionEstado" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="fcCorreoElectronico" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="fcDescripcionCategoria" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="fcTipoRequerimiento" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="fcTelefonoMovil" Nullable="true" MaxLength="10" />
+  </ComplexType>
+  <ComplexType Name="sp_ListarPrioridad_Result">
+    <Property Type="Int32" Name="fiIDPrioridad" Nullable="false" />
+    <Property Type="String" Name="fcDescripcionPrioridad" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="fiNivelPrioridad" Nullable="false" />
+    <Property Type="Int32" Name="fiTiempo" Nullable="false" />
+    <Property Type="Int32" Name="fiActivo" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sp_ListarImpacto_Result">
+    <Property Type="Int32" Name="fiIDImpacto" Nullable="false" />
+    <Property Type="String" Name="fcDescripcionImpacto" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="fiAfectacion" Nullable="false" />
+    <Property Type="Int32" Name="fiNivel" Nullable="false" />
+    <Property Type="Int32" Name="fiActivo" Nullable="false" />
   </ComplexType>
 </Schema>

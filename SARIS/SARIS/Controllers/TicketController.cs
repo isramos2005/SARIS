@@ -188,6 +188,7 @@ namespace OrionCoreCableColor.Controllers
                     ViewBag.UsuarioLogueado = GetIdUser();
                     ViewBag.DatosDocumentoListado = contexto.sp_Requerimiento_Documentos_ObtenerPorIdRequerimiento(idticket, 1, 1, GetIdUser()).ToList();
 
+                    
                     return PartialView(tick);
                 }
                 catch (Exception ex)
@@ -304,6 +305,9 @@ namespace OrionCoreCableColor.Controllers
                         fcDescripcionCategoria = correo.fcDescripcionCategoria,
                         fcTipoRequerimiento = correo.fcTipoRequerimiento
                     });
+
+                    MensajeriaApi.EnviarNumeroTicket(correo.fcNombreCorto, datosticket.fiIDRequerimiento, correo.fcTelefonoMovil, correo.fcTituloRequerimiento, correo.fcDescripcionRequerimiento, correo.fcDescripcionCategoria, correo.fcTipoRequerimiento);
+
                     return EnviarResultado(true, "", "Ticket Actualizado exitosamente");
                 }
             }
@@ -382,7 +386,7 @@ namespace OrionCoreCableColor.Controllers
                     var usuarioLogueado = contexto.sp_Usuarios_Maestro_PorIdUsuario(GetIdUser()).FirstOrDefault();
 
                     var datosticket = Datosticket(idticket);//contexto.sp_Requerimientos_Bandeja_ByID(1, 1, GetIdUser(), idticket).FirstOrDefault();
-                    var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), datosticket.fiIDRequerimiento, datosticket.fcTituloRequerimiento, datosticket.fcDescripcionRequerimiento, Convert.ToByte(7), DateTime.Now, 0, 0, datosticket.fiTipoRequerimiento, 1, idArea);
+                    var actua = contexto.sp_Requerimiento_Maestro_Actualizar(GetIdUser(), datosticket.fiIDRequerimiento, datosticket.fcTituloRequerimiento, datosticket.fcDescripcionRequerimiento, Convert.ToByte(7), DateTime.Now, 3013, 0, datosticket.fiTipoRequerimiento, 1, idArea);
                     ObtenerDataTicket(idticket); // aqui va el signalR
                     
                     GuardarBitacoraGeneralhistorial(GetIdUser(), idticket, GetIdUser(), $"El Usuario {usuarioLogueado.fcPrimerNombre} {usuarioLogueado.fcPrimerApellido} reasigna por: " + comenta, 1, 7,0);//se manda 0 por que se asigno una nueva area y por lo tanto el usuario asignado no puede ser otro
@@ -409,6 +413,8 @@ namespace OrionCoreCableColor.Controllers
                         fcDescripcionCategoria = correo.fcDescripcionCategoria,
                         fcTipoRequerimiento = correo.fcTipoRequerimiento
                     });
+                    //
+                    //MensajeriaApi.EnviarNumeroTicket(correo.fcNombreCorto, datosticket.fiIDRequerimiento, correo.fcTelefonoMovil, correo.fcTituloRequerimiento, correo.fcDescripcionRequerimiento, correo.fcDescripcionCategoria, correo.fcTipoRequerimiento);
 
                     return EnviarResultado(true, "", "Ticket Actualizado exitosamente");
                 }
@@ -473,7 +479,7 @@ namespace OrionCoreCableColor.Controllers
                         fcDescripcionCategoria = correo.fcDescripcionCategoria,
                         fcTipoRequerimiento = correo.fcTipoRequerimiento
                     });
-
+                    MensajeriaApi.EnviarNumeroTicket(correo.fcNombreCorto, datosticket.fiIDRequerimiento,correo.fcTelefonoMovil,correo.fcTituloRequerimiento,correo.fcDescripcionRequerimiento,correo.fcDescripcionCategoria,correo.fcTipoRequerimiento);
                     return EnviarResultado(true, "", "Ticket Usuario Actualizado exitosamente");
                 }
             }

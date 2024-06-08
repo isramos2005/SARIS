@@ -1,4 +1,5 @@
 ﻿
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,9 @@ namespace OrionCoreCableColor.App_Helper
             request.Headers.Add("key", "");
 
             var content = new MultipartFormDataContent();
-            content.Add(new StringContent("15"), "comercioId");
-            content.Add(new StringContent("RC15"), "token");
-            content.Add(new StringContent("8cbea7517da189fdcd89ff68dac8e67c"), "key");
+            content.Add(new StringContent("20"), "comercioId");
+            content.Add(new StringContent("RC20"), "token");
+            content.Add(new StringContent("e8079b7057113deee2fa473177420de1"), "key");
             content.Add(new StringContent("504" + pcTelefonoDestino), "para");
             content.Add(new StringContent(pcMensaje), "mensaje");
             content.Add(new StringContent(pcURLAdjunto), "adjunto");
@@ -32,11 +33,10 @@ namespace OrionCoreCableColor.App_Helper
             return response.Content.ReadAsStringAsync().Result;
         }
 
-        public static void EnviarNumeroToken(string nombreCliente, int IDSolicitud, string pcTelefono, string Token)
+        public static void EnviarNumeroTicket(string nombreUsuario, int IDTIcket, string pcTelefono, string titulo, string descripcion, string Categoria, string incidencia)
         {
-            var mensaje = @"NOVANET le informa" + "\n Estimado Cliente: " + nombreCliente + " le proporcionaremos un token para poder habilitar la firma de sus documentos de forma digital. El token proporcionado deberá colocarlo en el formulario que se le proporciona en su correo electronico";
+            var mensaje = @"SARIS le informa" + "\n Estimado Usuario: " + nombreUsuario + " se le asigno un ticket\n" + "\n*Ticket #" + IDTIcket + "*" + "\n*Titulo:* " + titulo + "\n*Descripción:* " + descripcion + "\n*Categoria:* " + Categoria + "\n*Incidencia:* " + incidencia;
             MensajesDigitales(pcTelefono, mensaje, "");
-            MensajesDigitales(pcTelefono, "Su token es: "+ Token, "");
         }
 
         public static void EnviarSMSPersonalizado(string nombreCliente, string pcTelefono, string Mensaje)

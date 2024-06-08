@@ -26,5 +26,6 @@ namespace OrionCoreCableColor.DbConnection
         public string fcCorreoElectronico { get; set; }
         public string fcDescripcionCategoria { get; set; }
         public string fcTipoRequerimiento { get; set; }
+        public string fcTelefonoMovil { get; set; }
     }
 }

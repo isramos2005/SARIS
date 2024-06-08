@@ -333,7 +333,7 @@
                      graficaTicketArea(resp.AreasIncidentes);
                      graficaHoras(resp.AreasTiempo);
                      graficaConteo(resp.ConteoIncidentes);
-                     nuevagrafica(resp.AreasIncidentes);
+                     //nuevagrafica(resp.AreasIncidentes);
                 },
                 error: function (resp) {
 
@@ -616,67 +616,67 @@
             //fin
         }
 
-        function nuevagrafica(datos) {
+        //function nuevagrafica(datos) {
 
-            var dataSetPie = []
+        //    var dataSetPie = []
 
-            for (const item of datos) {
-                dataSetPie.push({
-                    label: item.fcAreaAsignada,
-                    data: item.fiIDIncidentes,
-                    color: ['#fff']
-                })
-            }
+        //    for (const item of datos) {
+        //        dataSetPie.push({
+        //            label: item.fcAreaAsignada,
+        //            data: item.fiIDIncidentes,
+        //            color: ['#fff']
+        //        })
+        //    }
 
-            console.log(dataSetPie);
-            var plot = $.plot($("#updating-chart"), [getRandomData()], options);
+        //    console.log(dataSetPie);
+        //    var plot = $.plot($("#updating-chart"), [getRandomData()], options);
 
-            var getRandomData = function () {
-                if (data.length > 0)
-                    data = data.slice(1);
+        //    var getRandomData = function () {
+        //        if (data.length > 0)
+        //            data = data.slice(1);
 
-                // do a random walk
-                while (data.length < totalPoints) {
-                    var prev = data.length > 0 ? data[data.length - 1] : 50;
-                    var y = prev + Math.random() * 10 - 5;
-                    if (y < 0)
-                        y = 0;
-                    if (y > 100)
-                        y = 100;
-                    data.push(y);
-                }
+        //        // do a random walk
+        //        while (data.length < totalPoints) {
+        //            var prev = data.length > 0 ? data[data.length - 1] : 50;
+        //            var y = prev + Math.random() * 10 - 5;
+        //            if (y < 0)
+        //                y = 0;
+        //            if (y > 100)
+        //                y = 100;
+        //            data.push(y);
+        //        }
 
-                // zip the generated y values with the x values
-                var res = [];
-                for (var i = 0; i < data.length; ++i)
-                    res.push([i, data[i]])
-                return res;
-            }
+        //        // zip the generated y values with the x values
+        //        var res = [];
+        //        for (var i = 0; i < data.length; ++i)
+        //            res.push([i, data[i]])
+        //        return res;
+        //    }
 
-            $.plot($("#flotPie"), dataSetPie,
-            {
-                series:
-                {
-                    pie:
-                    {
-                        innerRadius: 0.5,
-                        show: true,
-                        radius: 1,
-                        label:
-                        {
-                            show: true,
-                            radius: 2 / 3,
-                            threshold: 0.1
-                        }
-                    }
-                },
-                legend:
-                {
-                    show: false
-                }
-            });
+        //    $.plot($("#flotPie"), dataSetPie,
+        //    {
+        //        series:
+        //        {
+        //            pie:
+        //            {
+        //                innerRadius: 0.5,
+        //                show: true,
+        //                radius: 1,
+        //                label:
+        //                {
+        //                    show: true,
+        //                    radius: 2 / 3,
+        //                    threshold: 0.1
+        //                }
+        //            }
+        //        },
+        //        legend:
+        //        {
+        //            show: false
+        //        }
+        //    });
 
-        }
+        //}
 
     </script>
 

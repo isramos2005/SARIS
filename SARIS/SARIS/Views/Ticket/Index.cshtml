@@ -126,7 +126,12 @@
                                         <div class='dropdown-menu'>
                                             <a class='dropdown-item' href='javascript:void(0);' onclick="ActualizarTicket(${data.fiIDRequerimiento})">Actualizar Ticket</a>
                                     `;
-                        opt += `  <a class='dropdown-item' href='javascript:void(0);' onclick="VerDetalleTicket(${data.fiIDRequerimiento})">Ver Detalle Ticket</a>`;
+
+                        if (@Json.Encode(User.IsInRole("SARIS_VERDETALLES"))) {
+
+                            opt += `  <a class='dropdown-item' href='javascript:void(0);' onclick="VerDetalleTicket(${data.fiIDRequerimiento})">Ver Detalle Ticket</a>`;
+                        }
+
                         if (data.fiAreaAsignada == 6)//es 6 por que es pendiente, se deberia de cambiar a un viewbac para traerlo directamente desde al base de datos
                         {
                             opt += `  <a class='dropdown-item' href='javascript:void(0);' onclick="AsignarArea(${data.fiIDRequerimiento},${data.fiIDEstadoRequerimiento})">Asignar Area</a>`;
@@ -170,7 +175,7 @@
                     data: null,
                     className: "td-responsive",
                     render: function (data) {
-                        if (data.fiIDUsuarioAsignado == 0) {
+                        if (data.fiIDUsuarioAsignado == 3013) {
                             return `<span class="btn-sm btn-block badge badge-secondary">Pendiente</span> `;
                         } else {
                             return data.fcNombreAsignado;
@@ -326,7 +331,10 @@
                         var opt = `<div class='dropdown d-inline-block dropleft'>
                                     <a href='#'' class='btn btn-sm btn-icon btn-outline-primary rounded-circle shadow-0' data-toggle='dropdown' aria-expanded='true' title='More options'>\n\t\t\t\t\t\t\t\t<i class=\"fal fa-ellipsis-v\"></i>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t
                                     <div class='dropdown-menu'>`;
+                        if (@Json.Encode(User.IsInRole("SARIS_VERDETALLES"))) {
 
+                            opt += `  <a class='dropdown-item' href='javascript:void(0);' onclick="VerDetalleTicket(${data.fiIDRequerimiento})">Ver Detalle Ticket</a>`;
+                        }
                         opt += `</div>
                                 </div>`
                         return opt;

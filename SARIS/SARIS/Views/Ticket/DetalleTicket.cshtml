@@ -103,6 +103,22 @@
                             <br />
                             <div class="col-lg-12 col-sm-12 col-md-12 col-xl-12">
                                 <div class="form-group">
+                                    <label class="control-label font-12">Tipo Incidencia</label>
+                                    <div class="input-group mar-btm">
+                                        @Html.EditorFor(model => model.fcTipoRequerimiento, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-lg-12 col-12 col-sm-12 col-md-12">
+                            <br />
+                            <div class="col-lg-12 col-sm-12 col-md-12 col-xl-12">
+                                <div class="form-group">
                                     <label class="control-label font-12">Usuario Solicitante</label>
                                     <div class="input-group mar-btm">
                                         @Html.EditorFor(model => model.fcNombreUsuarioSolicitante, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -148,12 +164,16 @@
                                     <div class="input-group mar-btm">
                                         @foreach (var item in @ViewBag.DatosDocumentoListado)
                                         {
-                                            @if (item.fcTipoArchivo == "pdf")
+                                            if (item.fcTipoArchivo == "pdf")
                                             {
-
+                                                <a href="javascript:ShowBigPdf('@item.fcNombreArchivo','@item.fcURL')" class="text-info"> <i class="fal fa-2x fa-file-pdf"> </i> @item.fcNombreArchivo</a>
+                                            }
+                                            else
+                                            {
+                                                <a href="javascript:void(0)" data-Description="@item.fcNombreArchivo" class="text-info" onclick="ShowBigImage(this)" src="@item.fcURL"> <i class="fal fa-2x fa-file-image"> </i>  @item.fcNombreArchivo</a>
                                             }
                                         }
-                                        @Html.EditorFor(model => model.fcTituloRequerimiento, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+
                                     </div>
                                 </div>
                             </div>
@@ -161,31 +181,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-12">
-                    <div class="form-group">
-                        <label class="control-label"> Imagenes Adjuntos</label>
-
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                @foreach (var item in @ViewBag.DatosDocumentoListado)
-                                {
-                                    <div class="input-group mar-btm">
-                                        @if (item.fcTipoArchivo == "pdf")
-                                        {
-
-                                            <a href="javascript:ShowBigPdf('@item.fcNombreArchivo','@item.fcURL')" class="text-info"> <i class="fal fa-2x fa-file-pdf"> </i> @item.fcNombreArchivo</a>
-                                        }
-                                        else
-                                        {
-                                            <a href="javascript:void(0)" data-Description="@item.fcNombreArchivo" class="text-info" onclick="ShowBigImage(this)" src="@item.fcURL"> <i class="fal fa-2x fa-file-image"> </i>  @item.fcNombreArchivo</a>
-                                        }
-                                    </div>
-                                }
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>

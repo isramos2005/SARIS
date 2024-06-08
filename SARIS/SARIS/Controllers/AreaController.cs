@@ -78,8 +78,6 @@ namespace OrionCoreCableColor.Controllers
 
                 return EnviarResultado(success, "Crear Rol", success ? "Se Creo Satisfactoriamente" : "Error al Crear");
             }
-
-
         }
 
         [HttpGet]
@@ -93,7 +91,7 @@ namespace OrionCoreCableColor.Controllers
 
                 ViewBag.ListaUsuarios = context.sp_Usuarios_Maestro_Lista().ToList().Select(x => new SelectListItem { Value = x.fiIDUsuario.ToString(), Text = $"{x.fcNombreCorto}  {x.fcPuesto}" }).ToList();
 
-                    return PartialView("Crear", new AreasCrearViewModel { fiIDArea = area.fiIDArea, fcDescripcion = area.fcDescripcion.Trim(), fiIDGerencia = area.fiIDGerencia?? 0 , fcCorreoElectronico = area.fcCorreoElectronico.Trim(), fcNombreCorto = area.fcNombreCorto.Trim(), fiIDUsuarioResponsable = area.fiIDUsuarioResponsable, EsEditar = true});
+                return PartialView("Crear", new AreasCrearViewModel { fiIDArea = area.fiIDArea, fcDescripcion = area.fcDescripcion.Trim(), fiIDGerencia = area.fiIDGerencia?? 0 , fcCorreoElectronico = area.fcCorreoElectronico.Trim(), fcNombreCorto = area.fcNombreCorto.Trim(), fiIDUsuarioResponsable = area.fiIDUsuarioResponsable, EsEditar = true});
                
             }
         }
